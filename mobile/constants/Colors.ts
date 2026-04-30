@@ -1,15 +1,15 @@
 export const Colors = {
   light: {
     primary: "#5A0FC8",
-    primaryLight: "#7B3FD3",
+    primaryLight: "#ffffff",
     chatSender: "#AD87E4",
     chatReceiver: "#DECFF4",
     overlay: "#EFE7FA",
-    text: "#fff",
+    text: "#000",
   },
   dark: {
-    primary: "#B694F0",
-    primaryLight: "#8D63D9",
+    primary: "#230458",
+    primaryLight: "#602cc1",
     chatSender: "#3A2A5F",
     chatReceiver: "#241B38",
     overlay: "#161022",
