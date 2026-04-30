@@ -5,6 +5,7 @@ export const Colors = {
     chatSender: "#AD87E4",
     chatReceiver: "#DECFF4",
     overlay: "#EFE7FA",
+    text: "#fff",
   },
   dark: {
     primary: "#B694F0",
@@ -12,5 +13,6 @@ export const Colors = {
     chatSender: "#3A2A5F",
     chatReceiver: "#241B38",
     overlay: "#161022",
+    text: "#fff",
   },
 };
