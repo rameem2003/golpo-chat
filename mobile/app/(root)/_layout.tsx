@@ -21,7 +21,7 @@ const _layout = () => {
         },
         headerTintColor: theme.text,
         tabBarStyle: {
-          display: pathname === "/Chat" ? "none" : "flex",
+          display: pathname.startsWith("/chat") ? "none" : "flex",
           backgroundColor: theme.primary,
           paddingTop: SIZE.md,
           height: 90,

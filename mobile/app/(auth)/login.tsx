@@ -108,7 +108,7 @@ const login = () => {
           </View>
         </View>
 
-        <View style={[styles.footer, { backgroundColor: theme.primaryLight }]}>
+        {/* <View style={[styles.footer, { backgroundColor: theme.primaryLight }]}>
           <Text
             style={[
               styles.footerText,
@@ -117,7 +117,7 @@ const login = () => {
           >
             Don't have an account? <Link href="/(auth)/register">Sign Up</Link>
           </Text>
-        </View>
+        </View> */}
       </View>
     </KeyboardAvoidingView>
   );

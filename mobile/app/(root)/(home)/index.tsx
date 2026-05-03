@@ -1,19 +1,32 @@
+import ChatList from "@/components/features/chat/ChatList";
+import { SIZE } from "@/constants/Size";
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { CONTAINER_SIZE } from "./../../../constants/Size";
+import { Colors } from "@/constants/Colors";
+import { useTheme } from "@/hooks/useTheme";
+import Search from "../Search";
+import SearchComponent from "@/components/features/SearchComponent";
 
 export default function Index() {
+  const { theme } = useTheme();
   return (
     <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+      style={[
+        styles.container,
+        CONTAINER_SIZE,
+        { backgroundColor: theme.primary },
+      ]}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Link href="/(root)/(home)/Chat">
-        <Text>Go to Chat</Text>
-      </Link>
+      {/* <Link href={"/(root)/(home)/chat/[id]"}>GO</Link> */}
+      <SearchComponent />
+      <ChatList />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

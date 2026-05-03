@@ -103,7 +103,7 @@ const register = () => {
           </View>
         </View>
 
-        <View style={[styles.footer, { backgroundColor: theme.primaryLight }]}>
+        {/* <View style={[styles.footer, { backgroundColor: theme.primaryLight }]}>
           <Text
             style={[
               styles.footerText,
@@ -112,7 +112,7 @@ const register = () => {
           >
             Already have an account? <Link href="/(auth)/login">Login</Link>
           </Text>
-        </View>
+        </View> */}
       </View>
     </KeyboardAvoidingView>
   );

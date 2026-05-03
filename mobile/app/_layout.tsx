@@ -49,9 +49,9 @@ export default function RootLayout() {
   }
 
   // ✅ show custom splash
-  if (!isReady) {
-    return <Splash />;
-  }
+  // if (!isReady) {
+  //   return <Splash />;
+  // }
   return (
     <Stack
       screenOptions={{
