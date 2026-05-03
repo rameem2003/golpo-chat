@@ -23,7 +23,8 @@ export default function RootLayout() {
         // 5 seconds delay to simulate login process
         await new Promise((resolve) => setTimeout(resolve, 5000));
         const token = null;
-        setIsLoggedIn(!!token);
+        // setIsLoggedIn(!!token);
+        setIsLoggedIn(true);
       } catch (e) {
         console.log(e);
       } finally {
@@ -34,17 +35,6 @@ export default function RootLayout() {
     prepare();
   }, []);
 
-  // useEffect(() => {
-  //   if (loaded || error) {
-  //     SplashScreen.hideAsync();
-  //   }
-  // }, [loaded, error]);
-
-  // // ⛔ Don't render anything until ready
-  // if (!loaded && !error) {
-  //   return null;
-  // }
-
   useEffect(() => {
     console.log("loaded", loaded);
     console.log("isReady", isReady);
@@ -54,8 +44,12 @@ export default function RootLayout() {
     }
   }, [loaded, isReady]);
 
+  if (!loaded) {
+    return null;
+  }
+
   // ✅ show custom splash
-  if (!loaded && !isReady) {
+  if (!isReady) {
     return <Splash />;
   }
   return (
@@ -65,7 +59,7 @@ export default function RootLayout() {
       }}
     >
       <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(root)" />
+        <Stack.Screen name="(root)/(home)" />
       </Stack.Protected>
       <Stack.Protected guard={!isLoggedIn}>
         <Stack.Screen name="(auth)" />
