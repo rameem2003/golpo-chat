@@ -1,16 +1,58 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const schema = new mongoose.Schema({
-    sender: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    receiver: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+const friendRequestSchema = new mongoose.Schema(
+  {
+    // normalized pair
+    user1: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    user2: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    // who initiated
+    sender: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    // who receives
+    receiver: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
     status: {
-        type: String,
-        enum: ["pending", "accepted", "rejected", "cancelled"],
-        default: "pending"
-    }
-}, { timestamps: true });
+      type: String,
+      enum: ["pending", "accepted", "rejected", "cancelled"],
+      default: "pending",
+    },
 
-// A pair of users should not have more than one pending request
-schema.index({ sender: 1, receiver: 1, status: 1 }, { unique: true, partialFilterExpression: { status: "pending" } });
+    actionBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-module.exports = mongoose.model("FriendRequest", schema);
+friendRequestSchema.index(
+  {
+    user1: 1,
+    user2: 1,
+  },
+  {
+    unique: true,
+  },
+);
+
+module.exports = mongoose.model("FriendRequest", friendRequestSchema);
