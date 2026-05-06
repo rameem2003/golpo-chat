@@ -19,7 +19,12 @@ const verifyAuthentication = async (req, res, next) => {
     const decodedToken = verifyJWTToken(accessToken);
     // console.log(decodedToken);
     req.user = decodedToken;
-    return next();
+    if (req.user) {
+      return next();
+    } else {
+      return res.status(401).send({ success: false, message: "Unauthorized" });
+    }
+    // return next();
   }
 
   if (refreshToken) {
@@ -44,6 +49,7 @@ const verifyAuthentication = async (req, res, next) => {
       return next();
     } catch (error) {
       console.log(error.message);
+      return res.status(401).send({ success: false, message: "Unauthorized" });
     }
   }
 };
