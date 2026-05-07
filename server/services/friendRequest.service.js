@@ -1,6 +1,15 @@
 const friendRequestModel = require("../models/friendRequest.model");
 
-const findFriendRequest = async (pair) => {
+const findFriendRequestById = async (requestId) => {
+  try {
+    let res = await friendRequestModel.findById(requestId);
+    return res;
+  } catch (error) {
+    throw new Error("Error finding friend request: " + error.message);
+  }
+};
+
+const findFriendRequestByPair = async (pair) => {
   // pair is normalized { user1, user2 }
   try {
     let res = await friendRequestModel.findOne(pair);
@@ -37,7 +46,7 @@ const getSentRequests = async (userId) => {
         createdAt: -1,
       });
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error("Error getting sent friend requests: " + error.message);
   }
 };
 
@@ -53,13 +62,14 @@ const getReceivedRequests = async (userId) => {
         createdAt: -1,
       });
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error("Error getting received friend requests: " + error.message);
   }
 };
 
 module.exports = {
-  findFriendRequest,
+  findFriendRequestByPair,
   requestSend,
   getSentRequests,
   getReceivedRequests,
+  findFriendRequestById,
 };

@@ -52,6 +52,9 @@ friendRequestSchema.index(
   },
   {
     unique: true,
+    partialFilterExpression: {
+      status: "pending",
+    },
   },
 );
 
