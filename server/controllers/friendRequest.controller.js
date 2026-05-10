@@ -1,4 +1,5 @@
 const getPair = require("../lib/frindshipPair");
+const { getIO } = require("../lib/socket");
 const {
   requestSend,
   getSentRequests,
@@ -9,6 +10,7 @@ const {
 const { createFriendship } = require("../services/friendShip.service");
 
 const sendFriendRequest = async (req, res) => {
+  const io = getIO();
   try {
     const sender = req.user.id;
     const receiver = req.params.userId;
@@ -43,6 +45,15 @@ const sendFriendRequest = async (req, res) => {
 
     // send friend request
     const newRequest = await requestSend(pair, sender, receiver);
+    io.to(receiver.toString()).emit("friend:request", {
+      requestId: newRequest._id,
+
+      sender,
+
+      receiver,
+
+      status: "pending",
+    });
     return res.status(201).send({
       success: true,
       message: "Friend request sent successfully.",
@@ -92,6 +103,7 @@ const getReceivedFriendRequests = async (req, res) => {
 };
 
 const acceptFriendRequest = async (req, res) => {
+  const io = getIO();
   const user = req.user.id;
   const requestId = req.params.requestId;
 
@@ -131,6 +143,20 @@ const acceptFriendRequest = async (req, res) => {
     // create friendship
     await createFriendship(friendRequest.user1, friendRequest.user2);
 
+    const payload = {
+      requestId: friendRequest._id,
+
+      sender: friendRequest.sender,
+
+      receiver: friendRequest.receiver,
+
+      status: "accepted",
+    };
+
+    io.to(friendRequest.sender.toString()).emit("friend:accepted", payload);
+
+    io.to(friendRequest.receiver.toString()).emit("friend:accepted", payload);
+
     res.status(200).send({
       success: true,
       message: "Friend request accepted successfully.",
@@ -145,6 +171,8 @@ const acceptFriendRequest = async (req, res) => {
 };
 
 const rejectFriendRequest = async (req, res) => {
+  const io = getIO();
+
   const user = req.user.id;
   const requestId = req.params.requestId;
 
@@ -181,6 +209,10 @@ const rejectFriendRequest = async (req, res) => {
 
     await friendRequest.save();
 
+    io.to(friendRequest.sender.toString()).emit("friend:rejected", {
+      requestId: friendRequest._id,
+    });
+
     res.status(200).send({
       success: true,
       message: "Friend request rejected successfully.",
@@ -195,6 +227,7 @@ const rejectFriendRequest = async (req, res) => {
 };
 
 const cancelFriendRequest = async (req, res) => {
+  const io = getIO();
   const user = req.user.id;
   const requestId = req.params.requestId;
 
@@ -230,7 +263,9 @@ const cancelFriendRequest = async (req, res) => {
     friendRequest.actionBy = user;
 
     await friendRequest.save();
-
+    io.to(friendRequest.receiver.toString()).emit("friend:cancelled", {
+      requestId: friendRequest._id,
+    });
     res.status(200).send({
       success: true,
       message: "Friend request canceled successfully.",
