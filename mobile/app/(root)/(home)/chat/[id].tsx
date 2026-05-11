@@ -1,4 +1,5 @@
 import {
+  Button,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -21,6 +22,16 @@ const Chat = () => {
   // console.log(id);
   const filterUser = dummyUser.find((user) => user.id == id);
   // console.log(filter);
+
+  const ping = async () => {
+    try {
+      const response = await fetch("http://10.0.2.2:5000");
+      const data = await response.json();
+      console.log(JSON.stringify(data));
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <>
@@ -48,6 +59,7 @@ const Chat = () => {
           <View style={[styles.container, { backgroundColor: theme.primary }]}>
             <View style={[styles.chats, CONTAINER_SIZE]}>
               <Text>Chat</Text>
+              <Button title="Go Back" onPress={ping} />
             </View>
             <View style={styles.input}>
               <MessageInput />

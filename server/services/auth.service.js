@@ -122,6 +122,8 @@ const authenticateUser = async ({ req, res, user }) => {
     ...baseConfig,
     maxAge: REFRESH_TOKEN_EXPIRY,
   });
+
+  return { accessToken, refreshToken };
 };
 
 const verifyJWTToken = (token) => {

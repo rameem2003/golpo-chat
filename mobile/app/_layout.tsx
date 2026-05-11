@@ -5,44 +5,60 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import Splash from "@/components/Splash";
-
-// keep native splash visible
-// SplashScreen.preventAutoHideAsync();
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
 
 export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <Layout />
+    </AuthProvider>
+  );
+}
+
+function Layout() {
+  const { user, loading } = useAuth();
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // let isLoggedIn = false;
+  console.log("login " + isLoggedIn);
+
   const [loaded, error] = useFonts({
     StalinistOne: require("@/assets/fonts/StalinistOne-Regular.ttf"),
   });
 
   useEffect(() => {
-    async function prepare() {
-      try {
-        // 👉 Replace with real auth (MMKV)
-        // 5 seconds delay to simulate login process
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-        const token = null;
-        // setIsLoggedIn(!!token);
-        setIsLoggedIn(true);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setIsReady(true);
-      }
+    if (!loading) {
+      setIsLoggedIn(!!user);
     }
+  }, [user, loading]);
 
-    prepare();
-  }, []);
+  // useEffect(() => {
+  //   async function prepare() {
+  //     try {
+  //       // 👉 Replace with real auth (MMKV)
+  //       // 5 seconds delay to simulate login process
+  //       await new Promise((resolve) => setTimeout(resolve, 5000));
+  //       const token = null;
+  //       // setIsLoggedIn(!!token);
+  //       setIsLoggedIn(true);
+  //     } catch (e) {
+  //       console.log(e);
+  //     } finally {
+  //       setIsReady(true);
+  //     }
+  //   }
 
-  useEffect(() => {
-    console.log("loaded", loaded);
-    console.log("isReady", isReady);
+  //   prepare();
+  // }, []);
 
-    if (loaded || isReady) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded, isReady]);
+  // useEffect(() => {
+  //   console.log("loaded", loaded);
+  //   console.log("isReady", isReady);
+
+  //   if (loaded || isReady) {
+  //     SplashScreen.hideAsync();
+  //   }
+  // }, [loaded, isReady]);
 
   if (!loaded) {
     return null;
@@ -58,11 +74,11 @@ export default function RootLayout() {
         headerShown: false,
       }}
     >
-      <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(root)/(home)" />
-      </Stack.Protected>
       <Stack.Protected guard={!isLoggedIn}>
         <Stack.Screen name="(auth)" />
+      </Stack.Protected>
+      <Stack.Protected guard={isLoggedIn}>
+        <Stack.Screen name="(root)/(home)" />
       </Stack.Protected>
     </Stack>
   );

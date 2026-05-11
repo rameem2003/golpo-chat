@@ -57,11 +57,31 @@ const login = async (req, res) => {
       .send({ success: false, message: "Invalid password" });
   }
 
-  let authdata = await authenticateUser({ req, res, user });
+  let { accessToken, refreshToken } = await authenticateUser({
+    req,
+    res,
+    user,
+  });
 
-  return res
-    .status(200)
-    .send({ success: true, message: "Login successful", data: authdata });
+  let loggedInUser = {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    isVerified: user.isVerified,
+    avatar: user.avatar,
+    dob: user.dob,
+    gender: user.gender,
+    active: user.active,
+  };
+
+  return res.status(200).send({
+    success: true,
+    message: "Login successful",
+    accessToken,
+    refreshToken,
+    data: loggedInUser,
+  });
 };
 
 /**
@@ -427,15 +447,21 @@ const verifyEmailToken = async (req, res) => {
  * Logout controller
  */
 const logout = async (req, res) => {
-  if (!req.user)
-    return res.status(400).send({ success: false, message: "User not found" });
+  try {
+    if (!req.user)
+      return res
+        .status(400)
+        .send({ success: false, message: "User not found" });
 
-  await clearSession(req.user.session);
-  res.clearCookie("access_token");
-  res.clearCookie("refresh_token");
-  return res
-    .status(200)
-    .json({ success: true, message: "User logged out successfully" });
+    await clearSession(req.user.session);
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token");
+    return res
+      .status(200)
+      .json({ success: true, message: "User logged out successfully" });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {

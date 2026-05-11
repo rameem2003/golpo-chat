@@ -3,7 +3,7 @@ import { useColorScheme } from "react-native";
 
 export function useTheme() {
   const scheme = useColorScheme();
-  console.log(scheme);
+  // console.log(scheme);
 
   const theme = scheme === "dark" ? Colors.dark : Colors.light;
 

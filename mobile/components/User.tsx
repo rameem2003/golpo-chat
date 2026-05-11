@@ -10,7 +10,7 @@ const User = ({
   user,
   contentStyle,
 }: {
-  user: userType;
+  user: userType | null;
   contentStyle?: any;
 }) => {
   const { theme } = useTheme();

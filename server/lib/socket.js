@@ -79,7 +79,12 @@ const initSocket = (server) => {
   //   });
 
   io.on("connection", (socket) => {
+    // console.log(socket);
+    console.log(onlineUsers);
+
     socket.on("user:join", async (userId) => {
+      console.log("Join " + userId);
+
       socket.userId = userId;
 
       socket.join(userId);
@@ -93,6 +98,7 @@ const initSocket = (server) => {
     });
 
     socket.on("disconnect", async () => {
+      // console.log(onlineUsers);
       const userId = socket.userId;
       if (!userId) return;
 

@@ -1,23 +1,15 @@
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
 import React from "react";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { FONTS } from "@/constants/Fonts";
 import { useTheme } from "@/hooks/useTheme";
 import User from "@/components/User";
+import { useAuth } from "@/hooks/useAuth";
 
 const _layout = () => {
+  const router = useRouter();
   const { theme } = useTheme();
-  let user = {
-    id: "ewfwef",
-    name: "rameem",
-    email: "qwefwefwqe",
-    phone: "",
-    address: "",
-    isVerified: true,
-    block: false,
-    avatar:
-      "https://api.velocitytechacademy.com/avatars/avatar-1775964422102-793603357.png",
-  };
+  const { user, logout } = useAuth();
   return (
     <Stack screenOptions={{ animation: "slide_from_right" }}>
       <Stack.Screen
@@ -31,7 +23,18 @@ const _layout = () => {
           headerShadowVisible: false,
           headerStyle: { backgroundColor: theme.primary },
           headerRight: () => {
-            return <User user={user} />;
+            return (
+              <>
+                <User user={user} />
+                <Button
+                  title="Logout"
+                  onPress={async () => {
+                    await logout();
+                    router.replace("/(auth)/login");
+                  }}
+                />
+              </>
+            );
           },
         }}
       />

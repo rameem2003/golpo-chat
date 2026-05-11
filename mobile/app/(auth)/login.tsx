@@ -14,20 +14,16 @@ import { CONTAINER_SIZE, SIZE } from "@/constants/Size";
 import { useTheme } from "@/hooks/useTheme";
 import { FONTS } from "@/constants/Fonts";
 import { Link } from "expo-router";
+import { useAuth } from "@/hooks/useAuth";
 
 const login = () => {
-  const [loading, setLoading] = useState(false);
+  const { login, loading } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { theme } = useTheme();
 
-  const handleLogin = () => {
-    setLoading(true);
-    // 5 seconds delay to simulate login process
-    setTimeout(() => {
-      setLoading(false);
-      // Navigate to the main app screen after login
-      // You can replace this with your actual navigation logic
-      console.log("Login successful, navigate to the main app screen");
-    }, 5000);
+  const handleLogin = async () => {
+    await login(email, password);
   };
 
   return (
@@ -56,6 +52,7 @@ const login = () => {
               <Text style={[styles.label, { color: theme.text }]}>Email</Text>
 
               <TextInput
+                onChangeText={(text) => setEmail(text)}
                 placeholder="Enter your email"
                 placeholderTextColor={theme.text}
                 style={[
@@ -75,6 +72,7 @@ const login = () => {
               </Text>
 
               <TextInput
+                onChangeText={(text) => setPassword(text)}
                 secureTextEntry
                 placeholder="Enter your password"
                 placeholderTextColor={theme.text}
