@@ -1,5 +1,5 @@
 const getPair = require("../lib/frindshipPair");
-const { getIO } = require("../lib/socket");
+const { findUserById } = require("../services/auth.service");
 const {
   requestSend,
   getSentRequests,
@@ -8,9 +8,11 @@ const {
   findFriendRequestById,
 } = require("../services/friendRequest.service");
 const { createFriendship } = require("../services/friendShip.service");
+const { getOnlineUsers, getIO } = require("../socket/socket-store");
 
 const sendFriendRequest = async (req, res) => {
   const io = getIO();
+  const onlineUsers = getOnlineUsers();
   try {
     const sender = req.user.id;
     const receiver = req.params.userId;
@@ -45,15 +47,21 @@ const sendFriendRequest = async (req, res) => {
 
     // send friend request
     const newRequest = await requestSend(pair, sender, receiver);
-    io.to(receiver.toString()).emit("friend:request", {
-      requestId: newRequest._id,
 
-      sender,
+    const receiverSocketId = onlineUsers.get(receiver);
 
-      receiver,
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("friend:request:new", {
+        requestId: newRequest._id,
 
-      status: "pending",
-    });
+        sender: await findUserById(sender),
+
+        receiver: await findUserById(receiver),
+
+        status: "pending",
+      });
+    }
+
     return res.status(201).send({
       success: true,
       message: "Friend request sent successfully.",
@@ -103,9 +111,10 @@ const getReceivedFriendRequests = async (req, res) => {
 };
 
 const acceptFriendRequest = async (req, res) => {
-  const io = getIO();
   const user = req.user.id;
   const requestId = req.params.requestId;
+  const io = getIO();
+  const onlineUsers = getOnlineUsers();
 
   try {
     // find friend request by id
@@ -146,16 +155,18 @@ const acceptFriendRequest = async (req, res) => {
     const payload = {
       requestId: friendRequest._id,
 
-      sender: friendRequest.sender,
+      sender: await findUserById(friendRequest.sender),
 
-      receiver: friendRequest.receiver,
+      receiver: await findUserById(friendRequest.receiver),
 
       status: "accepted",
     };
 
-    io.to(friendRequest.sender.toString()).emit("friend:accepted", payload);
+    const senderSocketId = onlineUsers.get(friendRequest.sender.toString());
 
-    io.to(friendRequest.receiver.toString()).emit("friend:accepted", payload);
+    if (senderSocketId) {
+      io.to(senderSocketId).emit("friend:request:accepted", payload);
+    }
 
     res.status(200).send({
       success: true,
@@ -171,10 +182,10 @@ const acceptFriendRequest = async (req, res) => {
 };
 
 const rejectFriendRequest = async (req, res) => {
-  const io = getIO();
-
   const user = req.user.id;
   const requestId = req.params.requestId;
+  const io = getIO();
+  const onlineUsers = getOnlineUsers();
 
   try {
     // find friend request by id
@@ -208,10 +219,21 @@ const rejectFriendRequest = async (req, res) => {
     friendRequest.actionBy = user;
 
     await friendRequest.save();
-
-    io.to(friendRequest.sender.toString()).emit("friend:rejected", {
+    const payload = {
       requestId: friendRequest._id,
-    });
+
+      sender: await findUserById(friendRequest.sender),
+
+      receiver: await findUserById(friendRequest.receiver),
+
+      status: "rejected",
+    };
+
+    const senderSocketId = onlineUsers.get(friendRequest.sender.toString());
+
+    if (senderSocketId) {
+      io.to(senderSocketId).emit("friend:request:rejected", payload);
+    }
 
     res.status(200).send({
       success: true,
@@ -227,9 +249,10 @@ const rejectFriendRequest = async (req, res) => {
 };
 
 const cancelFriendRequest = async (req, res) => {
-  const io = getIO();
   const user = req.user.id;
   const requestId = req.params.requestId;
+  const io = getIO();
+  const onlineUsers = getOnlineUsers();
 
   try {
     // find friend request by id
@@ -263,9 +286,23 @@ const cancelFriendRequest = async (req, res) => {
     friendRequest.actionBy = user;
 
     await friendRequest.save();
-    io.to(friendRequest.receiver.toString()).emit("friend:cancelled", {
+
+    const payload = {
       requestId: friendRequest._id,
-    });
+
+      sender: await findUserById(friendRequest.sender),
+
+      receiver: await findUserById(friendRequest.receiver),
+
+      status: "cancelled",
+    };
+
+    const receiverSocketId = onlineUsers.get(friendRequest.receiver.toString());
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("friend:request:cancelled", payload);
+    }
+
     res.status(200).send({
       success: true,
       message: "Friend request canceled successfully.",

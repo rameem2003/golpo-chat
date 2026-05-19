@@ -3,8 +3,8 @@ export const saveCookies = async (
   accessToken: string,
   refreshToken: string,
 ) => {
-  console.log("Access Token " + accessToken);
-  console.log("Refresh Token " + refreshToken);
+  // console.log("Access Token " + accessToken);
+  // console.log("Refresh Token " + refreshToken);
 
   try {
     await AsyncStorage.setItem("accessToken", accessToken);

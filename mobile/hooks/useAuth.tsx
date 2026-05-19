@@ -9,8 +9,10 @@ import {
   userUpdateRequest,
 } from "@/lib/apis/auth";
 import { clearCookies, saveCookies } from "@/lib/async-storage";
-import socket from "@/lib/socket";
+import { connectSocket, disconnectSocket } from "@/socket/socket";
+// import socket from "@/lib/socket";
 import { AuthContextType, userType } from "@/types/type";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -20,19 +22,41 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [msg, setMsg] = useState<string | null>("");
   const [user, setUser] = useState<userType | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const connectSocket = async (userId: string) => {
-    if (!socket.connected) {
-      socket.connect();
+  const updateToken = async (token: string) => {
+    // console.log("load token: " + token);
 
-      await new Promise((resolve: any) => {
-        socket.once("connect", resolve);
-      });
+    if (token) {
+      setToken(token);
+      await AsyncStorage.setItem("accessToken", token);
+      return;
     }
 
-    socket.emit("user:join", userId);
+    setToken(null);
+    await AsyncStorage.removeItem("accessToken");
   };
+
+  const initializeSocket = async () => {
+    try {
+      await connectSocket();
+    } catch (error) {
+      console.log("Socket initialization skipped:", error);
+    }
+  };
+
+  // const connectSocket = async (userId: string) => {
+  //   if (!socket.connected) {
+  //     socket.connect();
+
+  //     await new Promise((resolve: any) => {
+  //       socket.once("connect", resolve);
+  //     });
+  //   }
+
+  //   socket.emit("user:join", userId);
+  // };
 
   // login
   const login = async (email: string, password: string) => {
@@ -44,11 +68,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
         return;
       }
-      await saveCookies(res.accessToken, res.refreshToken);
-      await connectSocket(res.data.id);
-
       setMsg(res.message);
+      setUser(res.data);
       setLoading(false);
+      // await saveCookies(res.accessToken, res.refreshToken);
+      await updateToken(res.accessToken);
+      // await connectSocket(res.data.id);
+      await connectSocket();
+
       await getUser();
     } catch (error) {
       setMsg("Failed to login");
@@ -172,6 +199,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
       setLoading(false);
+
       //   toast.success(res.message);
       //   router.push("/login");
     } catch (error) {
@@ -186,7 +214,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(null);
       setMsg(null);
       let res = await logoutRequest();
-      socket.disconnect();
+      disconnectSocket();
+      await AsyncStorage.removeItem("accessToken");
+      await AsyncStorage.removeItem("refreshToken");
+      // socket.disconnect();
       await clearCookies();
     } catch (error) {
       console.log(error);
@@ -205,7 +236,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (res.success) {
         setUser(res.data);
-        await connectSocket(res.data.id);
+        // await connectSocket(res.data.id);
         setLoading(false);
       } else {
         setLoading(false);
@@ -218,22 +249,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // useEffect(() => {
+  //   getUser();
+
+  //   socket.on("user:online", ({ userId }) => {
+  //     console.log(userId, "online");
+  //   });
+
+  //   socket.on("user:offline", ({ userId }) => {
+  //     console.log(userId, "offline");
+  //   });
+
+  //   return () => {
+  //     socket.off("user:online");
+
+  //     socket.off("user:offline");
+  //   };
+  // }, []);
+
   useEffect(() => {
     getUser();
-
-    socket.on("user:online", ({ userId }) => {
-      console.log(userId, "online");
-    });
-
-    socket.on("user:offline", ({ userId }) => {
-      console.log(userId, "offline");
-    });
-
-    return () => {
-      socket.off("user:online");
-
-      socket.off("user:offline");
-    };
+    initializeSocket();
   }, []);
 
   return (

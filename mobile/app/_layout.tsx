@@ -6,11 +6,14 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import Splash from "@/components/Splash";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { FriendRequestProvider } from "@/hooks/useFriend";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <Layout />
+      <FriendRequestProvider>
+        <Layout />
+      </FriendRequestProvider>
     </AuthProvider>
   );
 }
@@ -20,13 +23,13 @@ function Layout() {
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   // let isLoggedIn = false;
-  console.log("login " + isLoggedIn);
 
   const [loaded, error] = useFonts({
     StalinistOne: require("@/assets/fonts/StalinistOne-Regular.ttf"),
   });
 
   useEffect(() => {
+    console.log(user);
     if (!loading) {
       setIsLoggedIn(!!user);
     }

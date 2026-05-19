@@ -37,3 +37,24 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   getUser: () => Promise<void | null>;
 }
+
+export interface FriendRequestType {
+  requestId: string;
+  sender: string;
+  receiver: string;
+  status: string;
+}
+
+export interface FriendRequestContextType {
+  receivedRequests: FriendRequestType[];
+
+  sentRequests: FriendRequestType[];
+
+  addSentRequest: (data: FriendRequestType) => void;
+
+  addReceivedRequest: (data: FriendRequestType) => void;
+
+  updateRequestStatus: (requestId: string, status: string) => void;
+
+  removeReceivedRequest: (requestId: string) => void;
+}
