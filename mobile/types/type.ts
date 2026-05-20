@@ -10,6 +10,18 @@ export interface userType {
   avatar: string;
 }
 
+export interface chatUserType {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  role: string;
+  isVerified: boolean;
+  block: boolean;
+  avatar: string;
+}
+
 export interface AuthContextType {
   user: userType | null;
   loading: boolean;
@@ -46,6 +58,10 @@ export interface FriendRequestType {
 }
 
 export interface FriendRequestContextType {
+  search: any[]; // search result
+  loading: boolean;
+  msg: string;
+  findFriend: (name: string) => void;
   receivedRequests: FriendRequestType[];
 
   sentRequests: FriendRequestType[];

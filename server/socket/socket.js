@@ -16,17 +16,17 @@ const initSocket = (server) => {
 
   io.use((socket, next) => {
     const token = socket.handshake.auth.token;
+    console.log("token" + token);
     if (!token) {
       return next(new Error("Authentication error"));
     }
 
     const decode = verifyJWTToken(token);
+    console.log("socket" + JSON.stringify(decode));
 
     if (!decode) {
       return next(new Error("Authentication error"));
     }
-
-    console.log("socket" + JSON.stringify(decode));
 
     let user = decode;
     socket.data = user;

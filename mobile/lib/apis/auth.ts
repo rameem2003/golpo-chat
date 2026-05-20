@@ -179,10 +179,14 @@ export const resetPasswordRequest = async (
 };
 
 export const logoutRequest = async () => {
+  const { accessToken, refreshToken } = await getCookies();
   try {
     let res = await fetch(`${API_URL}/auth/logout`, {
       method: "POST",
       credentials: "include",
+      headers: {
+        Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
+      },
     });
     return res.json();
   } catch (error: any) {

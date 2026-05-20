@@ -5,12 +5,13 @@ import { userType } from "@/constants/Types";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/hooks/useTheme";
 import { FONTS } from "@/constants/Fonts";
+import { chatUserType } from "@/types/type";
 
 const User = ({
   user,
   contentStyle,
 }: {
-  user: userType | null;
+  user: userType | chatUserType | null;
   contentStyle?: any;
 }) => {
   const { theme } = useTheme();

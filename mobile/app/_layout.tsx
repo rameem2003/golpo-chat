@@ -11,9 +11,9 @@ import { FriendRequestProvider } from "@/hooks/useFriend";
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <FriendRequestProvider>
-        <Layout />
-      </FriendRequestProvider>
+      {/* <FriendRequestProvider> */}
+      <Layout />
+      {/* </FriendRequestProvider> */}
     </AuthProvider>
   );
 }

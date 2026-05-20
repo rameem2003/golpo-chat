@@ -6,9 +6,22 @@ const {
   getReceivedRequests,
   findFriendRequestByPair,
   findFriendRequestById,
+  findFriendByName,
 } = require("../services/friendRequest.service");
 const { createFriendship } = require("../services/friendShip.service");
 const { getOnlineUsers, getIO } = require("../socket/socket-store");
+
+const findFriend = async (req, res) => {
+  const user = req.user.id;
+  const name = req.query.name;
+
+  try {
+    const friend = await findFriendByName(name, user);
+    return res.status(200).send({ success: true, data: friend });
+  } catch (error) {
+    return res.status(400).send({ success: false, message: error.message });
+  }
+};
 
 const sendFriendRequest = async (req, res) => {
   const io = getIO();
@@ -317,6 +330,7 @@ const cancelFriendRequest = async (req, res) => {
 };
 
 module.exports = {
+  findFriend,
   sendFriendRequest,
   getSentFriendRequests,
   getReceivedFriendRequests,

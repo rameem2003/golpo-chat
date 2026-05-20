@@ -8,7 +8,7 @@ const SOCKET_URL = API_URL.replace(/\/api\/v1\/?$/, "");
 export const connectSocket = async () => {
   console.log("Connecting socket...");
   const token = await AsyncStorage.getItem("accessToken");
-  // console.log("token" + token);
+  console.log("token" + token);
 
   if (!token) {
     // console.log("Error 10");
@@ -46,9 +46,9 @@ export const connectSocket = async () => {
 };
 
 export const getSocket = () => {
-  if (!socket) {
-    throw new Error("Socket not connected");
-  }
+  // if (!socket) {
+  //   throw new Error("Socket not connected");
+  // }
 
   return socket;
 };

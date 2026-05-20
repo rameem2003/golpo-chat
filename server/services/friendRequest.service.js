@@ -1,4 +1,18 @@
 const friendRequestModel = require("../models/friendRequest.model");
+const userModel = require("../models/user.model");
+
+const findFriendByName = async (name, userId) => {
+  try {
+    // except current user
+    let res = await userModel.find({
+      name: { $regex: name, $options: "i" },
+      _id: { $ne: userId },
+    });
+    return res;
+  } catch (error) {
+    throw new Error("Error finding user: " + error.message);
+  }
+};
 
 const findFriendRequestById = async (requestId) => {
   try {
@@ -67,6 +81,7 @@ const getReceivedRequests = async (userId) => {
 };
 
 module.exports = {
+  findFriendByName,
   findFriendRequestByPair,
   requestSend,
   getSentRequests,

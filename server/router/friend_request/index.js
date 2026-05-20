@@ -5,10 +5,17 @@ const {
   acceptFriendRequest,
   rejectFriendRequest,
   cancelFriendRequest,
+  findFriend,
 } = require("../../controllers/friendRequest.controller");
 const verifyAuthentication = require("../../middlewares/middleware");
 
 const router = require("express").Router();
+
+/**
+ * Find friend by name route
+ * https://localhost:5000/api/v1/friend-request/search?name=John
+ */
+router.get("/friend-request/search", verifyAuthentication, findFriend);
 
 /**
  * Send friend request route

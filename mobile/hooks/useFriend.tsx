@@ -2,12 +2,13 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./useAuth";
 import { FriendRequestContextType, FriendRequestType } from "@/types/type";
 import { listenFriendEvents } from "@/socket/socketEvents";
+import { findFriendRequest } from "@/lib/apis/friend";
 
 const FriendRequestContext = createContext<
   FriendRequestContextType | undefined
 >(undefined);
 
-export const useFriendRequest = () => {
+export const useFriend = () => {
   const context = useContext(FriendRequestContext);
 
   if (!context) {
@@ -25,12 +26,41 @@ export const FriendRequestProvider = ({
   children: React.ReactNode;
 }) => {
   const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState(""); // for error or success messages
+  const [search, setSearch] = useState([]); // search result
 
   const [receivedRequests, setReceivedRequests] = useState<FriendRequestType[]>(
     [],
   );
 
   const [sentRequests, setSentRequests] = useState<FriendRequestType[]>([]);
+
+  // find friend by name
+  const findFriend = async (name: string) => {
+    try {
+      console.log("find friend hit");
+
+      setLoading(true);
+      let res = await findFriendRequest(name);
+      // console.log("res" + JSON.stringify(res));
+
+      if (!res.success) {
+        setMsg(res.message);
+        setSearch([]);
+        setLoading(false);
+        return;
+      }
+      setLoading(false);
+
+      setSearch(res.data);
+    } catch (error: any) {
+      console.log(error);
+
+      setLoading(false);
+      setMsg("Failed to search for friend");
+    }
+  };
 
   // new incoming request
   const addReceivedRequest = (data: FriendRequestType) => {
@@ -126,6 +156,10 @@ export const FriendRequestProvider = ({
   return (
     <FriendRequestContext.Provider
       value={{
+        search,
+        loading,
+        msg,
+        findFriend,
         receivedRequests,
 
         sentRequests,

@@ -8,7 +8,6 @@ import { useTheme } from "@/hooks/useTheme";
 import Search from "../Search";
 import SearchComponent from "@/components/features/SearchComponent";
 import { useEffect } from "react";
-import { testSocket } from "@/socket/socketEvents";
 
 export default function Index() {
   const { theme } = useTheme();

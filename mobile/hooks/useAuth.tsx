@@ -25,17 +25,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const updateToken = async (token: string) => {
+  const updateToken = async (accessToken: string, refreshToken: string) => {
     // console.log("load token: " + token);
 
-    if (token) {
-      setToken(token);
-      await AsyncStorage.setItem("accessToken", token);
+    if (accessToken) {
+      setToken(accessToken);
+      await AsyncStorage.setItem("accessToken", accessToken);
+      await AsyncStorage.setItem("refreshToken", refreshToken);
       return;
     }
 
     setToken(null);
     await AsyncStorage.removeItem("accessToken");
+    await AsyncStorage.removeItem("refreshToken");
   };
 
   const initializeSocket = async () => {
@@ -45,18 +47,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("Socket initialization skipped:", error);
     }
   };
-
-  // const connectSocket = async (userId: string) => {
-  //   if (!socket.connected) {
-  //     socket.connect();
-
-  //     await new Promise((resolve: any) => {
-  //       socket.once("connect", resolve);
-  //     });
-  //   }
-
-  //   socket.emit("user:join", userId);
-  // };
 
   // login
   const login = async (email: string, password: string) => {
@@ -72,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(res.data);
       setLoading(false);
       // await saveCookies(res.accessToken, res.refreshToken);
-      await updateToken(res.accessToken);
+      await updateToken(res.accessToken, res.refreshToken);
       // await connectSocket(res.data.id);
       await connectSocket();
 
@@ -213,10 +203,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setUser(null);
       setMsg(null);
-      let res = await logoutRequest();
-      disconnectSocket();
       await AsyncStorage.removeItem("accessToken");
       await AsyncStorage.removeItem("refreshToken");
+      disconnectSocket();
+      let res = await logoutRequest();
       // socket.disconnect();
       await clearCookies();
     } catch (error) {
@@ -236,7 +226,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (res.success) {
         setUser(res.data);
-        // await connectSocket(res.data.id);
+        await connectSocket();
         setLoading(false);
       } else {
         setLoading(false);
@@ -294,4 +284,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext)!;
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
+
+  return context;
+};

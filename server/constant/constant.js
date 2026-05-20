@@ -15,7 +15,15 @@ const HOURS_PER_DAY = 24;
 const DAYS_PER_MONTH = 30;
 const DAYS_PER_WEEK = 7;
 
-const ACCESS_TOKEN_EXPIRY = 15 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND; // 15 minutes
+// const ACCESS_TOKEN_EXPIRY = 15 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND; // 15 minutes
+
+// 5 hours access token expiry for testing, change to 15 minutes in production
+const ACCESS_TOKEN_EXPIRY =
+  5 *
+  HOURS_PER_DAY *
+  MINUTES_PER_HOUR *
+  SECONDS_PER_MINUTE *
+  MILLISECONDS_PER_SECOND; // 5 hours
 
 const REFRESH_TOKEN_EXPIRY =
   DAYS_PER_WEEK *
