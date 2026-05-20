@@ -40,14 +40,14 @@ const SearchComponent = () => {
       <Ionicons
         name="search"
         size={25}
-        color={"#000"}
+        color={theme.text}
         style={styles.searchIcon}
       />
       <TextInput
-        placeholderTextColor={"#000"}
+        placeholderTextColor={theme.text}
         style={[
           styles.textInput,
-          { backgroundColor: theme.overlay, color: "#000" },
+          { backgroundColor: theme.overlay, color: theme.text },
         ]}
         placeholder="Search Here......."
         value={searchQuery}

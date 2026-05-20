@@ -1,8 +1,16 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./useAuth";
-import { FriendRequestContextType, FriendRequestType } from "@/types/type";
+import {
+  FriendRequestContextType,
+  FriendRequestReceiveType,
+  FriendRequestSendType,
+} from "@/types/type";
 import { listenFriendEvents } from "@/socket/socketEvents";
-import { findFriendRequest } from "@/lib/apis/friend";
+import {
+  findFriendRequest,
+  getRequestReceivedList,
+  getRequestSentList,
+} from "@/lib/apis/friend";
 
 const FriendRequestContext = createContext<
   FriendRequestContextType | undefined
@@ -30,11 +38,11 @@ export const FriendRequestProvider = ({
   const [msg, setMsg] = useState(""); // for error or success messages
   const [search, setSearch] = useState([]); // search result
 
-  const [receivedRequests, setReceivedRequests] = useState<FriendRequestType[]>(
-    [],
-  );
+  const [receivedRequests, setReceivedRequests] = useState<
+    FriendRequestReceiveType[]
+  >([]);
 
-  const [sentRequests, setSentRequests] = useState<FriendRequestType[]>([]);
+  const [sentRequests, setSentRequests] = useState<FriendRequestSendType[]>([]);
 
   // find friend by name
   const findFriend = async (name: string) => {
@@ -62,10 +70,40 @@ export const FriendRequestProvider = ({
     }
   };
 
+  const fetchSentRequests = async () => {
+    try {
+      let res = await getRequestSentList();
+      if (!res.success) {
+        setMsg(res.message);
+        return;
+      }
+      setSentRequests(res.data);
+    } catch (error) {
+      console.log(error);
+      setMsg("Failed to add received request");
+      throw new Error("Failed to add received request");
+    }
+  };
+
+  const fetchReceivedRequests = async () => {
+    try {
+      let res = await getRequestReceivedList();
+      if (!res.success) {
+        setMsg(res.message);
+        return;
+      }
+      setReceivedRequests(res.data);
+    } catch (error) {
+      console.log(error);
+      setMsg("Failed to add received request");
+      throw new Error("Failed to add received request");
+    }
+  };
+
   // new incoming request
-  const addReceivedRequest = (data: FriendRequestType) => {
+  const addReceivedRequest = async (data: FriendRequestReceiveType) => {
     setReceivedRequests((prev) => {
-      const exist = prev.find((item) => item.requestId === data.requestId);
+      const exist = prev.find((item) => item._id === data._id);
 
       if (exist) return prev;
 
@@ -74,9 +112,9 @@ export const FriendRequestProvider = ({
   };
 
   // add sent request
-  const addSentRequest = (data: FriendRequestType) => {
+  const addSentRequest = (data: FriendRequestSendType) => {
     setSentRequests((prev) => {
-      const exist = prev.find((item) => item.requestId === data.requestId);
+      const exist = prev.find((item) => item._id === data._id);
 
       if (exist) return prev;
 
@@ -88,7 +126,7 @@ export const FriendRequestProvider = ({
   const updateRequestStatus = (requestId: string, status: string) => {
     setReceivedRequests((prev) =>
       prev.map((item) =>
-        item.requestId === requestId
+        item._id === requestId
           ? {
               ...item,
               status,
@@ -99,7 +137,7 @@ export const FriendRequestProvider = ({
 
     setSentRequests((prev) =>
       prev.map((item) =>
-        item.requestId === requestId
+        item._id === requestId
           ? {
               ...item,
               status,
@@ -112,12 +150,10 @@ export const FriendRequestProvider = ({
   // remove request
   const removeReceivedRequest = (requestId: string) => {
     setReceivedRequests((prev) =>
-      prev.filter((item) => item.requestId !== requestId),
+      prev.filter((item) => item._id !== requestId),
     );
 
-    setSentRequests((prev) =>
-      prev.filter((item) => item.requestId !== requestId),
-    );
+    setSentRequests((prev) => prev.filter((item) => item._id !== requestId));
   };
 
   // realtime socket listeners
@@ -151,6 +187,13 @@ export const FriendRequestProvider = ({
     });
 
     return unsubscribe;
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    fetchSentRequests();
+    fetchReceivedRequests();
   }, [user]);
 
   return (

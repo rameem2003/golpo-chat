@@ -50,10 +50,27 @@ export interface AuthContextType {
   getUser: () => Promise<void | null>;
 }
 
-export interface FriendRequestType {
-  requestId: string;
-  sender: string;
+export interface FriendRequestReceiveType {
+  _id: string;
+  sender: {
+    _id: string;
+    name: string;
+    email: string;
+    avatar: string;
+  };
   receiver: string;
+  status: string;
+}
+
+export interface FriendRequestSendType {
+  _id: string;
+  sender: string;
+  receiver: {
+    _id: string;
+    name: string;
+    email: string;
+    avatar: string;
+  };
   status: string;
 }
 
@@ -62,13 +79,13 @@ export interface FriendRequestContextType {
   loading: boolean;
   msg: string;
   findFriend: (name: string) => void;
-  receivedRequests: FriendRequestType[];
+  receivedRequests: FriendRequestReceiveType[];
 
-  sentRequests: FriendRequestType[];
+  sentRequests: FriendRequestSendType[];
 
-  addSentRequest: (data: FriendRequestType) => void;
+  addSentRequest: (data: FriendRequestSendType) => void;
 
-  addReceivedRequest: (data: FriendRequestType) => void;
+  addReceivedRequest: (data: FriendRequestReceiveType) => void;
 
   updateRequestStatus: (requestId: string, status: string) => void;
 

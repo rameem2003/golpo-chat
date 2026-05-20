@@ -56,7 +56,7 @@ const SuggestedFriend = ({ user }: { user: chatUserType }) => {
           borderRadius: "100%",
         }}
       >
-        <Ionicons name="add-circle-sharp" size={30} color={theme.overlay} />
+        <Ionicons name="add-circle-sharp" size={30} color={theme.text} />
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -107,7 +107,7 @@ const Search = () => {
           <SearchComponent />
           <Text
             style={{
-              color: theme.overlay,
+              color: theme.text,
               marginBottom: SIZE.lg,
             }}
           >
@@ -115,14 +115,14 @@ const Search = () => {
           </Text>
           {loading && (
             <View style={{ alignItems: "center", marginTop: SIZE.lg }}>
-              <ActivityIndicator size="large" color={theme.overlay} />
-              <Text style={{ color: theme.overlay }}>Loading....</Text>
+              <ActivityIndicator size="large" color={theme.text} />
+              <Text style={{ color: theme.text }}>Loading....</Text>
             </View>
           )}
 
           {!loading && search.length === 0 && (
             <View style={{ alignItems: "center", marginTop: SIZE.lg }}>
-              <Text style={{ color: theme.overlay }}>No result found</Text>
+              <Text style={{ color: theme.text }}>No result found</Text>
             </View>
           )}
 

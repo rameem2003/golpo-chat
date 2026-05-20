@@ -23,10 +23,7 @@ const _layout = () => {
           // },
           headerTintColor: theme.text,
           tabBarStyle: {
-            display:
-              pathname.startsWith("/chat") || pathname == "/Search"
-                ? "none"
-                : "flex",
+            display: pathname.startsWith("/chat") ? "none" : "flex",
             backgroundColor: theme.primary,
             paddingTop: SIZE.md,
             height: 90,
@@ -58,7 +55,23 @@ const _layout = () => {
             headerShadowVisible: false,
             tabBarIcon: ({ color, size, focused }) => (
               <Ionicons
-                name={focused ? "search-sharp" : "search-outline"}
+                name={focused ? "search" : "search-outline"}
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="Notification"
+          options={{
+            title: "Notification",
+            tabBarBadge: 3,
+            headerShadowVisible: false,
+            tabBarIcon: ({ color, size, focused }) => (
+              <Ionicons
+                name={focused ? "notifications" : "notifications-outline"}
                 color={color}
                 size={size}
               />

@@ -7,11 +7,18 @@ import { useTheme } from "@/hooks/useTheme";
 import { FONTS } from "@/constants/Fonts";
 import { chatUserType } from "@/types/type";
 
+interface userProps {
+  _id: string;
+  name: string;
+  email: string;
+  avatar: string;
+}
+
 const User = ({
   user,
   contentStyle,
 }: {
-  user: userType | chatUserType | null;
+  user: userType | chatUserType | userProps | null;
   contentStyle?: any;
 }) => {
   const { theme } = useTheme();
