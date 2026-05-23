@@ -10,7 +10,9 @@ import {
   findFriendRequest,
   getRequestReceivedList,
   getRequestSentList,
+  sendFriendRequest,
 } from "@/lib/apis/friend";
+import { showToast } from "@/lib/toast";
 
 const FriendRequestContext = createContext<
   FriendRequestContextType | undefined
@@ -70,6 +72,7 @@ export const FriendRequestProvider = ({
     }
   };
 
+  // fetch sent requests
   const fetchSentRequests = async () => {
     try {
       let res = await getRequestSentList();
@@ -85,6 +88,7 @@ export const FriendRequestProvider = ({
     }
   };
 
+  // fetch received requests
   const fetchReceivedRequests = async () => {
     try {
       let res = await getRequestReceivedList();
@@ -97,6 +101,26 @@ export const FriendRequestProvider = ({
       console.log(error);
       setMsg("Failed to add received request");
       throw new Error("Failed to add received request");
+    }
+  };
+
+  // send new friend request
+  const friendRequest = async (receiverId: string) => {
+    try {
+      let res = await sendFriendRequest(receiverId);
+      if (!res.success) {
+        setMsg(res.message);
+        showToast(res.message);
+        return;
+      }
+
+      showToast("Friend request sent");
+      addSentRequest(res.data);
+    } catch (error) {
+      console.log(error);
+      setMsg("Failed to send friend request");
+      showToast("Failed to send friend request");
+      throw new Error("Failed to send friend request");
     }
   };
 
@@ -214,6 +238,9 @@ export const FriendRequestProvider = ({
         updateRequestStatus,
 
         removeReceivedRequest,
+        fetchSentRequests,
+        fetchReceivedRequests,
+        friendRequest,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useFriend } from "@/hooks/useFriend";
 import { useTheme } from "@/hooks/useTheme";
 import { SIZE } from "@/constants/Size";
@@ -56,23 +56,45 @@ const SuggestedFriend = ({ user }: { user: FriendRequestSendType }) => {
 
 const RequestSend = () => {
   const { theme } = useTheme();
-  const { sentRequests } = useFriend();
+  const [refreshing, setRefreshing] = useState(false);
+  const { sentRequests, fetchSentRequests } = useFriend();
   console.log(sentRequests);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchSentRequests(); // Fetch fresh data
+
+    // Simulate fetching fresh data
+    setTimeout(() => {
+      setRefreshing(false); // Hides the loading spinner
+    }, 2000);
+  };
 
   return (
     <View style={{ marginTop: SIZE.lg }}>
-      {sentRequests.length === 0 ? (
+      {/* {sentRequests.length === 0 ? (
         <Text style={{ color: theme.text, textAlign: "center", marginTop: 20 }}>
           No friend requests sent.
         </Text>
       ) : (
         <FlatList
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
           showsVerticalScrollIndicator={false}
           data={sentRequests}
           keyExtractor={(data) => data._id}
           renderItem={({ item }) => <SuggestedFriend user={item} />}
         />
-      )}
+      )} */}
+
+      <FlatList
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        showsVerticalScrollIndicator={false}
+        data={sentRequests}
+        keyExtractor={(data) => data._id}
+        renderItem={({ item }) => <SuggestedFriend user={item} />}
+      />
     </View>
   );
 };

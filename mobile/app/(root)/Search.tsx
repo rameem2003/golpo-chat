@@ -23,6 +23,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const SuggestedFriend = ({ user }: { user: chatUserType }) => {
   const { theme } = useTheme();
+  const { friendRequest } = useFriend();
   // console.log();
 
   return (
@@ -47,6 +48,7 @@ const SuggestedFriend = ({ user }: { user: chatUserType }) => {
       </View>
 
       <TouchableOpacity
+        onPress={() => friendRequest(user._id)}
         style={{
           // height: SIZE.lg,
           // width: SIZE.lg,

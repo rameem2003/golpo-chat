@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
 import { useFriend } from "@/hooks/useFriend";
 import { FriendRequestReceiveType } from "@/types/type";
@@ -55,9 +55,19 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
 };
 
 const RequestReceived = () => {
+  const [refreshing, setRefreshing] = useState(false);
   const { theme } = useTheme();
   const { receivedRequests } = useFriend();
   console.log(receivedRequests);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+
+    // Simulate fetching fresh data
+    setTimeout(() => {
+      setRefreshing(false); // Hides the loading spinner
+    }, 2000);
+  };
 
   return (
     <View style={{ marginTop: SIZE.lg }}>
@@ -67,6 +77,8 @@ const RequestReceived = () => {
         </Text>
       ) : (
         <FlatList
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
           showsVerticalScrollIndicator={false}
           data={receivedRequests}
           keyExtractor={(data) => data._id}

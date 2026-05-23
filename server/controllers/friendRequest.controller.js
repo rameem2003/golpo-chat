@@ -78,7 +78,11 @@ const sendFriendRequest = async (req, res) => {
     return res.status(201).send({
       success: true,
       message: "Friend request sent successfully.",
-      data: newRequest,
+      data: {
+        ...newRequest,
+        sender: await findUserById(sender),
+        receiver: await findUserById(receiver),
+      },
     });
   } catch (error) {
     res.status(500).send({

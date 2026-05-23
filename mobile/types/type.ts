@@ -90,4 +90,7 @@ export interface FriendRequestContextType {
   updateRequestStatus: (requestId: string, status: string) => void;
 
   removeReceivedRequest: (requestId: string) => void;
+  fetchSentRequests: () => void;
+  fetchReceivedRequests: () => void;
+  friendRequest: (receiverId: string) => Promise<void>;
 }
