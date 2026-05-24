@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "144603901303",
+    "project_id": "golpo-chat-e22c7",
+    "storage_bucket": "golpo-chat-e22c7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144603901303:android:c46e210568823ec98b8572",
+        "android_client_info": {
+          "package_name": "com.rol.golpochat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArzV4vxog41jzfJ4Y0nLHvkbM9tDJolEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
