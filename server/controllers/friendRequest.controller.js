@@ -9,6 +9,7 @@ const {
   findFriendByName,
 } = require("../services/friendRequest.service");
 const { createFriendship } = require("../services/friendShip.service");
+const { sendPushNotification } = require("../services/notification.service");
 const { getOnlineUsers, getIO } = require("../socket/socket-store");
 
 const findFriend = async (req, res) => {
@@ -74,6 +75,14 @@ const sendFriendRequest = async (req, res) => {
         status: "pending",
       });
     }
+    let senderName = await findUserById(sender);
+    let receiverUser = await findUserById(receiver);
+    await sendPushNotification(
+      receiverUser.notificationToken,
+      "New Friend Request",
+      `${senderName.name} sent you a friend request`,
+      {},
+    );
 
     return res.status(201).send({
       success: true,

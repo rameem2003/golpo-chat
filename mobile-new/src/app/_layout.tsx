@@ -88,7 +88,7 @@ function Layout() {
   }
 
   // ✅ show custom splash
-  if (!isReady) {
+  if (loading) {
     return <Splash />;
   }
   return (

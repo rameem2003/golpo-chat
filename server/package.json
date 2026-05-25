@@ -18,6 +18,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "ejs": "^5.0.2",
+    "expo-server-sdk": "^6.1.0",
     "express": "^5.2.1",
     "express-useragent": "^2.1.0",
     "jsonwebtoken": "^9.0.3",

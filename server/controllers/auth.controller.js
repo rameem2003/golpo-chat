@@ -30,6 +30,9 @@ const {
   emailValidator,
   resetPasswordValidator,
 } = require("../validator/auth.validator");
+const {
+  updatePushNotificationToken,
+} = require("../services/notification.service");
 
 /**
  * login controller for normal user login with email and password
@@ -464,6 +467,30 @@ const logout = async (req, res) => {
   }
 };
 
+/**
+ * Update user push notification token controller
+ */
+const pushNotificationToken = async (req, res) => {
+  try {
+    if (!req.user)
+      return res
+        .status(400)
+        .send({ success: false, message: "User not found" });
+
+    // log("push token " + req.body.token);
+    const result = await updatePushNotificationToken(
+      req.user.id,
+      req.body.token,
+    );
+    return res.status(200).json({ success: true, message: result.message });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
+  }
+};
+
 module.exports = {
   login,
   getUserProfile,
@@ -476,4 +503,5 @@ module.exports = {
   sendEmailVerificationToken,
   verifyEmailToken,
   logout,
+  pushNotificationToken,
 };

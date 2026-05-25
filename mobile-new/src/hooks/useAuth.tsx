@@ -4,15 +4,18 @@ import {
   logoutRequest,
   resetPasswordRequest,
   resetPasswordTokenVerifyRequest,
+  updateNotificationTokenRequest,
   userPasswordUpdateRequest,
   userRequest,
   userUpdateRequest,
 } from "@/lib/apis/auth";
 import { clearCookies, saveCookies } from "@/lib/async-storage";
+import { registerForPushNotificationsAsync } from "@/services/notification";
 import { connectSocket, disconnectSocket } from "@/socket/socket";
 // import socket from "@/lib/socket";
 import { AuthContextType, userType } from "@/types/type";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -222,15 +225,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setLoading(true);
       let res = await userRequest();
-      console.log(res);
+      console.log(" Get user ", JSON.stringify(res));
 
       if (res.success) {
         setUser(res.data);
         await connectSocket();
         setLoading(false);
       } else {
-        setLoading(false);
         setUser(null);
+        setLoading(false);
+        router.push("/(auth)/login");
       }
     } catch (error) {
       setLoading(false);
@@ -258,9 +262,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // }, []);
 
   useEffect(() => {
+    // const bootstrap = async () => {
+    //   const storedToken = await AsyncStorage.getItem("accessToken");
+
+    //   if (!storedToken) {
+    //     // router.push("/(auth)/login");
+    //     setLoading(false);
+    //     return;
+    //   }
+
+    //   await getUser();
+    //   await initializeSocket();
+    // };
+
+    // bootstrap();
+
     getUser();
     initializeSocket();
   }, []);
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) => {
+      if (token && user) {
+        console.log("push token " + token);
+
+        updateNotificationTokenRequest(token).catch((error) => {
+          console.error("Failed to update notification token:", error);
+        });
+      }
+    });
+  }, [user]);
 
   return (
     <AuthContext.Provider

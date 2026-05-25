@@ -10,6 +10,7 @@ const {
   verifyResetPasswordToken,
   sendResetPasswordToken,
   resetPassword,
+  pushNotificationToken,
 } = require("../../controllers/auth.controller");
 const createUploadMiddleware = require("../../middlewares/fileUpload");
 const verifyAuthentication = require("../../middlewares/middleware");
@@ -92,5 +93,15 @@ router.get("/auth/verify-email", verifyEmailToken);
  * https://localhost:5000/api/v1/auth/logout
  */
 router.post("/auth/logout", verifyAuthentication, logout);
+
+/**
+ * Update push notification token route
+ * https://localhost:5000/api/v1/auth/push-notification-token
+ */
+router.post(
+  "/auth/push-notification-token",
+  verifyAuthentication,
+  pushNotificationToken,
+);
 
 module.exports = router;

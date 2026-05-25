@@ -211,3 +211,21 @@ export const userRequest = async () => {
     throw new Error("Failed to get user: " + error.message);
   }
 };
+
+export const updateNotificationTokenRequest = async (token: string) => {
+  const { accessToken, refreshToken } = await getCookies();
+  try {
+    let res = await fetch(`${API_URL}/auth/push-notification-token`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
+      },
+      body: JSON.stringify({ token }),
+    });
+    return res.json();
+  } catch (error: any) {
+    throw new Error("Failed to update notification token: " + error.message);
+  }
+};
