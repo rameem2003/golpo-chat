@@ -1,0 +1,6 @@
+{
+  "$schema": "https://assets.requestly.com/local/v1.0.1/body.json",
+  "contentType": "json",
+  "raw": "{\r\n    \"role\": \"admin\",\r\n    \"block\": false\r\n}",
+  "rawContentType": "application/json"
+}

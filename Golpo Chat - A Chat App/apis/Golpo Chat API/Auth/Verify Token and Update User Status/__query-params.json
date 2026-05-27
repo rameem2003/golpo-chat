@@ -1,0 +1,14 @@
+[
+  {
+    "id": 0,
+    "key": "token",
+    "value": "808801",
+    "isEnabled": true
+  },
+  {
+    "id": 1,
+    "key": "email",
+    "value": "rameem@gmail.com",
+    "isEnabled": true
+  }
+]

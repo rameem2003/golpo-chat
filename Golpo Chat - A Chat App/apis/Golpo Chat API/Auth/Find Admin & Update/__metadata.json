@@ -1,0 +1,10 @@
+{
+  "$schema": "https://assets.requestly.com/local/v1.0.1/metadata.json",
+  "type": "api",
+  "entryType": "http",
+  "id": "e43c56c2-24c3-4668-94f4-1f1dbae0980a",
+  "rank": "aD",
+  "url": "{{host}}api/v1/auth/admins/update/:id",
+  "method": "PATCH",
+  "contentType": "json"
+}

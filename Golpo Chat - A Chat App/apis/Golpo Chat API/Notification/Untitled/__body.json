@@ -1,0 +1,6 @@
+{
+  "$schema": "https://assets.requestly.com/local/v1.5.0/body.json",
+  "contentType": "raw",
+  "raw": "{\n  token: 'ExponentPushToken[Ti2JQLBzVgrwZrbOexDZ-l]',\n  title: 'Test notification',\n  body: 'Hello World',\n  metadata: {},\n}\n",
+  "rawContentType": "application/json"
+}

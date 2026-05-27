@@ -1,0 +1,10 @@
+{
+  "$schema": "https://assets.requestly.com/local/v1.1.0/metadata.json",
+  "type": "api",
+  "entryType": "http",
+  "id": "bbdda028-2ad6-4e75-9c92-7d7eacc2e34e",
+  "rank": "",
+  "url": "{{host}}api/v1/friend-request/received",
+  "method": "GET",
+  "contentType": "none"
+}

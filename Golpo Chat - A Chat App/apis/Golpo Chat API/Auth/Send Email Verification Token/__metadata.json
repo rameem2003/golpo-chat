@@ -1,0 +1,10 @@
+{
+  "$schema": "https://assets.requestly.com/local/v1.0.1/metadata.json",
+  "type": "api",
+  "entryType": "http",
+  "id": "3e46d43b-7a96-41b6-a72c-fa42198b06c2",
+  "rank": "a6",
+  "url": "{{host}}api/v1/auth/send-email-verification",
+  "method": "POST",
+  "contentType": "raw"
+}
