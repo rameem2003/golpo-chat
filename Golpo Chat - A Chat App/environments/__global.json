@@ -1,5 +1,13 @@
 {
-  "$schema": "https://assets.requestly.com/local/v1.0.1/environment.json",
+  "$schema": "https://assets.requestly.com/local/v1.8.0/environment.json",
   "id": "bf7cc528-80aa-4387-8ef0-a876bf1ff862",
-  "variables": {}
+  "variables": {
+    "host": {
+      "id": "643754cc-e0d2-42ed-9f5e-0f3d1afd64aa",
+      "syncValue": "http://localhost:5000",
+      "type": "string",
+      "isEnabled": true,
+      "rank": "hmpo48kgf"
+    }
+  }
 }

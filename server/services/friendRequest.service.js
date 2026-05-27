@@ -16,6 +16,7 @@ const findFriendByName = async (name, userId) => {
 
 const findFriendRequestById = async (requestId) => {
   try {
+    // except "accepted" and "rejected" requests
     let res = await friendRequestModel.findById(requestId);
     return res;
   } catch (error) {

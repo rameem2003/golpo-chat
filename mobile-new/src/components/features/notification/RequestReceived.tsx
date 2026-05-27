@@ -15,7 +15,15 @@ import { Ionicons } from "@expo/vector-icons";
 
 const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
   const { theme } = useTheme();
-  // console.log();
+  const { acceptRequest } = useFriend();
+  const [isAccepting, setIsAccepting] = useState(false);
+
+  const handleAccept = async (id: string) => {
+    setIsAccepting(true);
+    await acceptRequest(id);
+    // setIsAccepting(false);
+  };
+  // console.log(user);
 
   return (
     <TouchableOpacity
@@ -33,7 +41,7 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
           contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
         />
         <View>
-          <Text style={[styles.chatName]}>{user.sender.name}</Text>
+          <Text style={[styles.chatName]}>{user.sender.name.slice(0, 10)}</Text>
           <Text style={[styles.lastMessage]}>{user.sender.email}</Text>
         </View>
       </View>
@@ -47,8 +55,13 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
           borderColor: theme.overlay,
           borderRadius: "100%",
         }}
+        onPress={() => handleAccept(user._id)}
       >
-        <Ionicons name="checkbox" size={30} color={theme.text} />
+        <Ionicons
+          name={isAccepting ? "checkmark-circle" : "person-add"}
+          size={30}
+          color={theme.text}
+        />
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -57,11 +70,12 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
 const RequestReceived = () => {
   const [refreshing, setRefreshing] = useState(false);
   const { theme } = useTheme();
-  const { receivedRequests } = useFriend();
+  const { receivedRequests, fetchReceivedRequests } = useFriend();
   console.log(receivedRequests);
 
   const handleRefresh = async () => {
     setRefreshing(true);
+    await fetchReceivedRequests();
 
     // Simulate fetching fresh data
     setTimeout(() => {

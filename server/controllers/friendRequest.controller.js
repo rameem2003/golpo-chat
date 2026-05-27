@@ -66,7 +66,7 @@ const sendFriendRequest = async (req, res) => {
 
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("friend:request:new", {
-        requestId: newRequest._id,
+        _id: newRequest._id,
 
         sender: await findUserById(sender),
 
@@ -179,7 +179,7 @@ const acceptFriendRequest = async (req, res) => {
     await createFriendship(friendRequest.user1, friendRequest.user2);
 
     const payload = {
-      requestId: friendRequest._id,
+      _id: friendRequest._id,
 
       sender: await findUserById(friendRequest.sender),
 
@@ -194,11 +194,22 @@ const acceptFriendRequest = async (req, res) => {
       io.to(senderSocketId).emit("friend:request:accepted", payload);
     }
 
+    let senderName = await findUserById(friendRequest.sender);
+    let receiverUser = await findUserById(friendRequest.receiver);
+
+    await sendPushNotification(
+      senderName.notificationToken,
+      "Friend Request Accepted",
+      `${receiverUser.name} accepted your friend request`,
+      {},
+    );
+
     res.status(200).send({
       success: true,
       message: "Friend request accepted successfully.",
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error accepting friend request: " + error.message,
@@ -246,7 +257,7 @@ const rejectFriendRequest = async (req, res) => {
 
     await friendRequest.save();
     const payload = {
-      requestId: friendRequest._id,
+      _id: friendRequest._id,
 
       sender: await findUserById(friendRequest.sender),
 
@@ -261,11 +272,22 @@ const rejectFriendRequest = async (req, res) => {
       io.to(senderSocketId).emit("friend:request:rejected", payload);
     }
 
+    let senderName = await findUserById(friendRequest.sender);
+    let receiverUser = await findUserById(friendRequest.receiver);
+
+    await sendPushNotification(
+      senderName.notificationToken,
+      "Friend Request Rejected",
+      `${receiverUser.name} rejected your friend request`,
+      {},
+    );
+
     res.status(200).send({
       success: true,
       message: "Friend request rejected successfully.",
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error rejecting friend request: " + error.message,
@@ -314,7 +336,7 @@ const cancelFriendRequest = async (req, res) => {
     await friendRequest.save();
 
     const payload = {
-      requestId: friendRequest._id,
+      _id: friendRequest._id,
 
       sender: await findUserById(friendRequest.sender),
 
@@ -334,6 +356,8 @@ const cancelFriendRequest = async (req, res) => {
       message: "Friend request canceled successfully.",
     });
   } catch (error) {
+    console.log(error);
+
     res.status(500).send({
       success: false,
       message: "Error canceling friend request: " + error.message,

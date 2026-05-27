@@ -7,6 +7,7 @@ import {
 } from "@/types/type";
 import { listenFriendEvents } from "@/socket/socketEvents";
 import {
+  acceptFriendRequest,
   findFriendRequest,
   getRequestReceivedList,
   getRequestSentList,
@@ -124,6 +125,24 @@ export const FriendRequestProvider = ({
     }
   };
 
+  const acceptRequest = async (requestId: string) => {
+    try {
+      let res = await acceptFriendRequest(requestId);
+      if (!res.success) {
+        setMsg(res.message);
+        showToast(res.message);
+        return;
+      }
+      showToast("Friend request accepted");
+      updateRequestStatus(requestId, "accepted");
+    } catch (error) {
+      console.log(error);
+      setMsg("Failed to accept friend request");
+      showToast("Failed to accept friend request");
+      throw new Error("Failed to accept friend request");
+    }
+  };
+
   // new incoming request
   const addReceivedRequest = async (data: FriendRequestReceiveType) => {
     setReceivedRequests((prev) => {
@@ -187,6 +206,7 @@ export const FriendRequestProvider = ({
     const unsubscribe = listenFriendEvents({
       onNew: (data: any) => {
         console.log("new request", data);
+        console.log(data);
 
         addReceivedRequest(data);
       },
@@ -241,6 +261,7 @@ export const FriendRequestProvider = ({
         fetchSentRequests,
         fetchReceivedRequests,
         friendRequest,
+        acceptRequest,
       }}
     >
       {children}

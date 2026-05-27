@@ -42,7 +42,7 @@ const SuggestedFriend = ({ user }: { user: chatUserType }) => {
           contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
         />
         <View>
-          <Text style={[styles.chatName]}>{user.name}</Text>
+          <Text style={[styles.chatName]}>{user.name.slice(0, 5)}</Text>
           <Text style={[styles.lastMessage]}>{user.email}</Text>
         </View>
       </View>
