@@ -78,6 +78,22 @@ const _layout = () => {
             ),
           }}
         />
+
+        <Tabs.Screen
+          name="(profile)"
+          options={{
+            title: "Profile",
+            headerShown: false,
+            headerShadowVisible: false,
+            tabBarIcon: ({ color, size, focused }) => (
+              <Ionicons
+                name={focused ? "person" : "person-outline"}
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
       </Tabs>
     </FriendRequestProvider>
   );

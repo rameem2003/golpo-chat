@@ -33,6 +33,7 @@ export interface AuthContextType {
     address: string,
     phone: string,
   ) => Promise<void | null>;
+  updateProfileAvatar: (avatar: any) => Promise<void>;
   updatePassword: (
     oldPassword: string,
     newPassword: string,

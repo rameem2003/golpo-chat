@@ -34,7 +34,9 @@ const User = ({
         <Image
           style={styles.avatar}
           source={{
-            uri: user?.avatar,
+            uri: user?.avatar.includes("http")
+              ? user?.avatar
+              : "http://10.0.2.2:5000/" + user?.avatar,
           }}
         />
       ) : (

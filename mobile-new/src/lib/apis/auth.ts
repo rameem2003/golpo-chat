@@ -1,6 +1,6 @@
 import { getCookies } from "../async-storage";
 import { API_URL } from "../constants";
-
+import { File } from "expo-file-system";
 // "use client";
 export const loginRequest = async (email: string, password: string) => {
   try {
@@ -70,24 +70,45 @@ export const findAdminModeratorAndUpdateRequest = async (
   }
 };
 
-export const userUpdateRequest = async (
-  name: string,
-  email: string,
-  address: string,
-  phone: string,
-) => {
+export const updateProfileAvatarRequest = async (avatar: any) => {
+  const { accessToken, refreshToken } = await getCookies();
+
+  const file = new File(avatar.uri);
+
+  const formData = new FormData();
+  formData.append("avatar", file);
   try {
     let res = await fetch(`${API_URL}/auth/update-profile`, {
       method: "PATCH",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "multipart/form-data",
+        Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
       },
-
-      body: JSON.stringify({ name, email, address, phone }),
+      body: formData,
     });
     return res.json();
   } catch (error: any) {
+    console.log(error);
+    throw new Error("Failed to update avatar: " + error.message);
+  }
+};
+
+export const userUpdateRequest = async (data: FormData) => {
+  const { accessToken, refreshToken } = await getCookies();
+  try {
+    let res = await fetch(`${API_URL}/auth/update-profile`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
+      },
+      body: data,
+    });
+    return res.json();
+  } catch (error: any) {
+    console.log(error);
     throw new Error("Failed to update user: " + error.message);
   }
 };

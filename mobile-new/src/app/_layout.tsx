@@ -31,7 +31,7 @@ function Layout() {
   });
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
     if (!loading) {
       setIsLoggedIn(!!user);
     }

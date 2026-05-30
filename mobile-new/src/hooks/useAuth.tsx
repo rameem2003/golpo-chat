@@ -5,11 +5,13 @@ import {
   resetPasswordRequest,
   resetPasswordTokenVerifyRequest,
   updateNotificationTokenRequest,
+  updateProfileAvatarRequest,
   userPasswordUpdateRequest,
   userRequest,
   userUpdateRequest,
 } from "@/lib/apis/auth";
 import { clearCookies, saveCookies } from "@/lib/async-storage";
+import { showToast } from "@/lib/toast";
 import { registerForPushNotificationsAsync } from "@/services/notification";
 import { connectSocket, disconnectSocket } from "@/socket/socket";
 // import socket from "@/lib/socket";
@@ -18,6 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { Platform } from "react-native";
 
 // Create Context
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -78,15 +81,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // update user
-  const updateUser = async (
-    name: string,
-    email: string,
-    address: string,
-    phone: string,
-  ) => {
+  const updateUser = async (data: any) => {
     try {
       setLoading(true);
-      let res = await userUpdateRequest(name, email, address, phone);
+      let res = await userUpdateRequest(data);
       if (!res.success) {
         setMsg(res.message);
         setLoading(false);
@@ -99,6 +97,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await getUser();
     } catch (error) {
       setMsg("Failed to update user");
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  // update profile avatar
+  const updateProfileAvatar = async (avatar: any) => {
+    try {
+      setLoading(true);
+      console.log(JSON.stringify(avatar, null, 2));
+
+      let res = await updateProfileAvatarRequest(avatar);
+      console.log("Res: " + res);
+
+      if (!res.success) {
+        setMsg(res.message);
+        setLoading(false);
+        showToast(res.message);
+        return;
+      }
+      showToast(res.message);
+      setMsg(res.message);
+      setLoading(false);
+      await getUser();
+    } catch (error) {
+      setMsg("Failed to update avatar");
       setLoading(false);
       console.log(error);
     }
@@ -212,6 +236,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       let res = await logoutRequest();
       // socket.disconnect();
       await clearCookies();
+      router.replace("/(auth)/login");
     } catch (error) {
       console.log(error);
     }
@@ -299,6 +324,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         getUser,
         updateUser,
+        updateProfileAvatar,
         updatePassword,
         verifyEmail,
         forgotPassword,

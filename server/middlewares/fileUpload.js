@@ -16,7 +16,7 @@ const createUploadMiddleware = ({ type }) => {
 
   if (type === "thumb") {
     allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
-    maxSize = 5 * 1024 * 1024; // 5MB
+    maxSize = 50 * 1024 * 1024; // 50MB
     folderName = "thumbnails";
   } else if (type === "avatar") {
     allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
