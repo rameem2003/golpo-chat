@@ -95,6 +95,6 @@ export interface FriendRequestContextType {
   fetchReceivedRequests: () => void;
   friendRequest: (receiverId: string) => Promise<void>;
   acceptRequest: (requestId: string) => Promise<void>;
-  // rejectRequest: (requestId: string) => Promise<void>;
+  rejectRequest: (requestId: string) => Promise<void>;
   // cancelRequest: (requestId: string) => Promise<void>;
 }

@@ -18,16 +18,6 @@ const router = require("express").Router();
 router.get("/friend-request/search", verifyAuthentication, findFriend);
 
 /**
- * Send friend request route
- * https://localhost:5000/api/v1/friend-request/send/:userId
- */
-router.post(
-  "/friend-request/send/:userId",
-  verifyAuthentication,
-  sendFriendRequest,
-);
-
-/**
  * Get sent friend requests route
  * https://localhost:5000/api/v1/friend-request/sent
  */
@@ -41,6 +31,16 @@ router.get(
   "/friend-request/received",
   verifyAuthentication,
   getReceivedFriendRequests,
+);
+
+/**
+ * Send friend request route
+ * https://localhost:5000/api/v1/friend-request/send/:userId
+ */
+router.post(
+  "/friend-request/send/:userId",
+  verifyAuthentication,
+  sendFriendRequest,
 );
 
 /**

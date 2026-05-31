@@ -64,8 +64,6 @@ const Notification = () => {
             style={{
               flexDirection: "row",
               justifyContent: "space-around",
-              //   marginTop: SIZE.lg,
-              //   backgroundColor: "red",
             }}
           >
             {/* each button have 50% width */}

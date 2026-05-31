@@ -94,3 +94,21 @@ export const acceptFriendRequest = async (requestId: string) => {
     throw new Error(error.message || "Failed to accept friend request");
   }
 };
+
+export const rejectFriendRequest = async (requestId: string) => {
+  const { accessToken, refreshToken } = await getCookies();
+  let headers = {
+    Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
+  };
+  try {
+    let res = await fetch(`${API_URL}/friend-request/reject/${requestId}`, {
+      method: "POST",
+      credentials: "include",
+      headers,
+    });
+    return res.json();
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.message || "Failed to reject friend request");
+  }
+};

@@ -50,6 +50,14 @@ const requestSend = async (pair, sender, receiver) => {
   }
 };
 
+const deleteFriendRequestPair = async (id) => {
+  try {
+    await friendRequestModel.findByIdAndDelete(id);
+  } catch (error) {
+    throw new Error("Error deleting friend request: " + error.message);
+  }
+};
+
 const getSentRequests = async (userId) => {
   try {
     return await friendRequestModel
@@ -88,4 +96,5 @@ module.exports = {
   getSentRequests,
   getReceivedRequests,
   findFriendRequestById,
+  deleteFriendRequestPair,
 };

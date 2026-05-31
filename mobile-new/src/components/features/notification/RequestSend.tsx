@@ -34,7 +34,7 @@ const SuggestedFriend = ({ user }: { user: FriendRequestSendType }) => {
         />
         <View>
           <Text style={[styles.chatName]}>{user.receiver.name}</Text>
-          <Text style={[styles.lastMessage]}>{user.receiver.email}</Text>
+          <Text style={[styles.lastMessage]}>Status: {user.status}</Text>
         </View>
       </View>
 
@@ -72,7 +72,7 @@ const RequestSend = () => {
 
   return (
     <View style={{ marginTop: SIZE.lg }}>
-      {/* {sentRequests.length === 0 ? (
+      {sentRequests.length === 0 ? (
         <Text style={{ color: theme.text, textAlign: "center", marginTop: 20 }}>
           No friend requests sent.
         </Text>
@@ -85,16 +85,16 @@ const RequestSend = () => {
           keyExtractor={(data) => data._id}
           renderItem={({ item }) => <SuggestedFriend user={item} />}
         />
-      )} */}
+      )}
 
-      <FlatList
+      {/* <FlatList
         refreshing={refreshing}
         onRefresh={handleRefresh}
         showsVerticalScrollIndicator={false}
         data={sentRequests}
         keyExtractor={(data) => data._id}
         renderItem={({ item }) => <SuggestedFriend user={item} />}
-      />
+      /> */}
     </View>
   );
 };

@@ -7,6 +7,7 @@ const {
   findFriendRequestByPair,
   findFriendRequestById,
   findFriendByName,
+  deleteFriendRequestPair,
 } = require("../services/friendRequest.service");
 const { createFriendship } = require("../services/friendShip.service");
 const { sendPushNotification } = require("../services/notification.service");
@@ -45,6 +46,8 @@ const sendFriendRequest = async (req, res) => {
     // Check if a friend request already exists
 
     const existFriendRequest = await findFriendRequestByPair(pair);
+    console.log(existFriendRequest);
+
     if (existFriendRequest) {
       if (existFriendRequest.status === "pending") {
         return res.status(400).send({
@@ -252,10 +255,12 @@ const rejectFriendRequest = async (req, res) => {
     }
 
     // update request status to rejected
-    friendRequest.status = "rejected";
-    friendRequest.actionBy = user;
+    // friendRequest.status = "rejected";
+    // friendRequest.actionBy = user;
 
-    await friendRequest.save();
+    // await friendRequest.save();
+
+    await deleteFriendRequestPair(requestId);
     const payload = {
       _id: friendRequest._id,
 

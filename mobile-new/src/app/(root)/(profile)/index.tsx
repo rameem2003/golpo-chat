@@ -3,10 +3,9 @@ import React from "react";
 import { CONTAINER_SIZE, SIZE } from "@/constants/Size";
 import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/hooks/useAuth";
-import User from "@/components/User";
 import { Ionicons } from "@expo/vector-icons";
+import { Link } from "expo-router";
 import ProfileImageUpdate from "@/components/features/profile/ProfileImageUpdate";
-import { Colors } from "@/constants/Colors";
 
 const index = () => {
   const { theme } = useTheme();
@@ -96,6 +95,38 @@ const index = () => {
             App Settings
           </Text>
 
+          <View style={{ marginVertical: SIZE.md }}>
+            <Link href={"/(root)/(home)"} style={{ marginBottom: SIZE.md }}>
+              <TouchableOpacity style={styles.appOption}>
+                <Ionicons name="color-palette" size={30} color={theme.text} />
+                <Text
+                  style={{
+                    fontSize: SIZE.md,
+                    color: theme.text,
+                    fontWeight: "500",
+                  }}
+                >
+                  Theme
+                </Text>
+              </TouchableOpacity>
+            </Link>
+
+            <TouchableOpacity
+              style={[styles.appOption, { marginBottom: SIZE.md }]}
+            >
+              <Ionicons name="notifications" size={30} color={theme.text} />
+              <Text
+                style={{
+                  fontSize: SIZE.md,
+                  color: theme.text,
+                  fontWeight: "500",
+                }}
+              >
+                Notification Permissions
+              </Text>
+            </TouchableOpacity>
+          </View>
+
           <View
             style={{
               marginVertical: SIZE.md,
@@ -155,6 +186,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#eeeeee36",
     width: "30%",
     // height: 50,
+  },
+
+  appOption: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: SIZE.xs,
+    borderRadius: SIZE.sm,
+    padding: SIZE.sm,
+    backgroundColor: "#eeeeee36",
   },
 
   logout: {

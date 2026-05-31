@@ -11,6 +11,7 @@ import {
   findFriendRequest,
   getRequestReceivedList,
   getRequestSentList,
+  rejectFriendRequest,
   sendFriendRequest,
 } from "@/lib/apis/friend";
 import { showToast } from "@/lib/toast";
@@ -125,6 +126,7 @@ export const FriendRequestProvider = ({
     }
   };
 
+  // accept friend request
   const acceptRequest = async (requestId: string) => {
     try {
       let res = await acceptFriendRequest(requestId);
@@ -140,6 +142,25 @@ export const FriendRequestProvider = ({
       setMsg("Failed to accept friend request");
       showToast("Failed to accept friend request");
       throw new Error("Failed to accept friend request");
+    }
+  };
+
+  // reject friend request
+  const rejectRequest = async (requestId: string) => {
+    try {
+      let res = await rejectFriendRequest(requestId);
+      if (!res.success) {
+        setMsg(res.message);
+        showToast(res.message);
+        return;
+      }
+      showToast("Friend request rejected");
+      updateRequestStatus(requestId, "rejected");
+    } catch (error) {
+      console.log(error);
+      setMsg("Failed to reject friend request");
+      showToast("Failed to reject friend request");
+      throw new Error("Failed to reject friend request");
     }
   };
 
@@ -262,6 +283,7 @@ export const FriendRequestProvider = ({
         fetchReceivedRequests,
         friendRequest,
         acceptRequest,
+        rejectRequest,
       }}
     >
       {children}

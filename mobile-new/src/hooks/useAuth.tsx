@@ -10,17 +10,15 @@ import {
   userRequest,
   userUpdateRequest,
 } from "@/lib/apis/auth";
-import { clearCookies, saveCookies } from "@/lib/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
+import { clearCookies } from "@/lib/async-storage";
 import { showToast } from "@/lib/toast";
 import { registerForPushNotificationsAsync } from "@/services/notification";
 import { connectSocket, disconnectSocket } from "@/socket/socket";
-// import socket from "@/lib/socket";
 import { AuthContextType, userType } from "@/types/type";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { Platform } from "react-native";
 
 // Create Context
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -105,25 +103,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // update profile avatar
   const updateProfileAvatar = async (avatar: any) => {
     try {
-      setLoading(true);
-      console.log(JSON.stringify(avatar, null, 2));
+      // setLoading(true);
+      // console.log(JSON.stringify(avatar, null, 2));
 
       let res = await updateProfileAvatarRequest(avatar);
       console.log("Res: " + res);
 
       if (!res.success) {
         setMsg(res.message);
-        setLoading(false);
+        // setLoading(false);
         showToast(res.message);
         return;
       }
       showToast(res.message);
       setMsg(res.message);
-      setLoading(false);
+      // setLoading(false);
       await getUser();
     } catch (error) {
       setMsg("Failed to update avatar");
-      setLoading(false);
+      // setLoading(false);
       console.log(error);
     }
   };

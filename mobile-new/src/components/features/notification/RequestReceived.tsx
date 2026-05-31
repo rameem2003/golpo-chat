@@ -15,15 +15,19 @@ import { Ionicons } from "@expo/vector-icons";
 
 const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
   const { theme } = useTheme();
-  const { acceptRequest } = useFriend();
+  const { acceptRequest, rejectRequest } = useFriend();
   const [isAccepting, setIsAccepting] = useState(false);
+  const [isRejecting, setIsRejecting] = useState(false);
 
   const handleAccept = async (id: string) => {
     setIsAccepting(true);
     await acceptRequest(id);
-    // setIsAccepting(false);
   };
-  // console.log(user);
+
+  const handleReject = async (id: string) => {
+    await rejectRequest(id);
+    setIsRejecting(true);
+  };
 
   return (
     <TouchableOpacity
@@ -42,27 +46,41 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
         />
         <View>
           <Text style={[styles.chatName]}>{user.sender.name.slice(0, 10)}</Text>
-          <Text style={[styles.lastMessage]}>{user.sender.email}</Text>
+          <Text style={[styles.lastMessage]}>Status: {user.status}</Text>
         </View>
       </View>
+      {!isRejecting && (
+        <View style={{ display: "flex", flexDirection: "row", gap: SIZE.xs }}>
+          <TouchableOpacity
+            style={{
+              // height: SIZE.lg,
+              // width: SIZE.lg,
+              padding: SIZE.sm,
+              // borderWidth: SIZE.xs,
+              borderColor: theme.overlay,
+              borderRadius: "100%",
+            }}
+            onPress={() => handleAccept(user._id)}
+          >
+            <Ionicons
+              name={isAccepting ? "checkmark-circle" : "person-add"}
+              size={30}
+              color={theme.text}
+            />
+          </TouchableOpacity>
 
-      <TouchableOpacity
-        style={{
-          // height: SIZE.lg,
-          // width: SIZE.lg,
-          padding: SIZE.sm,
-          // borderWidth: SIZE.xs,
-          borderColor: theme.overlay,
-          borderRadius: "100%",
-        }}
-        onPress={() => handleAccept(user._id)}
-      >
-        <Ionicons
-          name={isAccepting ? "checkmark-circle" : "person-add"}
-          size={30}
-          color={theme.text}
-        />
-      </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              padding: SIZE.sm,
+              borderColor: theme.overlay,
+              borderRadius: "100%",
+            }}
+            onPress={() => handleReject(user._id)}
+          >
+            <Ionicons name="close-circle" size={30} color={theme.text} />
+          </TouchableOpacity>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
