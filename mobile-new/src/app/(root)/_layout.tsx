@@ -18,12 +18,13 @@ const _layout = () => {
           headerStyle: {
             backgroundColor: theme.primary,
           },
-          // headerRight: () => {
-          //   return <Text>Hello</Text>;
-          // },
           headerTintColor: theme.text,
           tabBarStyle: {
-            display: pathname.startsWith("/chat") ? "none" : "flex",
+            display:
+              pathname.startsWith("/chat") ||
+              pathname.startsWith("/EditProfile")
+                ? "none"
+                : "flex",
             backgroundColor: theme.primary,
             paddingTop: SIZE.md,
             height: 90,

@@ -4,10 +4,11 @@ import { CONTAINER_SIZE, SIZE } from "@/constants/Size";
 import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import ProfileImageUpdate from "@/components/features/profile/ProfileImageUpdate";
 
 const index = () => {
+  const router = useRouter();
   const { theme } = useTheme();
   const { user, logout } = useAuth();
   return (
@@ -49,7 +50,10 @@ const index = () => {
               marginVertical: SIZE.md,
             }}
           >
-            <TouchableOpacity style={styles.accountOption}>
+            <TouchableOpacity
+              style={styles.accountOption}
+              onPress={() => router.push("/(root)/(profile)/EditProfile")}
+            >
               <Ionicons name="person" size={30} color={theme.text} />
               <Text
                 style={{
@@ -61,6 +65,7 @@ const index = () => {
                 Edit Profile
               </Text>
             </TouchableOpacity>
+
             <TouchableOpacity style={styles.accountOption}>
               <Ionicons name="key" size={30} color={theme.text} />
               <Text

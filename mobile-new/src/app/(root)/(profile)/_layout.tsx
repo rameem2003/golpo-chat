@@ -20,7 +20,7 @@ const _layout = () => {
           headerStyle: { backgroundColor: theme.primary },
         }}
       />
-      <Stack.Screen name="chat/[id]" />
+      <Stack.Screen name="EditProfile" />
     </Stack>
   );
 };

@@ -44,7 +44,8 @@ const Chat = () => {
             return <CharHeaderLeft user={filterUser!} />;
           },
           headerTitleAlign: "left",
-          headerBackVisible: false,
+          headerBackVisible: true,
+          headerTintColor: theme.text,
         }}
       />
       <KeyboardAvoidingView
