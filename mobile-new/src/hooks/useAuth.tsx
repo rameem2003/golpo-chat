@@ -11,7 +11,7 @@ import {
   userUpdateRequest,
 } from "@/lib/apis/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { clearCookies } from "@/lib/async-storage";
 import { showToast } from "@/lib/toast";
 import { registerForPushNotificationsAsync } from "@/services/notification";
@@ -24,6 +24,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
   const [msg, setMsg] = useState<string | null>("");
   const [user, setUser] = useState<userType | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -80,22 +81,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // update user
   const updateUser = async (data: any) => {
+    let formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("address", data.address);
     try {
-      setLoading(true);
-      let res = await userUpdateRequest(data);
+      // setLoading(true);
+      let res = await userUpdateRequest(formData);
       if (!res.success) {
         setMsg(res.message);
-        setLoading(false);
-        // toast.error(res.message);
+
+        showToast(res.message);
         return;
       }
-      //   toast.success(res.message);
+
+      showToast(res.message);
       setMsg(res.message);
-      setLoading(false);
-      await getUser();
+
+      await getUser(false);
     } catch (error) {
       setMsg("Failed to update user");
-      setLoading(false);
+      showToast("Failed to update user");
       console.log(error);
     }
   };
@@ -118,7 +125,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       showToast(res.message);
       setMsg(res.message);
       // setLoading(false);
-      await getUser();
+      await getUser(false);
     } catch (error) {
       setMsg("Failed to update avatar");
       // setLoading(false);
@@ -147,7 +154,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       //   toast.success(res.message);
       setMsg(res.message);
       setLoading(false);
-      await getUser();
+      await getUser(false);
     } catch (error) {
       setMsg("Failed to update user");
       setLoading(false);
@@ -241,14 +248,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // get user
-  const getUser = async () => {
-    // console.log(pathName);
+  const getUser = async (showLoading: boolean = true) => {
+    console.log("pathname: " + pathname);
 
-    setLoading(true);
+    // setLoading(true);
     try {
-      setLoading(true);
+      // if (pathname != "/EditProfile") {
+      //   setLoading(true);
+      // }
+
+      if (showLoading) {
+        setLoading(true);
+      }
       let res = await userRequest();
-      console.log(" Get user ", JSON.stringify(res));
+      // console.log(" Get user ", JSON.stringify(res));
 
       if (res.success) {
         setUser(res.data);
@@ -265,24 +278,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       //   router.push("/login");
     }
   };
-
-  // useEffect(() => {
-  //   getUser();
-
-  //   socket.on("user:online", ({ userId }) => {
-  //     console.log(userId, "online");
-  //   });
-
-  //   socket.on("user:offline", ({ userId }) => {
-  //     console.log(userId, "offline");
-  //   });
-
-  //   return () => {
-  //     socket.off("user:online");
-
-  //     socket.off("user:offline");
-  //   };
-  // }, []);
 
   useEffect(() => {
     // const bootstrap = async () => {
