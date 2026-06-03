@@ -22,7 +22,8 @@ const _layout = () => {
           tabBarStyle: {
             display:
               pathname.startsWith("/chat") ||
-              pathname.startsWith("/EditProfile")
+              pathname.startsWith("/EditProfile") ||
+              pathname.startsWith("/UpdatePassword")
                 ? "none"
                 : "flex",
             backgroundColor: theme.primary,

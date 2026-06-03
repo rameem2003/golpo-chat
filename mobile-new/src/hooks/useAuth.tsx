@@ -110,9 +110,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // update profile avatar
   const updateProfileAvatar = async (avatar: any) => {
     try {
-      // setLoading(true);
-      // console.log(JSON.stringify(avatar, null, 2));
-
       let res = await updateProfileAvatarRequest(avatar);
       console.log("Res: " + res);
 
@@ -124,11 +121,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       showToast(res.message);
       setMsg(res.message);
-      // setLoading(false);
       await getUser(false);
     } catch (error) {
       setMsg("Failed to update avatar");
-      // setLoading(false);
       console.log(error);
     }
   };
@@ -139,7 +134,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     confirmPassword: string,
   ) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       let res = await userPasswordUpdateRequest(
         oldPassword,
         newPassword,
@@ -147,15 +142,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
       if (!res.success) {
         setMsg(res.message);
-        setLoading(false);
-        // toast.error(res.message);
+        // setLoading(false);
+        showToast(res.message);
         return;
       }
-      //   toast.success(res.message);
+      showToast(res.message);
       setMsg(res.message);
       setLoading(false);
       await getUser(false);
     } catch (error) {
+      showToast("Failed to update user");
       setMsg("Failed to update user");
       setLoading(false);
       console.log(error);

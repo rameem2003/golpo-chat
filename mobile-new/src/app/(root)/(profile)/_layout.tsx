@@ -21,6 +21,7 @@ const _layout = () => {
         }}
       />
       <Stack.Screen name="EditProfile" />
+      <Stack.Screen name="UpdatePassword" />
     </Stack>
   );
 };

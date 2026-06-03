@@ -1,4 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Linking,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import { CONTAINER_SIZE, SIZE } from "@/constants/Size";
 import { useTheme } from "@/hooks/useTheme";
@@ -66,7 +73,10 @@ const index = () => {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.accountOption}>
+            <TouchableOpacity
+              style={styles.accountOption}
+              onPress={() => router.push("/(root)/(profile)/UpdatePassword")}
+            >
               <Ionicons name="key" size={30} color={theme.text} />
               <Text
                 style={{
@@ -117,6 +127,13 @@ const index = () => {
             </Link>
 
             <TouchableOpacity
+              onPress={() => {
+                if (Platform.OS === "ios") {
+                  Linking.openURL("app-settings:");
+                } else {
+                  Linking.openSettings();
+                }
+              }}
               style={[styles.appOption, { marginBottom: SIZE.md }]}
             >
               <Ionicons name="notifications" size={30} color={theme.text} />

@@ -3,10 +3,12 @@ import {
   Text,
   TextInput,
   TextInputProps,
+  TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SIZE } from "@/constants/Size";
+import { Ionicons } from "@expo/vector-icons";
 
 interface TextInputComponentProps extends TextInputProps {
   style?: TextInputProps["style"];
@@ -22,6 +24,28 @@ const TextInputComponent = ({
   secureTextEntry = false,
   ...props
 }: TextInputComponentProps) => {
+  const [visible, setVisible] = useState(true);
+
+  if (secureTextEntry) {
+    return (
+      <View style={{ position: "relative" }}>
+        <TextInput
+          {...props}
+          secureTextEntry={visible}
+          style={[styles.input, style]}
+          placeholder={placeholder}
+          placeholderTextColor={placeholderTextColor}
+        />
+        <TouchableOpacity
+          onPress={() => setVisible(!visible)}
+          style={{ position: "absolute", right: 10, top: 15 }}
+        >
+          <Ionicons name={visible ? "eye-off" : "eye"} size={24} color="#Fff" />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <TextInput
       {...props}
