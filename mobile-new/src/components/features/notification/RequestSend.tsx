@@ -12,9 +12,10 @@ import { SIZE } from "@/constants/Size";
 import { FriendRequestSendType } from "@/types/type";
 import User from "@/components/User";
 import { Ionicons } from "@expo/vector-icons";
+import { Colors } from "@/constants/Colors";
 
 const SuggestedFriend = ({ user }: { user: FriendRequestSendType }) => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   // console.log();
 
   return (
@@ -33,8 +34,23 @@ const SuggestedFriend = ({ user }: { user: FriendRequestSendType }) => {
           contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
         />
         <View>
-          <Text style={[styles.chatName]}>{user.receiver.name}</Text>
-          <Text style={[styles.lastMessage]}>Status: {user.status}</Text>
+          <Text
+            style={{
+              color: isDark ? Colors.light.primary : Colors.dark.primary,
+              fontSize: SIZE.md,
+            }}
+          >
+            {user.receiver.name}
+          </Text>
+          <Text
+            style={{
+              color: isDark ? Colors.light.primary : Colors.dark.primary,
+
+              fontSize: 14,
+            }}
+          >
+            Status: {user.status}
+          </Text>
         </View>
       </View>
 
@@ -48,14 +64,18 @@ const SuggestedFriend = ({ user }: { user: FriendRequestSendType }) => {
           borderRadius: "100%",
         }}
       >
-        <Ionicons name="checkbox" size={30} color={theme.text} />
+        <Ionicons
+          name="checkbox"
+          size={30}
+          color={isDark ? Colors.light.primary : Colors.dark.primary}
+        />
       </TouchableOpacity>
     </TouchableOpacity>
   );
 };
 
 const RequestSend = () => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const [refreshing, setRefreshing] = useState(false);
   const { sentRequests, fetchSentRequests } = useFriend();
   console.log(sentRequests);
@@ -73,7 +93,13 @@ const RequestSend = () => {
   return (
     <View style={{ marginTop: SIZE.lg }}>
       {sentRequests.length === 0 ? (
-        <Text style={{ color: theme.text, textAlign: "center", marginTop: 20 }}>
+        <Text
+          style={{
+            color: isDark ? Colors.light.primary : Colors.dark.primary,
+            textAlign: "center",
+            marginTop: 20,
+          }}
+        >
           No friend requests sent.
         </Text>
       ) : (
@@ -109,13 +135,5 @@ const styles = StyleSheet.create({
     gap: SIZE.md,
     alignItems: "center",
     justifyContent: "center",
-  },
-  chatName: {
-    color: "#FFF",
-    fontSize: 20,
-  },
-  lastMessage: {
-    fontSize: 14,
-    color: "#FFFFFF",
   },
 });

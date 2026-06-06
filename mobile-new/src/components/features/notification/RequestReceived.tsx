@@ -12,9 +12,10 @@ import { FriendRequestReceiveType } from "@/types/type";
 import { SIZE } from "@/constants/Size";
 import User from "@/components/User";
 import { Ionicons } from "@expo/vector-icons";
+import { Colors } from "@/constants/Colors";
 
 const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { acceptRequest, rejectRequest } = useFriend();
   const [isAccepting, setIsAccepting] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
@@ -45,8 +46,23 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
           contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
         />
         <View>
-          <Text style={[styles.chatName]}>{user.sender.name.slice(0, 10)}</Text>
-          <Text style={[styles.lastMessage]}>Status: {user.status}</Text>
+          <Text
+            style={{
+              color: isDark ? Colors.light.primary : Colors.dark.primary,
+              fontSize: SIZE.md,
+            }}
+          >
+            {user.sender.name.slice(0, 10)}
+          </Text>
+          <Text
+            style={{
+              color: isDark ? Colors.light.primary : Colors.dark.primary,
+
+              fontSize: 14,
+            }}
+          >
+            Status: {user.status}
+          </Text>
         </View>
       </View>
       {!isRejecting && (
@@ -65,7 +81,7 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
             <Ionicons
               name={isAccepting ? "checkmark-circle" : "person-add"}
               size={30}
-              color={theme.text}
+              color={isDark ? Colors.light.primary : Colors.dark.primary}
             />
           </TouchableOpacity>
 
@@ -77,7 +93,11 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
             }}
             onPress={() => handleReject(user._id)}
           >
-            <Ionicons name="close-circle" size={30} color={theme.text} />
+            <Ionicons
+              name="close-circle"
+              size={30}
+              color={isDark ? Colors.light.primary : Colors.dark.primary}
+            />
           </TouchableOpacity>
         </View>
       )}
@@ -87,7 +107,7 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
 
 const RequestReceived = () => {
   const [refreshing, setRefreshing] = useState(false);
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { receivedRequests, fetchReceivedRequests } = useFriend();
   console.log(receivedRequests);
 
@@ -104,7 +124,13 @@ const RequestReceived = () => {
   return (
     <View style={{ marginTop: SIZE.lg }}>
       {receivedRequests.length === 0 ? (
-        <Text style={{ color: theme.text, textAlign: "center", marginTop: 20 }}>
+        <Text
+          style={{
+            color: isDark ? Colors.light.primary : Colors.dark.primary,
+            textAlign: "center",
+            marginTop: 20,
+          }}
+        >
           No friend requests received.
         </Text>
       ) : (

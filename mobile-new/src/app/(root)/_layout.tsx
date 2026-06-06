@@ -5,9 +5,10 @@ import { useTheme } from "@/hooks/useTheme";
 import { Ionicons } from "@expo/vector-icons";
 import { SIZE } from "@/constants/Size";
 import { FriendRequestProvider } from "@/hooks/useFriend";
+import { Colors } from "@/constants/Colors";
 const _layout = () => {
   const pathname = usePathname();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
 
   console.log(pathname);
   return (
@@ -18,7 +19,7 @@ const _layout = () => {
           headerStyle: {
             backgroundColor: theme.primary,
           },
-          headerTintColor: theme.text,
+          headerTintColor: isDark ? Colors.light.surface : Colors.dark.surface,
           tabBarStyle: {
             display:
               pathname.startsWith("/chat") ||
@@ -26,12 +27,14 @@ const _layout = () => {
               pathname.startsWith("/UpdatePassword")
                 ? "none"
                 : "flex",
-            backgroundColor: theme.primary,
+            backgroundColor: theme.surface,
             paddingTop: SIZE.md,
             height: 90,
           },
-          tabBarActiveTintColor: "#fff",
-          tabBarInactiveTintColor: "#fff",
+          tabBarActiveTintColor: theme.key,
+          tabBarInactiveTintColor: isDark
+            ? Colors.light.surface
+            : Colors.dark.surface,
         }}
       >
         <Tabs.Screen

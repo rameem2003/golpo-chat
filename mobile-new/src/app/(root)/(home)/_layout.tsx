@@ -5,10 +5,11 @@ import { FONTS } from "@/constants/Fonts";
 import { useTheme } from "@/hooks/useTheme";
 import User from "@/components/User";
 import { useAuth } from "@/hooks/useAuth";
+import { Colors } from "@/constants/Colors";
 
 const _layout = () => {
   const router = useRouter();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { user, logout } = useAuth();
   return (
     <Stack screenOptions={{ animation: "slide_from_right" }}>
@@ -18,10 +19,10 @@ const _layout = () => {
           title: "Chats",
           headerTitleStyle: {
             fontFamily: FONTS.StalinistOne,
-            color: "#fff",
+            color: isDark ? Colors.light.surface : Colors.dark.surface,
           },
           headerShadowVisible: false,
-          headerStyle: { backgroundColor: theme.primary },
+          headerStyle: { backgroundColor: theme.surface },
           headerRight: () => {
             return (
               <>

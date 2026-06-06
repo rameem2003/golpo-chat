@@ -1,12 +1,9 @@
-import { useTheme } from "@/hooks/useTheme";
 import { Stack } from "expo-router";
-import { Text } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import Splash from "@/components/Splash";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
-import { FriendRequestProvider } from "@/hooks/useFriend";
 import { registerForPushNotificationsAsync } from "@/services/notification";
 import * as Notifications from "expo-notifications";
 

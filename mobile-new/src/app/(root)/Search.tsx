@@ -20,9 +20,10 @@ import { useFriend } from "@/hooks/useFriend";
 import { chatUserType } from "@/types/type";
 import User from "@/components/User";
 import { Ionicons } from "@expo/vector-icons";
+import { Colors } from "@/constants/Colors";
 
 const SuggestedFriend = ({ user }: { user: chatUserType }) => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { friendRequest } = useFriend();
   // console.log();
 
@@ -39,40 +40,56 @@ const SuggestedFriend = ({ user }: { user: chatUserType }) => {
       <View style={[styles.innerContent]}>
         <User
           user={user}
-          contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
+          contentStyle={{ height: SIZE.xxl, width: SIZE.xxl }}
         />
         <View>
-          <Text style={[styles.chatName]}>{user.name.slice(0, 5)}</Text>
-          <Text style={[styles.lastMessage]}>{user.email}</Text>
+          <Text
+            style={{
+              color: isDark ? Colors.light.primary : Colors.dark.primary,
+              fontSize: SIZE.md,
+            }}
+          >
+            {user.name.slice(0, 5)}
+          </Text>
+          <Text
+            style={{
+              color: isDark ? Colors.light.primary : Colors.dark.primary,
+
+              fontSize: 14,
+            }}
+          >
+            {user.email}
+          </Text>
         </View>
       </View>
 
       <TouchableOpacity
         onPress={() => friendRequest(user._id)}
         style={{
-          // height: SIZE.lg,
-          // width: SIZE.lg,
           padding: SIZE.sm,
-          // borderWidth: SIZE.xs,
           borderColor: theme.overlay,
           borderRadius: "100%",
         }}
       >
-        <Ionicons name="add-circle-sharp" size={30} color={theme.text} />
+        <Ionicons
+          name="add-circle-sharp"
+          size={30}
+          color={isDark ? Colors.light.primary : Colors.dark.primary}
+        />
       </TouchableOpacity>
     </TouchableOpacity>
   );
 };
 
 const Search = () => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { loading, search } = useFriend();
   return (
     <>
       <Stack.Screen
         options={{
           headerStyle: {
-            backgroundColor: theme.primary,
+            backgroundColor: theme.surface,
           },
           headerTitle: () => {
             return (
@@ -81,7 +98,7 @@ const Search = () => {
                   style={{
                     fontSize: SIZE.lg,
                     fontFamily: FONTS.StalinistOne,
-                    color: "#fff",
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                   }}
                 >
                   Search
@@ -102,14 +119,14 @@ const Search = () => {
           style={[
             styles.container,
             CONTAINER_SIZE,
-            { backgroundColor: theme.primary },
+            { backgroundColor: theme.surface },
           ]}
           onPress={Keyboard.dismiss}
         >
           <SearchComponent />
           <Text
             style={{
-              color: theme.text,
+              color: isDark ? Colors.light.surface : Colors.dark.surface,
               marginBottom: SIZE.lg,
             }}
           >
@@ -117,14 +134,29 @@ const Search = () => {
           </Text>
           {loading && (
             <View style={{ alignItems: "center", marginTop: SIZE.lg }}>
-              <ActivityIndicator size="large" color={theme.text} />
-              <Text style={{ color: theme.text }}>Loading....</Text>
+              <ActivityIndicator
+                size="large"
+                color={isDark ? Colors.light.primary : Colors.dark.primary}
+              />
+              <Text
+                style={{
+                  color: isDark ? Colors.light.primary : Colors.dark.primary,
+                }}
+              >
+                Loading....
+              </Text>
             </View>
           )}
 
           {!loading && search.length === 0 && (
             <View style={{ alignItems: "center", marginTop: SIZE.lg }}>
-              <Text style={{ color: theme.text }}>No result found</Text>
+              <Text
+                style={{
+                  color: isDark ? Colors.light.primary : Colors.dark.primary,
+                }}
+              >
+                No result found
+              </Text>
             </View>
           )}
 

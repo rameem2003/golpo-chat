@@ -15,12 +15,14 @@ import { useTheme } from "@/hooks/useTheme";
 import { FONTS } from "@/constants/Fonts";
 import { Link } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
+import BrandLogo from "@/components/ui/BrandLogo";
+import { Colors } from "@/constants/Colors";
 
 const login = () => {
   const { login, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
 
   const handleLogin = async () => {
     await login(email, password);
@@ -31,35 +33,47 @@ const login = () => {
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={[styles.container, { backgroundColor: theme.primary }]}>
+      <View style={[styles.container, { backgroundColor: theme.surface }]}>
         <View style={styles.logo}>
-          <Text style={[styles.logoText]}>Golpo</Text>
-          <Text style={[styles.subText]}>Chat</Text>
+          <BrandLogo />
         </View>
 
         <View
-          style={[
-            styles.formContainer,
-            { backgroundColor: theme.primaryLight },
-          ]}
+          style={[styles.formContainer, { backgroundColor: theme.primary }]}
         >
-          <Text style={[styles.formText, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.formText,
+              { color: isDark ? Colors.light.surface : Colors.dark.surface },
+            ]}
+          >
             Login Here
           </Text>
 
           <View style={{ marginTop: SIZE.xl }}>
             <View style={{ marginBottom: SIZE.lg }}>
-              <Text style={[styles.label, { color: theme.text }]}>Email</Text>
+              <Text
+                style={[
+                  styles.label,
+                  {
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  },
+                ]}
+              >
+                Email
+              </Text>
 
               <TextInput
                 onChangeText={(text) => setEmail(text)}
                 placeholder="Enter your email"
-                placeholderTextColor={theme.text}
+                placeholderTextColor={
+                  isDark ? Colors.light.surface : Colors.dark.surface
+                }
                 style={[
                   styles.input,
                   {
                     backgroundColor: theme.overlay,
-                    color: theme.text,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     borderColor: theme.primary,
                   },
                 ]}
@@ -67,7 +81,14 @@ const login = () => {
             </View>
 
             <View style={{ marginBottom: SIZE.lg }}>
-              <Text style={[styles.label, { color: theme.text }]}>
+              <Text
+                style={[
+                  styles.label,
+                  {
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  },
+                ]}
+              >
                 Password
               </Text>
 
@@ -75,12 +96,14 @@ const login = () => {
                 onChangeText={(text) => setPassword(text)}
                 secureTextEntry
                 placeholder="Enter your password"
-                placeholderTextColor={theme.text}
+                placeholderTextColor={
+                  isDark ? Colors.light.surface : Colors.dark.surface
+                }
                 style={[
                   styles.input,
                   {
                     backgroundColor: theme.overlay,
-                    color: theme.text,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     borderColor: theme.primary,
                   },
                 ]}
@@ -94,7 +117,7 @@ const login = () => {
               onPress={handleLogin}
               style={({ pressed }) => [
                 styles.btn,
-                { backgroundColor: theme.primary, opacity: pressed ? 0.8 : 1 },
+                { backgroundColor: theme.key, opacity: pressed ? 0.8 : 1 },
               ]}
             >
               {loading ? (
@@ -133,17 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     color: "#fff",
   },
-  subText: {
-    fontSize: SIZE.md,
-    fontFamily: FONTS.StalinistOne,
-    textAlign: "right",
-    color: "#fff",
-  },
-  logoText: {
-    fontSize: SIZE.xxl,
-    fontFamily: FONTS.StalinistOne,
-    color: "#fff",
-  },
+
   formContainer: {
     flex: 3,
     borderTopLeftRadius: SIZE.xl,

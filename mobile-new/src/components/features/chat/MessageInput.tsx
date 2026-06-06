@@ -11,7 +11,7 @@ const MessageInput = () => {
       style={[
         CONTAINER_SIZE,
         styles.container,
-        { backgroundColor: theme.chatSender },
+        { backgroundColor: theme.primary },
       ]}
     >
       <TextInput
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     gap: 10,
-    paddingVertical: 8,
+    paddingVertical: 12,
     borderTopLeftRadius: SIZE.md,
     borderTopRightRadius: SIZE.md,
   },

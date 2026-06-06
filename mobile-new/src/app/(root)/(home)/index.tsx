@@ -17,7 +17,7 @@ export default function Index() {
       style={[
         styles.container,
         CONTAINER_SIZE,
-        { backgroundColor: theme.primary },
+        { backgroundColor: theme.surface },
       ]}
     >
       {/* <Link href={"/(root)/(home)/chat/[id]"}>GO</Link> */}

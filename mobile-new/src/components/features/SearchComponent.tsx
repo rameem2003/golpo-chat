@@ -4,10 +4,11 @@ import { SIZE } from "@/constants/Size";
 import { useTheme } from "@/hooks/useTheme";
 import { Ionicons } from "@expo/vector-icons";
 import { useFriend } from "@/hooks/useFriend";
+import { Colors } from "@/constants/Colors";
 
 const SearchComponent = () => {
   const { findFriend, search } = useFriend();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
 
   // debounced value
@@ -40,14 +41,19 @@ const SearchComponent = () => {
       <Ionicons
         name="search"
         size={25}
-        color={theme.text}
+        color={isDark ? Colors.light.primary : Colors.dark.primary}
         style={styles.searchIcon}
       />
       <TextInput
-        placeholderTextColor={theme.text}
+        placeholderTextColor={
+          isDark ? Colors.light.primary : Colors.dark.primary
+        }
         style={[
           styles.textInput,
-          { backgroundColor: theme.overlay, color: theme.text },
+          {
+            backgroundColor: theme.overlay,
+            color: isDark ? Colors.light.primary : Colors.dark.primary,
+          },
         ]}
         placeholder="Search Here......."
         value={searchQuery}
@@ -66,7 +72,6 @@ const styles = StyleSheet.create({
   textInput: {
     width: "100%",
     padding: SIZE.md,
-    color: "#FFF",
     borderRadius: SIZE.xl,
     paddingLeft: SIZE.xxl,
   },

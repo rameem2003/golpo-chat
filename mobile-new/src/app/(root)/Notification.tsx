@@ -15,16 +15,17 @@ import { CONTAINER_SIZE, SIZE } from "@/constants/Size";
 import { FONTS } from "@/constants/Fonts";
 import RequestReceived from "@/components/features/notification/RequestReceived";
 import RequestSend from "@/components/features/notification/RequestSend";
+import { Colors } from "@/constants/Colors";
 
 const Notification = () => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<"received" | "sent">("received");
   return (
     <>
       <Stack.Screen
         options={{
           headerStyle: {
-            backgroundColor: theme.primary,
+            backgroundColor: theme.surface,
           },
           headerTitle: () => {
             return (
@@ -33,7 +34,7 @@ const Notification = () => {
                   style={{
                     fontSize: SIZE.lg,
                     fontFamily: FONTS.StalinistOne,
-                    color: "#fff",
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                   }}
                 >
                   Notifications
@@ -55,7 +56,7 @@ const Notification = () => {
           style={[
             styles.container,
             CONTAINER_SIZE,
-            { backgroundColor: theme.primary },
+            { backgroundColor: theme.surface },
           ]}
           onPress={Keyboard.dismiss}
         >
@@ -78,7 +79,12 @@ const Notification = () => {
               }}
               onPress={() => setActiveTab("received")}
             >
-              <Text style={{ fontWeight: "bold", color: "#fff" }}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  color: isDark ? Colors.light.primary : Colors.dark.primary,
+                }}
+              >
                 Request Received
               </Text>
             </TouchableOpacity>
@@ -93,7 +99,12 @@ const Notification = () => {
               }}
               onPress={() => setActiveTab("sent")}
             >
-              <Text style={{ fontWeight: "bold", color: "#fff" }}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  color: isDark ? Colors.light.primary : Colors.dark.primary,
+                }}
+              >
                 Request Sent
               </Text>
             </TouchableOpacity>

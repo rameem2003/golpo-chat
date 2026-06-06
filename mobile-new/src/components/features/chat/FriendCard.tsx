@@ -4,8 +4,11 @@ import { userType } from "@/constants/Types";
 import { SIZE } from "@/constants/Size";
 import User from "@/components/User";
 import { Link, useRouter } from "expo-router";
+import { useTheme } from "@/hooks/useTheme";
+import { Colors } from "@/constants/Colors";
 
 const FriendCard = ({ user }: { user: userType }) => {
+  const { theme, isDark } = useTheme();
   const router = useRouter();
 
   const gotoChat = (id: string) => {
@@ -13,7 +16,9 @@ const FriendCard = ({ user }: { user: userType }) => {
   };
 
   return (
-    <TouchableOpacity style={[styles.container]}>
+    <TouchableOpacity
+      style={[styles.container, { backgroundColor: theme.primary }]}
+    >
       <Link
         href={{ pathname: "/(root)/(home)/chat/[id]", params: { id: user.id } }}
       >
@@ -23,8 +28,23 @@ const FriendCard = ({ user }: { user: userType }) => {
             contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
           />
           <View>
-            <Text style={[styles.chatName]}>{user.name}</Text>
-            <Text style={[styles.lastMessage]}>{user.lastMessage}</Text>
+            <Text
+              style={{
+                color: isDark ? Colors.light.primary : Colors.dark.primary,
+                fontSize: SIZE.md,
+              }}
+            >
+              {user.name}
+            </Text>
+            <Text
+              style={{
+                color: isDark ? Colors.light.primary : Colors.dark.primary,
+
+                fontSize: 14,
+              }}
+            >
+              {user?.lastMessage}
+            </Text>
           </View>
         </View>
       </Link>
@@ -43,6 +63,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: SIZE.sm,
+    padding: SIZE.sm,
+    borderRadius: SIZE.sm,
   },
   innerContent: {
     // flex: 1,
@@ -51,13 +73,5 @@ const styles = StyleSheet.create({
     gap: SIZE.md,
     alignItems: "center",
     justifyContent: "center",
-  },
-  chatName: {
-    color: "#FFF",
-    fontSize: 20,
-  },
-  lastMessage: {
-    fontSize: 14,
-    color: "#FFFFFF",
   },
 });

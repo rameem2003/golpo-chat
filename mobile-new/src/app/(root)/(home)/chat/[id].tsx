@@ -15,9 +15,10 @@ import { dummyUser } from "@/constants/dummyData";
 import { CONTAINER_SIZE } from "@/constants/Size";
 import CharHeaderLeft from "@/components/features/chat/CharHeaderLeft";
 import MessageInput from "@/components/features/chat/MessageInput";
+import { Colors } from "@/constants/Colors";
 
 const Chat = () => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { id } = useLocalSearchParams();
   // console.log(id);
   const filterUser = dummyUser.find((user) => user.id == id);
@@ -45,7 +46,7 @@ const Chat = () => {
           },
           headerTitleAlign: "left",
           headerBackVisible: true,
-          headerTintColor: theme.text,
+          headerTintColor: isDark ? Colors.light.surface : Colors.dark.surface,
         }}
       />
       <KeyboardAvoidingView
@@ -54,10 +55,10 @@ const Chat = () => {
         keyboardVerticalOffset={90}
       >
         <Pressable
-          style={[styles.container, { backgroundColor: theme.primary }]}
+          style={[styles.container, { backgroundColor: theme.surface }]}
           onPress={Keyboard.dismiss}
         >
-          <View style={[styles.container, { backgroundColor: theme.primary }]}>
+          <View style={[styles.container, { backgroundColor: theme.surface }]}>
             <View style={[styles.chats, CONTAINER_SIZE]}>
               <Text>Chat</Text>
               <Button title="Go Back" onPress={ping} />
@@ -82,6 +83,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   input: {
-    minHeight: 60,
+    minHeight: 80,
   },
 });
