@@ -1,5 +1,6 @@
 const getPair = require("../lib/frindshipPair");
 const { findUserById } = require("../services/auth.service");
+const { createPrivateChat } = require("../services/chat.service");
 const {
   requestSend,
   getSentRequests,
@@ -180,6 +181,9 @@ const acceptFriendRequest = async (req, res) => {
 
     // create friendship
     await createFriendship(friendRequest.user1, friendRequest.user2);
+
+    // create a private chat for the new friends
+    await createPrivateChat(friendRequest.sender, friendRequest.receiver);
 
     const payload = {
       _id: friendRequest._id,

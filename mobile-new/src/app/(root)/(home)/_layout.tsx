@@ -24,11 +24,7 @@ const _layout = () => {
           headerShadowVisible: false,
           headerStyle: { backgroundColor: theme.surface },
           headerRight: () => {
-            return (
-              <>
-                <User user={user} />
-              </>
-            );
+            return <User user={user} />;
           },
         }}
       />

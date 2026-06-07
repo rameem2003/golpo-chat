@@ -3,9 +3,10 @@ import React from "react";
 import { Stack } from "expo-router";
 import { FONTS } from "@/constants/Fonts";
 import { useTheme } from "@/hooks/useTheme";
+import { Colors } from "@/constants/Colors";
 
 const _layout = () => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   return (
     <Stack screenOptions={{ animation: "slide_from_right" }}>
       <Stack.Screen
@@ -14,10 +15,10 @@ const _layout = () => {
           title: "Profile",
           headerTitleStyle: {
             fontFamily: FONTS.StalinistOne,
-            color: "#fff",
+            color: isDark ? Colors.light.surface : Colors.dark.surface,
           },
           headerShadowVisible: false,
-          headerStyle: { backgroundColor: theme.primary },
+          headerStyle: { backgroundColor: theme.surface },
         }}
       />
       <Stack.Screen name="EditProfile" />

@@ -20,9 +20,9 @@ import { Colors } from "@/constants/Colors";
 const Chat = () => {
   const { theme, isDark } = useTheme();
   const { id } = useLocalSearchParams();
-  // console.log(id);
   const filterUser = dummyUser.find((user) => user.id == id);
-  // console.log(filter);
+
+  const dummyMessages = [];
 
   const ping = async () => {
     try {

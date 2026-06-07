@@ -13,10 +13,11 @@ import { FONTS } from "@/constants/Fonts";
 import { CONTAINER_SIZE, SIZE } from "@/constants/Size";
 import TextInputComponent from "@/components/ui/TextInputComponent";
 import { useAuth } from "@/hooks/useAuth";
+import { Colors } from "@/constants/Colors";
 
 const EditProfile = () => {
   const { user, updateUser } = useAuth();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const {
     control,
     handleSubmit,
@@ -47,12 +48,12 @@ const EditProfile = () => {
           title: "Edit Profile",
           headerTitleStyle: {
             fontFamily: FONTS.StalinistOne,
-            color: "#fff",
+            color: isDark ? Colors.light.surface : Colors.dark.surface,
           },
 
-          headerTintColor: theme.text,
+          headerTintColor: isDark ? Colors.light.surface : Colors.dark.surface,
           headerShadowVisible: false,
-          headerStyle: { backgroundColor: theme.primary },
+          headerStyle: { backgroundColor: theme.surface },
           headerRight: () => {
             return (
               <TouchableOpacity
@@ -61,7 +62,7 @@ const EditProfile = () => {
               >
                 <Text
                   style={{
-                    color: theme.text,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     fontWeight: "bold",
                     fontSize: SIZE.md,
                   }}
@@ -78,7 +79,7 @@ const EditProfile = () => {
           style={[
             styles.container,
             CONTAINER_SIZE,
-            { backgroundColor: theme.primary },
+            { backgroundColor: theme.surface },
           ]}
         >
           <View>
@@ -93,17 +94,24 @@ const EditProfile = () => {
                   value={value}
                   onChangeText={onChange}
                   placeholder="Your New Name"
-                  placeholderTextColor={theme.text}
+                  placeholderTextColor={
+                    isDark ? Colors.light.surface : Colors.dark.surface
+                  }
                   style={{
-                    borderColor: theme.text,
-                    color: theme.text,
+                    borderColor: theme.key,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
                 />
               )}
             />
             {errors.name && (
-              <Text style={{ color: theme.text, marginBottom: SIZE.md }}>
+              <Text
+                style={{
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  marginBottom: SIZE.md,
+                }}
+              >
                 {errors.name.message}
               </Text>
             )}
@@ -121,17 +129,24 @@ const EditProfile = () => {
                   value={value}
                   onChangeText={onChange}
                   placeholder="Your New Email"
-                  placeholderTextColor={theme.text}
+                  placeholderTextColor={
+                    isDark ? Colors.light.surface : Colors.dark.surface
+                  }
                   style={{
-                    borderColor: theme.text,
-                    color: theme.text,
+                    borderColor: theme.key,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
                 />
               )}
             />
             {errors.email && (
-              <Text style={{ color: theme.text, marginBottom: SIZE.md }}>
+              <Text
+                style={{
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  marginBottom: SIZE.md,
+                }}
+              >
                 {errors.email.message}
               </Text>
             )}
@@ -146,17 +161,24 @@ const EditProfile = () => {
                   value={value}
                   onChangeText={onChange}
                   placeholder="Your New Phone Number"
-                  placeholderTextColor={theme.text}
+                  placeholderTextColor={
+                    isDark ? Colors.light.surface : Colors.dark.surface
+                  }
                   style={{
-                    borderColor: theme.text,
-                    color: theme.text,
+                    borderColor: theme.key,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
                 />
               )}
             />
             {errors.phone && (
-              <Text style={{ color: theme.text, marginBottom: SIZE.md }}>
+              <Text
+                style={{
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  marginBottom: SIZE.md,
+                }}
+              >
                 {errors.phone.message}
               </Text>
             )}
@@ -171,17 +193,24 @@ const EditProfile = () => {
                   value={value}
                   onChangeText={onChange}
                   placeholder="Your New Address"
-                  placeholderTextColor={theme.text}
+                  placeholderTextColor={
+                    isDark ? Colors.light.surface : Colors.dark.surface
+                  }
                   style={{
-                    borderColor: theme.text,
-                    color: theme.text,
+                    borderColor: theme.key,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
                 />
               )}
             />
             {errors.address && (
-              <Text style={{ color: theme.text, marginBottom: SIZE.md }}>
+              <Text
+                style={{
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  marginBottom: SIZE.md,
+                }}
+              >
                 {errors.address.message}
               </Text>
             )}

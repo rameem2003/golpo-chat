@@ -1,6 +1,7 @@
 import {
   Linking,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,31 +14,50 @@ import { useAuth } from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import ProfileImageUpdate from "@/components/features/profile/ProfileImageUpdate";
+import { Colors } from "@/constants/Colors";
 
 const index = () => {
   const router = useRouter();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { user, logout } = useAuth();
   return (
-    <View style={{ flex: 1 }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
       <View
         style={[
           styles.container,
           CONTAINER_SIZE,
-          { backgroundColor: theme.primary },
+          { backgroundColor: theme.surface },
         ]}
       >
         {/* User Profile */}
-        <View style={styles.profileContainer}>
+        <View
+          style={[
+            styles.profileContainer,
+            {
+              backgroundColor: theme.primary,
+              borderRadius: SIZE.sm,
+              padding: SIZE.md,
+            },
+          ]}
+        >
           <ProfileImageUpdate />
 
           <View style={{ gap: SIZE.sm, alignItems: "center" }}>
             <Text
-              style={{ fontSize: 20, fontWeight: "bold", color: theme.text }}
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+                color: isDark ? Colors.light.surface : Colors.dark.surface,
+              }}
             >
               {user?.name}
             </Text>
-            <Text style={{ fontSize: 16, color: theme.text }}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: isDark ? Colors.light.surface : Colors.dark.surface,
+              }}
+            >
               {user?.email}
             </Text>
           </View>
@@ -45,7 +65,13 @@ const index = () => {
 
         {/* Profile Options */}
         <View style={styles.separator}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: theme.text }}>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              color: isDark ? Colors.light.surface : Colors.dark.surface,
+            }}
+          >
             Account Settings
           </Text>
 
@@ -58,14 +84,18 @@ const index = () => {
             }}
           >
             <TouchableOpacity
-              style={styles.accountOption}
+              style={[styles.accountOption, { backgroundColor: theme.primary }]}
               onPress={() => router.push("/(root)/(profile)/EditProfile")}
             >
-              <Ionicons name="person" size={30} color={theme.text} />
+              <Ionicons
+                name="person"
+                size={30}
+                color={isDark ? Colors.light.surface : Colors.dark.surface}
+              />
               <Text
                 style={{
                   fontSize: SIZE.md,
-                  color: theme.text,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
                   fontWeight: "500",
                 }}
               >
@@ -74,26 +104,36 @@ const index = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.accountOption}
+              style={[styles.accountOption, { backgroundColor: theme.primary }]}
               onPress={() => router.push("/(root)/(profile)/UpdatePassword")}
             >
-              <Ionicons name="key" size={30} color={theme.text} />
+              <Ionicons
+                name="key"
+                size={30}
+                color={isDark ? Colors.light.surface : Colors.dark.surface}
+              />
               <Text
                 style={{
                   fontSize: SIZE.md,
-                  color: theme.text,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
                   fontWeight: "500",
                 }}
               >
                 Password
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.accountOption}>
-              <Ionicons name="qr-code" size={30} color={theme.text} />
+            <TouchableOpacity
+              style={[styles.accountOption, { backgroundColor: theme.primary }]}
+            >
+              <Ionicons
+                name="qr-code"
+                size={30}
+                color={isDark ? Colors.light.surface : Colors.dark.surface}
+              />
               <Text
                 style={{
                   fontSize: SIZE.md,
-                  color: theme.text,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
                   fontWeight: "500",
                 }}
               >
@@ -104,20 +144,31 @@ const index = () => {
         </View>
 
         {/* App Options */}
-
         <View style={styles.separator}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: theme.text }}>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              color: isDark ? Colors.light.surface : Colors.dark.surface,
+            }}
+          >
             App Settings
           </Text>
 
           <View style={{ marginVertical: SIZE.md }}>
             <Link href={"/(root)/(home)"} style={{ marginBottom: SIZE.md }}>
-              <TouchableOpacity style={styles.appOption}>
-                <Ionicons name="color-palette" size={30} color={theme.text} />
+              <TouchableOpacity
+                style={[styles.appOption, { backgroundColor: theme.primary }]}
+              >
+                <Ionicons
+                  name="color-palette"
+                  size={30}
+                  color={isDark ? Colors.light.surface : Colors.dark.surface}
+                />
                 <Text
                   style={{
                     fontSize: SIZE.md,
-                    color: theme.text,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     fontWeight: "500",
                   }}
                 >
@@ -134,13 +185,20 @@ const index = () => {
                   Linking.openSettings();
                 }
               }}
-              style={[styles.appOption, { marginBottom: SIZE.md }]}
+              style={[
+                styles.appOption,
+                { backgroundColor: theme.primary, marginBottom: SIZE.md },
+              ]}
             >
-              <Ionicons name="notifications" size={30} color={theme.text} />
+              <Ionicons
+                name="notifications"
+                size={30}
+                color={isDark ? Colors.light.surface : Colors.dark.surface}
+              />
               <Text
                 style={{
                   fontSize: SIZE.md,
-                  color: theme.text,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
                   fontWeight: "500",
                 }}
               >
@@ -172,7 +230,7 @@ const index = () => {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -205,9 +263,7 @@ const styles = StyleSheet.create({
     gap: SIZE.xs,
     borderRadius: SIZE.sm,
     padding: SIZE.sm,
-    backgroundColor: "#eeeeee36",
     width: "30%",
-    // height: 50,
   },
 
   appOption: {
@@ -218,7 +274,6 @@ const styles = StyleSheet.create({
     gap: SIZE.xs,
     borderRadius: SIZE.sm,
     padding: SIZE.sm,
-    backgroundColor: "#eeeeee36",
   },
 
   logout: {

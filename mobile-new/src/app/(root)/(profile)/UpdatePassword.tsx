@@ -7,10 +7,11 @@ import { FONTS } from "@/constants/Fonts";
 import { CONTAINER_SIZE, SIZE } from "@/constants/Size";
 import { Controller, useForm } from "react-hook-form";
 import TextInputComponent from "@/components/ui/TextInputComponent";
+import { Colors } from "@/constants/Colors";
 
 const UpdatePassword = () => {
   const { updatePassword } = useAuth();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const {
     control,
     handleSubmit,
@@ -42,12 +43,12 @@ const UpdatePassword = () => {
           title: "Passwords",
           headerTitleStyle: {
             fontFamily: FONTS.StalinistOne,
-            color: "#fff",
+            color: isDark ? Colors.light.surface : Colors.dark.surface,
           },
 
-          headerTintColor: theme.text,
+          headerTintColor: isDark ? Colors.light.surface : Colors.dark.surface,
           headerShadowVisible: false,
-          headerStyle: { backgroundColor: theme.primary },
+          headerStyle: { backgroundColor: theme.surface },
           headerRight: () => {
             return (
               <TouchableOpacity
@@ -56,7 +57,7 @@ const UpdatePassword = () => {
               >
                 <Text
                   style={{
-                    color: theme.text,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     fontWeight: "bold",
                     fontSize: SIZE.md,
                   }}
@@ -73,7 +74,7 @@ const UpdatePassword = () => {
           style={[
             styles.container,
             CONTAINER_SIZE,
-            { backgroundColor: theme.primary },
+            { backgroundColor: theme.surface },
           ]}
         >
           <View>
@@ -89,17 +90,24 @@ const UpdatePassword = () => {
                   value={value}
                   onChangeText={onChange}
                   placeholder="Your Old Password"
-                  placeholderTextColor={theme.text}
+                  placeholderTextColor={
+                    isDark ? Colors.light.surface : Colors.dark.surface
+                  }
                   style={{
-                    borderColor: theme.text,
-                    color: theme.text,
+                    borderColor: theme.key,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
                 />
               )}
             />
             {errors.oldPassword && (
-              <Text style={{ color: theme.text, marginBottom: SIZE.md }}>
+              <Text
+                style={{
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  marginBottom: SIZE.md,
+                }}
+              >
                 {errors.oldPassword.message}
               </Text>
             )}
@@ -118,17 +126,24 @@ const UpdatePassword = () => {
                   value={value}
                   onChangeText={onChange}
                   placeholder="Your New Password"
-                  placeholderTextColor={theme.text}
+                  placeholderTextColor={
+                    isDark ? Colors.light.surface : Colors.dark.surface
+                  }
                   style={{
-                    borderColor: theme.text,
-                    color: theme.text,
+                    borderColor: theme.key,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
                 />
               )}
             />
             {errors.newPassword && (
-              <Text style={{ color: theme.text, marginBottom: SIZE.md }}>
+              <Text
+                style={{
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  marginBottom: SIZE.md,
+                }}
+              >
                 {errors.newPassword.message}
               </Text>
             )}
@@ -147,17 +162,24 @@ const UpdatePassword = () => {
                   value={value}
                   onChangeText={onChange}
                   placeholder="Confirm Your New Password"
-                  placeholderTextColor={theme.text}
+                  placeholderTextColor={
+                    isDark ? Colors.light.surface : Colors.dark.surface
+                  }
                   style={{
-                    borderColor: theme.text,
-                    color: theme.text,
+                    borderColor: theme.key,
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
                 />
               )}
             />
             {errors.confirmPassword && (
-              <Text style={{ color: theme.text, marginBottom: SIZE.md }}>
+              <Text
+                style={{
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  marginBottom: SIZE.md,
+                }}
+              >
                 {errors.confirmPassword.message}
               </Text>
             )}

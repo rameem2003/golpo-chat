@@ -3,6 +3,7 @@ const router = require("express").Router();
 const auth = require("./auth");
 const friends = require("./friends");
 const friendRequest = require("./friend_request");
+const chats = require("./chat");
 const api_base = process.env.API_VERSION_BASE || "/api/v1";
 
 /**
@@ -22,5 +23,11 @@ router.use(api_base, friends);
  * https://localhost:5000/api/v1/friend-request
  */
 router.use(api_base, friendRequest);
+
+/**
+ * Chat Routes
+ * https://localhost:5000/api/v1/chats
+ */
+router.use(api_base, chats);
 
 module.exports = router;
