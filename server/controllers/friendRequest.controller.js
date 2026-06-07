@@ -14,6 +14,11 @@ const { createFriendship } = require("../services/friendShip.service");
 const { sendPushNotification } = require("../services/notification.service");
 const { getOnlineUsers, getIO } = require("../socket/socket-store");
 
+/**
+ * Find a friend by name.
+ * The search should exclude the current user and
+ * the users who are already friends with the current user.
+ */
 const findFriend = async (req, res) => {
   const user = req.user.id;
   const name = req.query.name;
@@ -26,6 +31,9 @@ const findFriend = async (req, res) => {
   }
 };
 
+/**
+ * Send a friend request from the current user to another user.
+ */
 const sendFriendRequest = async (req, res) => {
   const io = getIO();
   const onlineUsers = getOnlineUsers();
@@ -106,6 +114,9 @@ const sendFriendRequest = async (req, res) => {
   }
 };
 
+/**
+ * Get sent friend requests for the current user.
+ */
 const getSentFriendRequests = async (req, res) => {
   try {
     const sentRequests = await getSentRequests(req.user.id);
@@ -123,6 +134,9 @@ const getSentFriendRequests = async (req, res) => {
   }
 };
 
+/**
+ * Get received friend requests for the current user.
+ */
 const getReceivedFriendRequests = async (req, res) => {
   try {
     const receivedRequests = await getReceivedRequests(req.user.id);
@@ -140,6 +154,12 @@ const getReceivedFriendRequests = async (req, res) => {
   }
 };
 
+/**
+ * Accept a friend request from the current user.
+ * This will update the friend request status to accepted,
+ * create a friendship between the sender and receiver,
+ * and create a private chat for the new friends.
+ */
 const acceptFriendRequest = async (req, res) => {
   const user = req.user.id;
   const requestId = req.params.requestId;
@@ -225,6 +245,10 @@ const acceptFriendRequest = async (req, res) => {
   }
 };
 
+/**
+ * Reject a friend request from the current user.
+ * This will update the friend request status to rejected.
+ */
 const rejectFriendRequest = async (req, res) => {
   const user = req.user.id;
   const requestId = req.params.requestId;
@@ -305,6 +329,10 @@ const rejectFriendRequest = async (req, res) => {
   }
 };
 
+/**
+ * Cancel a friend request from the current user.
+ * This will update the friend request status to cancelled.
+ */
 const cancelFriendRequest = async (req, res) => {
   const user = req.user.id;
   const requestId = req.params.requestId;

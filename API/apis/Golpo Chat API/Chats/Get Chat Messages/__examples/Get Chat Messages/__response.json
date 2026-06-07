@@ -1,0 +1,18 @@
+{
+  "body": "{\"success\":true,\"data\":[{\"_id\":\"6a257dfc59feae99a4f5af89\",\"sender\":{\"_id\":\"69f95bd7518626767b0d2e80\",\"name\":\"Mahmood Hassan Rameem\",\"email\":\"rameem2019@gmail.com\",\"avatar\":\"avatars/avatar-1780325075568-218362819.jpeg\"},\"chat\":\"6a24e059410da9b7c11a3f62\",\"content\":\"Hello\",\"readBy\":[\"69f95bd7518626767b0d2e80\"],\"createdAt\":\"2026-06-07T14:19:40.467Z\",\"updatedAt\":\"2026-06-07T14:19:40.467Z\",\"__v\":0}]}",
+  "headers": {
+    "x-powered-by": "Express",
+    "vary": "Origin",
+    "access-control-allow-credentials": "true",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "397",
+    "etag": "W/\"18d-JVHzMNDXvKNjaX6pQrAs2051jN8\"",
+    "date": "Sun, 07 Jun 2026 14:25:13 GMT",
+    "connection": "keep-alive",
+    "keep-alive": "timeout=5"
+  },
+  "status": 200,
+  "statusText": "OK",
+  "time": 417,
+  "size": 397
+}

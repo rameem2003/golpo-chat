@@ -6,6 +6,11 @@ const chatSchema = new mongoose.Schema(
     chatName: String,
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     admin: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
+    latestMessage: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message",
+    },
   },
   { timestamps: true },
 );

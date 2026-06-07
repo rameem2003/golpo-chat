@@ -1,5 +1,7 @@
 const chatModel = require("../models/chat.model");
+const messageModel = require("../models/message.model");
 
+// get all chats for a user, including the users in the chat and the admin of the chat, sorted by updatedAt in descending order
 const getUserChats = async (userId) => {
   let res = await chatModel
     .find({
@@ -7,6 +9,13 @@ const getUserChats = async (userId) => {
     })
     .populate("users", "name email avatar")
     .populate("admin", "name email avatar")
+    .populate({
+      path: "latestMessage",
+      populate: {
+        path: "sender",
+        select: "name avatar",
+      },
+    })
     .sort({ updatedAt: -1 });
 
   // set the chat name for private chats name will be the name of the other user
@@ -22,6 +31,7 @@ const getUserChats = async (userId) => {
   return res;
 };
 
+// find if a private chat already exists between two users, if it does return the chat, if it doesn't return null
 const findExistingPrivateChat = async (user1, user2) => {
   let res = await chatModel
     .findOne({
@@ -34,6 +44,7 @@ const findExistingPrivateChat = async (user1, user2) => {
   return res;
 };
 
+// create a private chat between two users
 const createPrivateChat = async (user1, user2) => {
   let res = await chatModel.create({
     isGroupChat: false,
@@ -43,8 +54,45 @@ const createPrivateChat = async (user1, user2) => {
   return res;
 };
 
+// get all messages for a chat, including the sender of the message, sorted by createdAt in ascending order
+const getMessages = async (chatId, page = 1) => {
+  // const limit = 20;
+
+  return await messageModel
+    .find({
+      chat: chatId,
+    })
+    .populate("sender", "name email avatar")
+    .sort({ createdAt: -1 });
+  // .skip((page - 1) * limit)
+  // .limit(limit);
+};
+
+// Send Message to a chat
+const createMessage = async (sender, chat, content, media) => {
+  let msg = await messageModel.create({
+    sender,
+    chat,
+    content,
+    media,
+    readBy: [sender],
+  });
+
+  await chatModel.findByIdAndUpdate(chat, {
+    updatedAt: Date.now(),
+    latestMessage: msg._id,
+  });
+
+  return await messageModel
+    .findById(msg._id)
+    .populate("sender", "name email avatar")
+    .populate("chat");
+};
+
 module.exports = {
   getUserChats,
   findExistingPrivateChat,
   createPrivateChat,
+  createMessage,
+  getMessages,
 };

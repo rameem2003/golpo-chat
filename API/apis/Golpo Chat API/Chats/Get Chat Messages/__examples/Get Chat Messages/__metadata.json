@@ -1,0 +1,10 @@
+{
+  "$schema": "https://assets.requestly.com/local/v1.11.0/example-metadata.json",
+  "type": "example",
+  "entryType": "http",
+  "id": "730283d1-ba08-4271-88c1-5b8c48c9eedd",
+  "rank": "a0",
+  "url": "{{host}}api/v1/chats/:chatId/messages",
+  "method": "GET",
+  "contentType": "none"
+}
