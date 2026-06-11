@@ -43,3 +43,18 @@ export const listenFriendEvents = (handlers: any) => {
     socket.off("friend:request:cancelled", handlers.onCancelled);
   };
 };
+
+export const listenChatEvents = (handlers: any) => {
+  const socket = getSocket();
+
+  if (!socket) {
+    console.log("Socket not connected");
+    return;
+  }
+
+  socket.on("chat:message:new", handlers.onNewMessage);
+
+  return () => {
+    socket.off("chat:message:new", handlers.onNewMessage);
+  };
+};

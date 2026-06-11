@@ -1,8 +1,12 @@
+const { findUserById } = require("../services/auth.service");
 const {
   getUserChats,
   createMessage,
   getMessages,
+  findUsersByChatId,
 } = require("../services/chat.service");
+const { sendPushNotification } = require("../services/notification.service");
+const { getIO, getOnlineUsers } = require("../socket/socket-store");
 
 /**
  * Get all chats for a user,
@@ -45,11 +49,31 @@ const getChatMessages = async (req, res) => {
  * Send a message in a chat
  */
 const sendMessage = async (req, res) => {
+  const io = getIO();
+  const onlineUsers = getOnlineUsers();
   const sender = req.user.id;
   const { chatId, content } = req.body;
 
   try {
     let message = await createMessage(sender, chatId, content);
+
+    let users = await findUsersByChatId(chatId);
+
+    users.forEach((user) => {
+      let userSocketId = onlineUsers.get(user._id);
+      io.to(userSocketId).emit("chat:message:new", { message });
+    });
+
+    let receiver = users.find((user) => user._id.toString() !== sender).id;
+    let receiverUser = await findUserById(receiver);
+    let senderUser = await findUserById(sender);
+
+    await sendPushNotification(
+      receiverUser.notificationToken,
+      senderUser.name,
+      message.content,
+      {},
+    );
 
     res.status(200).send({ success: true, data: message });
   } catch (error) {

@@ -31,6 +31,14 @@ const getUserChats = async (userId) => {
   return res;
 };
 
+// find users by chat id
+const findUsersByChatId = async (chatId) => {
+  let res = await chatModel.findById(chatId).populate("users");
+  // .populate("admin", "name email avatar");
+
+  return res.users;
+};
+
 // find if a private chat already exists between two users, if it does return the chat, if it doesn't return null
 const findExistingPrivateChat = async (user1, user2) => {
   let res = await chatModel
@@ -91,6 +99,7 @@ const createMessage = async (sender, chat, content, media) => {
 
 module.exports = {
   getUserChats,
+  findUsersByChatId,
   findExistingPrivateChat,
   createPrivateChat,
   createMessage,
