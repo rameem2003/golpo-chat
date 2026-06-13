@@ -16,12 +16,14 @@ interface userProps {
 
 const User = ({
   user,
+  fallbackText,
   contentStyle,
 }: {
-  user: userType | chatUserType | userProps | null;
+  user?: userType | chatUserType | userProps | null;
+  fallbackText?: string;
   contentStyle?: any;
 }) => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   return (
     <TouchableOpacity
       style={[
@@ -43,8 +45,13 @@ const User = ({
         <View
           style={[styles.avatarFallback, { backgroundColor: theme.overlay }]}
         >
-          <Text style={[styles.avatarFallbackText]}>
-            {user?.name.charAt(0)}
+          <Text
+            style={[
+              styles.avatarFallbackText,
+              { color: isDark ? Colors.light.primary : Colors.dark.primary },
+            ]}
+          >
+            {fallbackText || user?.name.charAt(0)}
           </Text>
         </View>
       )}

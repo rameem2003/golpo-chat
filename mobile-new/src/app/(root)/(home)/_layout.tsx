@@ -6,30 +6,33 @@ import { useTheme } from "@/hooks/useTheme";
 import User from "@/components/User";
 import { useAuth } from "@/hooks/useAuth";
 import { Colors } from "@/constants/Colors";
+import { ChatProvider } from "@/hooks/useChat";
 
 const _layout = () => {
   const router = useRouter();
   const { theme, isDark } = useTheme();
   const { user, logout } = useAuth();
   return (
-    <Stack screenOptions={{ animation: "slide_from_right" }}>
-      <Stack.Screen
-        name="index"
-        options={{
-          title: "Chats",
-          headerTitleStyle: {
-            fontFamily: FONTS.StalinistOne,
-            color: isDark ? Colors.light.surface : Colors.dark.surface,
-          },
-          headerShadowVisible: false,
-          headerStyle: { backgroundColor: theme.surface },
-          headerRight: () => {
-            return <User user={user} />;
-          },
-        }}
-      />
-      <Stack.Screen name="chat/[id]" />
-    </Stack>
+    <ChatProvider>
+      <Stack screenOptions={{ animation: "slide_from_right" }}>
+        <Stack.Screen
+          name="index"
+          options={{
+            title: "Chats",
+            headerTitleStyle: {
+              fontFamily: FONTS.StalinistOne,
+              color: isDark ? Colors.light.surface : Colors.dark.surface,
+            },
+            headerShadowVisible: false,
+            headerStyle: { backgroundColor: theme.surface },
+            headerRight: () => {
+              return <User user={user} />;
+            },
+          }}
+        />
+        <Stack.Screen name="chat/[id]" />
+      </Stack>
+    </ChatProvider>
   );
 };
 

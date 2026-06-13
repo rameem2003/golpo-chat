@@ -20,7 +20,7 @@ import { Colors } from "@/constants/Colors";
 const Chat = () => {
   const { theme, isDark } = useTheme();
   const { id } = useLocalSearchParams();
-  const filterUser = dummyUser.find((user) => user.id == id);
+  const filterUser = dummyUser.find((user) => user.id == "1");
 
   const dummyMessages = [];
 

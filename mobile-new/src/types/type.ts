@@ -14,11 +14,11 @@ export interface chatUserType {
   _id: string;
   name: string;
   email: string;
-  phone: string;
-  address: string;
-  role: string;
-  isVerified: boolean;
-  block: boolean;
+  // phone: string;
+  // address: string;
+  // role: string;
+  // isVerified: boolean;
+  // block: boolean;
   avatar: string;
 }
 
@@ -92,4 +92,34 @@ export interface FriendRequestContextType {
   acceptRequest: (requestId: string) => Promise<void>;
   rejectRequest: (requestId: string) => Promise<void>;
   // cancelRequest: (requestId: string) => Promise<void>;
+}
+
+// Chat contexts
+
+export interface Chat {
+  _id: string;
+  chatName: string;
+  isGroupChat: boolean;
+  users: chatUserType[];
+  latestMessage?: {
+    _id: string;
+    chat: string;
+    content: string;
+    sender: {
+      _id: string;
+      name: string;
+      avatar: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+export interface ChatContextType {
+  chats: Chat[]; // list of chats
+  messages: any[]; // messages of the selected chat
+  loading: boolean;
+  msg: string;
+  // getChats: () => Promise<void>;
+  // getMessages: (chatId: string) => Promise<void>;
 }

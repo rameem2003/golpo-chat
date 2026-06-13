@@ -17,7 +17,10 @@ const getAllChats = async (req, res) => {
   let userId = req.user.id;
   try {
     let chats = await getUserChats(userId);
-    res.status(200).send(chats);
+    res.status(200).send({
+      success: true,
+      data: chats,
+    });
   } catch (err) {
     res.status(500).send({
       success: false,
