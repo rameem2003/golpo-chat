@@ -1,11 +1,23 @@
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { CONTAINER_SIZE, SIZE } from "./../../../constants/Size";
 import { useTheme } from "@/hooks/useTheme";
 import { Ionicons } from "@expo/vector-icons";
+import { Colors } from "@/constants/Colors";
+import { useChat } from "@/hooks/useChat";
 
-const MessageInput = () => {
-  const { theme } = useTheme();
+const MessageInput = ({ chatId }: { chatId: string }) => {
+  const { sendMessageToChat } = useChat();
+  const { theme, isDark } = useTheme();
+  const [message, setMessage] = useState("");
+  const sendMessage = () => {
+    console.log(message);
+    // prevent sending empty messages or just spaces
+    if (!message.trim()) return;
+
+    sendMessageToChat(chatId, message);
+    setMessage("");
+  };
   return (
     <View
       style={[
@@ -15,15 +27,27 @@ const MessageInput = () => {
       ]}
     >
       <TextInput
-        placeholderTextColor={"#000"}
-        style={[styles.textInput, { backgroundColor: theme.overlay }]}
-        placeholder="Type Here........."
+        placeholderTextColor={
+          isDark ? Colors.light.surface : Colors.dark.surface
+        }
+        style={[
+          styles.textInput,
+          { color: isDark ? "#FFF" : "#000", backgroundColor: theme.overlay },
+        ]}
+        multiline
+        placeholder="Type a message .........."
+        value={message}
+        onChangeText={setMessage}
       />
-      <Pressable
-        style={({ pressed }) => [styles.btn, { opacity: pressed ? 0.8 : 1 }]}
-      >
-        <Ionicons name="paper-plane" size={20} />
-      </Pressable>
+      {message && message.trim() && (
+        <Pressable
+          onPress={sendMessage}
+          disabled={!message.trim()}
+          style={({ pressed }) => [styles.btn, { opacity: pressed ? 0.8 : 1 }]}
+        >
+          <Ionicons name="paper-plane" size={20} />
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -43,7 +67,6 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     padding: SIZE.xs,
-    color: "#000000",
     borderRadius: SIZE.xl,
     paddingHorizontal: SIZE.lg,
   },

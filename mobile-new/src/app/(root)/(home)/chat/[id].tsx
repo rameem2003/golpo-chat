@@ -1,12 +1,10 @@
 import {
-  Button,
   FlatList,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   Pressable,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import React, { useEffect } from "react";
@@ -19,6 +17,8 @@ import MessageInput from "@/components/features/chat/MessageInput";
 import { Colors } from "@/constants/Colors";
 import { useChat } from "@/hooks/useChat";
 import ChatBubble from "@/components/features/chat/ChatBubble";
+import { Ionicons } from "@expo/vector-icons";
+import { showToast } from "@/lib/toast";
 
 const Chat = () => {
   const { theme, isDark } = useTheme();
@@ -28,16 +28,6 @@ const Chat = () => {
   const filterUser = chats.find((chat) => chat._id === id)?.chatName;
 
   const dummyMessages = [];
-
-  const ping = async () => {
-    try {
-      const response = await fetch("http://10.0.2.2:5000");
-      const data = await response.json();
-      console.log(JSON.stringify(data));
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  };
 
   useEffect(() => {
     getMessages(id as string);
@@ -56,6 +46,21 @@ const Chat = () => {
           headerTitleAlign: "left",
           headerBackVisible: true,
           headerTintColor: isDark ? Colors.light.surface : Colors.dark.surface,
+          headerRight: () => {
+            return (
+              <Pressable
+                onPress={() => {
+                  showToast("Coming soon");
+                }}
+              >
+                <Ionicons
+                  name="information-circle"
+                  size={30}
+                  color={isDark ? Colors.light.surface : Colors.dark.surface}
+                />
+              </Pressable>
+            );
+          },
         }}
       />
       <KeyboardAvoidingView
@@ -69,19 +74,15 @@ const Chat = () => {
         >
           <View style={[styles.container, { backgroundColor: theme.surface }]}>
             <View style={[styles.chats, CONTAINER_SIZE]}>
-              {/* <Text>Chat</Text>
-              <Button title="Go Back" onPress={ping} /> */}
-              {/* <ChatBubble /> */}
-
               <FlatList
                 showsVerticalScrollIndicator={false}
                 data={messages}
                 renderItem={({ item }) => <ChatBubble message={item} />}
-                keyExtractor={(item) => item._id}
+                keyExtractor={(item) => item._id!}
               />
             </View>
             <View style={styles.input}>
-              <MessageInput />
+              <MessageInput chatId={id as string} />
             </View>
           </View>
         </Pressable>

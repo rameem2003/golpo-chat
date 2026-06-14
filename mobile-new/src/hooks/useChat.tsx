@@ -3,10 +3,12 @@ import { showToast } from "@/lib/toast";
 import { listenChatEvents } from "@/socket/socketEvents";
 import { ChatContextType, Chat, Message } from "@/types/type";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./useAuth";
 
 const ChatContext = createContext<ChatContextType | null>(null);
 
 export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth();
   const [chats, setChats] = useState<Chat[]>([]);
   const [chat, setChat] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -59,6 +61,19 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   // send message to a chat
   const sendMessageToChat = async (chatId: string, content: string) => {
     try {
+      let newMessage: Message = {
+        chat: chatId,
+        content,
+        sender: {
+          _id: user?.id || "temp-id",
+          name: user?.name || "temp-name",
+          email: user?.email || "temp-email",
+          avatar: user?.avatar || "temp-avatar",
+        },
+        createdAt: new Date().toISOString(),
+      };
+
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
       let res = await sendMessage(chatId, content);
       console.log(res);
 

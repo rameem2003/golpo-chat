@@ -41,6 +41,7 @@ export const getChatMessages = async (chatId: string) => {
 export const sendMessage = async (chatId: string, content: string) => {
   const { accessToken, refreshToken } = await getCookies();
   let headers = {
+    "Content-Type": "application/json",
     Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
   };
   try {

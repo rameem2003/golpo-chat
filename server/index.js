@@ -8,6 +8,6 @@ const server = http.createServer(app);
 
 initSocket(server);
 
-server.listen(process.env.PORT || 5000, () => {
+server.listen(process.env.PORT || 5000, "0.0.0.0", () => {
   console.log(welcomeNote);
 });

@@ -116,7 +116,7 @@ export interface Chat {
 }
 
 export interface Message {
-  _id: string;
+  _id?: string;
   chat: string;
   content: string;
   sender: {
@@ -125,9 +125,9 @@ export interface Message {
     email: string;
     avatar: string;
   };
-  readBy: string[];
-  createdAt: string;
-  updatedAt: string;
+  readBy?: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ChatContextType {

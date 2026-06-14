@@ -19,6 +19,7 @@ const ChatBubble = ({ message }: { message?: Message }) => {
             : styles.containerReceiver,
         ]}
       >
+        {/* <View> */}
         <View
           style={[
             message?.sender._id === user?.id
@@ -30,12 +31,20 @@ const ChatBubble = ({ message }: { message?: Message }) => {
           <Text
             style={{
               fontSize: SIZE.md,
-              color: isDark ? Colors.light.primary : Colors.dark.primary,
+              color: "#FFF",
             }}
           >
             {message?.content}
           </Text>
+          <Text style={[styles.timeText, { color: "#FFF" }]}>
+            {new Date(message?.createdAt || "").toLocaleTimeString([], {
+              // dateStyle: "short",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Text>
         </View>
+        {/* </View> */}
         <User
           fallbackText={
             message?.sender._id === user?.id
@@ -89,5 +98,10 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: SIZE.sm,
     // backgroundColor: "#007AFF",
     backgroundColor: "#fff",
+  },
+
+  timeText: {
+    marginTop: SIZE.md,
+    fontSize: 13,
   },
 });
