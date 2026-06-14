@@ -1,6 +1,6 @@
 {
   "$schema": "https://assets.requestly.com/local/v1.11.0/body.json",
   "contentType": "raw",
-  "raw": "{ chatId: '6a24e059410da9b7c11a3f62', content: 'Hello' }\n",
+  "raw": "{ chatId: '6a24e059410da9b7c11a3f62', content: 'কেমন আছো ভাই?' }\n",
   "rawContentType": "application/json"
 }

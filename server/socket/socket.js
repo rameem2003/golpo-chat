@@ -37,7 +37,9 @@ const initSocket = (server) => {
 
   io.on("connection", (socket) => {
     const userId = socket.data.id;
-    console.log(`User connected: ${userId}, username: ${socket.data.name}`);
+    console.log(
+      `User connected: ${userId}, id: ${socket.id} username: ${socket.data.name}`,
+    );
 
     onlineUsers.set(userId, socket.id);
 

@@ -115,11 +115,27 @@ export interface Chat {
   };
 }
 
+export interface Message {
+  _id: string;
+  chat: string;
+  content: string;
+  sender: {
+    _id: string;
+    name: string;
+    email: string;
+    avatar: string;
+  };
+  readBy: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface ChatContextType {
   chats: Chat[]; // list of chats
-  messages: any[]; // messages of the selected chat
+  messages: Message[]; // messages of the selected chat
   loading: boolean;
   msg: string;
   // getChats: () => Promise<void>;
-  // getMessages: (chatId: string) => Promise<void>;
+  getMessages: (chatId: string) => Promise<void>;
+  sendMessageToChat: (chatId: string, content: string) => Promise<void>;
 }

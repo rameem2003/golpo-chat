@@ -37,3 +37,22 @@ export const getChatMessages = async (chatId: string) => {
     throw new Error(error.message || "Failed to get chat messages");
   }
 };
+
+export const sendMessage = async (chatId: string, content: string) => {
+  const { accessToken, refreshToken } = await getCookies();
+  let headers = {
+    Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
+  };
+  try {
+    let res = await fetch(`${API_URL}/chats/message`, {
+      method: "POST",
+      credentials: "include",
+      headers,
+      body: JSON.stringify({ chatId, content }),
+    });
+    return res.json();
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.message || "Failed to send message");
+  }
+};

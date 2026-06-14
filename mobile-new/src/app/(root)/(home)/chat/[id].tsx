@@ -1,5 +1,6 @@
 import {
   Button,
+  FlatList,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -8,19 +9,23 @@ import {
   Text,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Stack, Tabs, useLocalSearchParams } from "expo-router";
 import { useTheme } from "@/hooks/useTheme";
 import { dummyUser } from "@/constants/dummyData";
-import { CONTAINER_SIZE } from "@/constants/Size";
+import { CONTAINER_SIZE, SIZE } from "@/constants/Size";
 import CharHeaderLeft from "@/components/features/chat/CharHeaderLeft";
 import MessageInput from "@/components/features/chat/MessageInput";
 import { Colors } from "@/constants/Colors";
+import { useChat } from "@/hooks/useChat";
+import ChatBubble from "@/components/features/chat/ChatBubble";
 
 const Chat = () => {
   const { theme, isDark } = useTheme();
   const { id } = useLocalSearchParams();
-  const filterUser = dummyUser.find((user) => user.id == "1");
+  const { chats, getMessages, messages } = useChat();
+  // const filterUser = dummyUser.find((user) => user.id == "1");
+  const filterUser = chats.find((chat) => chat._id === id)?.chatName;
 
   const dummyMessages = [];
 
@@ -34,6 +39,10 @@ const Chat = () => {
     }
   };
 
+  useEffect(() => {
+    getMessages(id as string);
+  }, [id]);
+
   return (
     <>
       <Stack.Screen
@@ -42,7 +51,7 @@ const Chat = () => {
             backgroundColor: theme.primary,
           },
           headerTitle: () => {
-            return <CharHeaderLeft user={filterUser!} />;
+            return <CharHeaderLeft name={filterUser || "Unknown User"} />;
           },
           headerTitleAlign: "left",
           headerBackVisible: true,
@@ -60,8 +69,16 @@ const Chat = () => {
         >
           <View style={[styles.container, { backgroundColor: theme.surface }]}>
             <View style={[styles.chats, CONTAINER_SIZE]}>
-              <Text>Chat</Text>
-              <Button title="Go Back" onPress={ping} />
+              {/* <Text>Chat</Text>
+              <Button title="Go Back" onPress={ping} /> */}
+              {/* <ChatBubble /> */}
+
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={messages}
+                renderItem={({ item }) => <ChatBubble message={item} />}
+                keyExtractor={(item) => item._id}
+              />
             </View>
             <View style={styles.input}>
               <MessageInput />
@@ -81,6 +98,7 @@ const styles = StyleSheet.create({
   },
   chats: {
     flex: 1,
+    marginTop: SIZE.md,
   },
   input: {
     minHeight: 80,

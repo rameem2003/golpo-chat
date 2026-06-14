@@ -6,12 +6,15 @@ import User from "@/components/User";
 import { useTheme } from "@/hooks/useTheme";
 import { Colors } from "@/constants/Colors";
 
-const CharHeaderLeft = ({ user }: { user: userType }) => {
+const CharHeaderLeft = ({ name }: { name: string }) => {
   const { theme, isDark } = useTheme();
   return (
     <TouchableOpacity style={[styles.container]}>
       <View style={[styles.innerContent]}>
-        <User user={user} contentStyle={{ height: SIZE.xl, width: SIZE.xl }} />
+        <User
+          fallbackText={name.charAt(0)}
+          contentStyle={{ height: SIZE.xxl, width: SIZE.xxl }}
+        />
         <View>
           <Text
             style={{
@@ -19,7 +22,7 @@ const CharHeaderLeft = ({ user }: { user: userType }) => {
               fontSize: 20,
             }}
           >
-            {user.name}
+            {name}
           </Text>
           <Text
             style={{

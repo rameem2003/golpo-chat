@@ -61,9 +61,11 @@ const sendMessage = async (req, res) => {
     let message = await createMessage(sender, chatId, content);
 
     let users = await findUsersByChatId(chatId);
+    console.log(users);
 
     users.forEach((user) => {
-      let userSocketId = onlineUsers.get(user._id);
+      let userSocketId = onlineUsers.get(user._id.toString());
+      console.log("userSocketId", userSocketId);
       io.to(userSocketId).emit("chat:message:new", { message });
     });
 

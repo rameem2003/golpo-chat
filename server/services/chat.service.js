@@ -71,7 +71,7 @@ const getMessages = async (chatId, page = 1) => {
       chat: chatId,
     })
     .populate("sender", "name email avatar")
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: 1 });
   // .skip((page - 1) * limit)
   // .limit(limit);
 };
