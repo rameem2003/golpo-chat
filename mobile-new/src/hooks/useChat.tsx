@@ -1,6 +1,6 @@
 import { getAllChats, getChatMessages, sendMessage } from "@/lib/apis/chat";
 import { showToast } from "@/lib/toast";
-import { listenChatEvents } from "@/socket/socketEvents";
+import { listenChatEvents, listenFriendEvents } from "@/socket/socketEvents";
 import { ChatContextType, Chat, Message } from "@/types/type";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./useAuth";
@@ -20,7 +20,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(true);
     try {
       let res = await getAllChats();
-      console.log(res);
+      // console.log(res);
 
       if (!res.success) {
         setMsg(res.message);
@@ -42,7 +42,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(true);
     try {
       let res = await getChatMessages(chatId);
-      console.log(res);
+      // console.log(res);
 
       if (!res.success) {
         setMsg(res.message);
@@ -75,7 +75,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       let res = await sendMessage(chatId, content);
-      console.log(res);
+      // console.log(res);
 
       if (!res.success) {
         showToast(res.message);
@@ -97,18 +97,37 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     if (!chat) return;
 
     const unsubscribe = listenChatEvents({
-      onNewMessage: (data: any) => {
+      onNewMessage: async (data: any) => {
         console.log("New message received: ", data);
         getMessages(chat);
+        fetchChats();
       },
     });
 
-    return unsubscribe;
+    const unsubscribeFriendEvents = listenFriendEvents({
+      onAccepted: async (data: any) => {
+        console.log("Friend request accepted: ", data);
+        await fetchChats();
+      },
+    });
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+      if (unsubscribeFriendEvents) unsubscribeFriendEvents();
+    };
   }, [chat]);
 
   return (
     <ChatContext.Provider
-      value={{ chats, loading, msg, messages, getMessages, sendMessageToChat }}
+      value={{
+        chats,
+        loading,
+        msg,
+        messages,
+        fetchChats,
+        getMessages,
+        sendMessageToChat,
+      }}
     >
       {children}
     </ChatContext.Provider>

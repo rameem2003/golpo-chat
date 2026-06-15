@@ -224,12 +224,14 @@ const acceptFriendRequest = async (req, res) => {
     let senderName = await findUserById(friendRequest.sender);
     let receiverUser = await findUserById(friendRequest.receiver);
 
-    await sendPushNotification(
-      senderName.notificationToken,
-      "Friend Request Accepted",
-      `${receiverUser.name} accepted your friend request`,
-      {},
-    );
+    if (senderName.notificationToken) {
+      await sendPushNotification(
+        senderName.notificationToken,
+        "Friend Request Accepted",
+        `${receiverUser.name} accepted your friend request`,
+        {},
+      );
+    }
 
     res.status(200).send({
       success: true,

@@ -6,7 +6,12 @@ import { useChat } from "@/hooks/useChat";
 import ChatListCard from "./ChatListCard";
 
 const ChatList = () => {
-  const { chats } = useChat();
+  const { chats, fetchChats } = useChat();
+
+  const handleRefresh = async () => {
+    await fetchChats();
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -14,6 +19,8 @@ const ChatList = () => {
         data={chats}
         keyExtractor={(data) => data._id}
         renderItem={({ item }) => <ChatListCard chat={item} />}
+        onRefresh={handleRefresh}
+        refreshing={false}
       />
     </View>
   );

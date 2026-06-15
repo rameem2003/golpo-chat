@@ -1,3 +1,6 @@
+import CharHeaderLeft from "@/components/features/chat/CharHeaderLeft";
+import MessageInput from "@/components/features/chat/MessageInput";
+import ChatBubble from "@/components/features/chat/ChatBubble";
 import {
   FlatList,
   Keyboard,
@@ -5,22 +8,22 @@ import {
   Platform,
   Pressable,
   StyleSheet,
+  Text,
   View,
 } from "react-native";
-import React, { useEffect } from "react";
-import { Stack, Tabs, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useRef } from "react";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useTheme } from "@/hooks/useTheme";
 import { dummyUser } from "@/constants/dummyData";
 import { CONTAINER_SIZE, SIZE } from "@/constants/Size";
-import CharHeaderLeft from "@/components/features/chat/CharHeaderLeft";
-import MessageInput from "@/components/features/chat/MessageInput";
 import { Colors } from "@/constants/Colors";
 import { useChat } from "@/hooks/useChat";
-import ChatBubble from "@/components/features/chat/ChatBubble";
 import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "@/lib/toast";
+import User from "@/components/User";
 
 const Chat = () => {
+  const messageListRef = useRef<FlatList>(null);
   const { theme, isDark } = useTheme();
   const { id } = useLocalSearchParams();
   const { chats, getMessages, messages } = useChat();
@@ -32,6 +35,12 @@ const Chat = () => {
   useEffect(() => {
     getMessages(id as string);
   }, [id]);
+
+  useEffect(() => {
+    if (messageListRef.current) {
+      messageListRef.current.scrollToEnd({ animated: true });
+    }
+  }, [messages]);
 
   return (
     <>
@@ -75,10 +84,38 @@ const Chat = () => {
           <View style={[styles.container, { backgroundColor: theme.surface }]}>
             <View style={[styles.chats, CONTAINER_SIZE]}>
               <FlatList
+                ref={messageListRef}
                 showsVerticalScrollIndicator={false}
                 data={messages}
                 renderItem={({ item }) => <ChatBubble message={item} />}
                 keyExtractor={(item) => item._id!}
+                ListEmptyComponent={() => (
+                  <View
+                    style={{
+                      alignItems: "center",
+
+                      backgroundColor: theme.primary,
+                      paddingVertical: SIZE.xxl,
+                      borderRadius: SIZE.sm,
+                    }}
+                  >
+                    <User
+                      contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
+                      fallbackText={filterUser?.charAt(0) || "Unknown User"}
+                    />
+                    <Text
+                      style={{
+                        color: isDark
+                          ? Colors.light.surface
+                          : Colors.dark.surface,
+                        fontSize: SIZE.md,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Let's Golpo with {filterUser || "Unknown User"}!
+                    </Text>
+                  </View>
+                )}
               />
             </View>
             <View style={styles.input}>

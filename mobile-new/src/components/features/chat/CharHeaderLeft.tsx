@@ -8,6 +8,7 @@ import { Colors } from "@/constants/Colors";
 
 const CharHeaderLeft = ({ name }: { name: string }) => {
   const { theme, isDark } = useTheme();
+  // let nam = "Mahmood Hassan Rameem";
   return (
     <TouchableOpacity style={[styles.container]}>
       <View style={[styles.innerContent]}>
@@ -22,7 +23,8 @@ const CharHeaderLeft = ({ name }: { name: string }) => {
               fontSize: 20,
             }}
           >
-            {name}
+            {/* {name} */}
+            {name.length > 8 ? name.split(" ")[0] : name}
           </Text>
           <Text
             style={{

@@ -135,7 +135,7 @@ export interface ChatContextType {
   messages: Message[]; // messages of the selected chat
   loading: boolean;
   msg: string;
-  // getChats: () => Promise<void>;
+  fetchChats: () => Promise<void>;
   getMessages: (chatId: string) => Promise<void>;
   sendMessageToChat: (chatId: string, content: string) => Promise<void>;
 }

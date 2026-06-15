@@ -41,7 +41,7 @@ const ChatListCard = ({ chat }: { chat: Chat }) => {
                 fontSize: 14,
               }}
             >
-              {chat?.latestMessage?.content}
+              {chat?.latestMessage?.content || "Start a conversation"}
             </Text>
           </View>
         </View>
