@@ -77,9 +77,9 @@ const Chat = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={90}
       >
-        <Pressable
+        <View
           style={[styles.container, { backgroundColor: theme.surface }]}
-          onPress={Keyboard.dismiss}
+          // onPress={Keyboard.dismiss}
         >
           <View style={[styles.container, { backgroundColor: theme.surface }]}>
             <View style={[styles.chats, CONTAINER_SIZE]}>
@@ -122,7 +122,7 @@ const Chat = () => {
               <MessageInput chatId={id as string} />
             </View>
           </View>
-        </Pressable>
+        </View>
       </KeyboardAvoidingView>
     </>
   );

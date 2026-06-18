@@ -60,19 +60,18 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
   // send message to a chat
   const sendMessageToChat = async (chatId: string, content: string) => {
+    let newMessage: Message = {
+      chat: chatId,
+      content,
+      sender: {
+        _id: user?.id || "temp-id",
+        name: user?.name || "temp-name",
+        email: user?.email || "temp-email",
+        avatar: user?.avatar || "temp-avatar",
+      },
+      createdAt: new Date().toISOString(),
+    };
     try {
-      let newMessage: Message = {
-        chat: chatId,
-        content,
-        sender: {
-          _id: user?.id || "temp-id",
-          name: user?.name || "temp-name",
-          email: user?.email || "temp-email",
-          avatar: user?.avatar || "temp-avatar",
-        },
-        createdAt: new Date().toISOString(),
-      };
-
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       let res = await sendMessage(chatId, content);
       // console.log(res);
@@ -80,12 +79,20 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       if (!res.success) {
         showToast(res.message);
         setMsg(res.message);
+        setMessages((prevMessages) =>
+          prevMessages.filter((msg) => msg !== newMessage),
+        );
         return;
       }
+
+      await getMessages(chatId);
     } catch (error) {
       console.log(error);
       showToast("Failed to send message");
       setMsg("Failed to send message");
+      setMessages((prevMessages) =>
+        prevMessages.filter((msg) => msg !== newMessage),
+      );
     }
   };
 

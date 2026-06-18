@@ -6,6 +6,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { Colors } from "@/constants/Colors";
 import User from "@/components/User";
 import { useAuth } from "@/hooks/useAuth";
+import moment from "moment";
 
 const ChatBubble = ({ message }: { message?: Message }) => {
   const { user } = useAuth();
@@ -36,11 +37,13 @@ const ChatBubble = ({ message }: { message?: Message }) => {
           >
             {message?.content}
           </Text>
+
           <Text style={[styles.timeText, { color: "#FFF" }]}>
-            {new Date(message?.createdAt || "").toLocaleTimeString([], {
-              // dateStyle: "short",
-              hour: "2-digit",
-              minute: "2-digit",
+            {moment(message?.createdAt).calendar(null, {
+              sameDay: "[Today at] h:mm A",
+              lastDay: "[Yesterday at] h:mm A",
+              lastWeek: "dddd [at] h:mm A",
+              sameElse: "MMMM Do YYYY, h:mm A",
             })}
           </Text>
         </View>
