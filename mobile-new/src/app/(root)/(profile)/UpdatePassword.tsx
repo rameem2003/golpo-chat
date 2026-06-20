@@ -94,7 +94,7 @@ const UpdatePassword = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
-                    borderColor: theme.key,
+                    borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
@@ -130,7 +130,7 @@ const UpdatePassword = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
-                    borderColor: theme.key,
+                    borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
@@ -166,7 +166,7 @@ const UpdatePassword = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
-                    borderColor: theme.key,
+                    borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}

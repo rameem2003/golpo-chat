@@ -98,7 +98,7 @@ const EditProfile = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
-                    borderColor: theme.key,
+                    borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
@@ -133,7 +133,7 @@ const EditProfile = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
-                    borderColor: theme.key,
+                    borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
@@ -165,7 +165,7 @@ const EditProfile = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
-                    borderColor: theme.key,
+                    borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}
@@ -197,7 +197,7 @@ const EditProfile = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
-                    borderColor: theme.key,
+                    borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
                   }}

@@ -10,9 +10,7 @@ import * as Notifications from "expo-notifications";
 export default function RootLayout() {
   return (
     <AuthProvider>
-      {/* <FriendRequestProvider> */}
       <Layout />
-      {/* </FriendRequestProvider> */}
     </AuthProvider>
   );
 }
@@ -28,10 +26,16 @@ function Layout() {
   });
 
   useEffect(() => {
-    // console.log(user);
+    console.log("user", user);
     if (!loading) {
-      setIsLoggedIn(!!user);
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
     }
+
+    console.log("loggin", isLoggedIn);
   }, [user, loading]);
 
   useEffect(() => {

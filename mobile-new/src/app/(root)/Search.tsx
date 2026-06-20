@@ -49,7 +49,7 @@ const SuggestedFriend = ({ user }: { user: chatUserType }) => {
               fontSize: SIZE.md,
             }}
           >
-            {user.name.slice(0, 5)}
+            {user.name.split(" ")[0]}
           </Text>
           <Text
             style={{
@@ -164,7 +164,7 @@ const Search = () => {
             <FlatList
               showsVerticalScrollIndicator={false}
               data={search}
-              keyExtractor={(data) => data.id}
+              keyExtractor={(data) => data._id}
               renderItem={({ item }) => <SuggestedFriend user={item} />}
             />
           )}

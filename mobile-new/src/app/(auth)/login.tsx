@@ -30,7 +30,7 @@ const login = () => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={{ flex: 1, backgroundColor: theme.surface }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={[styles.container, { backgroundColor: theme.surface }]}>
@@ -129,16 +129,19 @@ const login = () => {
           </View>
         </View>
 
-        {/* <View style={[styles.footer, { backgroundColor: theme.primaryLight }]}>
+        <View style={[styles.footer, { backgroundColor: theme.primary }]}>
           <Text
             style={[
               styles.footerText,
-              { color: theme.text, marginTop: SIZE.sm },
+              {
+                color: isDark ? Colors.light.surface : Colors.dark.surface,
+                marginTop: SIZE.sm,
+              },
             ]}
           >
             Don't have an account? <Link href="/(auth)/register">Sign Up</Link>
           </Text>
-        </View> */}
+        </View>
       </View>
     </KeyboardAvoidingView>
   );

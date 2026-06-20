@@ -21,12 +21,16 @@ const index = () => {
   const { theme, isDark } = useTheme();
   const { user, logout } = useAuth();
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{ flex: 1, backgroundColor: theme.surface }}
+    >
       <View
         style={[
           styles.container,
           CONTAINER_SIZE,
           { backgroundColor: theme.surface },
+          // { backgroundColor: "red" },
         ]}
       >
         {/* User Profile */}
@@ -34,7 +38,7 @@ const index = () => {
           style={[
             styles.profileContainer,
             {
-              backgroundColor: theme.primary,
+              backgroundColor: theme.surface,
               borderRadius: SIZE.sm,
               padding: SIZE.md,
             },

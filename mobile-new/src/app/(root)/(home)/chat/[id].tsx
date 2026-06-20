@@ -2,6 +2,7 @@ import CharHeaderLeft from "@/components/features/chat/CharHeaderLeft";
 import MessageInput from "@/components/features/chat/MessageInput";
 import ChatBubble from "@/components/features/chat/ChatBubble";
 import {
+  ActivityIndicator,
   FlatList,
   Keyboard,
   KeyboardAvoidingView,
@@ -26,7 +27,7 @@ const Chat = () => {
   const messageListRef = useRef<FlatList>(null);
   const { theme, isDark } = useTheme();
   const { id } = useLocalSearchParams();
-  const { chats, getMessages, messages } = useChat();
+  const { chats, getMessages, messages, loading } = useChat();
   // const filterUser = dummyUser.find((user) => user.id == "1");
   const filterUser = chats.find((chat) => chat._id === id)?.chatName;
 
@@ -83,6 +84,31 @@ const Chat = () => {
         >
           <View style={[styles.container, { backgroundColor: theme.surface }]}>
             <View style={[styles.chats, CONTAINER_SIZE]}>
+              {messages.length === 0 && loading && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: SIZE.sm,
+                    marginBottom: SIZE.md,
+                  }}
+                >
+                  <ActivityIndicator size="small" color={theme.key} />
+                  <Text
+                    style={{
+                      fontSize: SIZE.md,
+                      fontWeight: "bold",
+                      color: isDark
+                        ? Colors.light.surface
+                        : Colors.dark.surface,
+                    }}
+                  >
+                    Loading messages...
+                  </Text>
+                </View>
+              )}
+
               <FlatList
                 ref={messageListRef}
                 showsVerticalScrollIndicator={false}
