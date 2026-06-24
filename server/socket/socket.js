@@ -2,6 +2,7 @@ const { Server } = require("socket.io");
 const { verifyJWTToken } = require("../services/auth.service");
 const { registerUserEvents } = require("./userEvents");
 const { setSocketStore } = require("./socket-store");
+const { registerChatEvents } = require("./chatEvents");
 
 const onlineUsers = new Map();
 
@@ -44,6 +45,7 @@ const initSocket = (server) => {
     onlineUsers.set(userId, socket.id);
 
     registerUserEvents(io, socket, onlineUsers);
+    registerChatEvents(io, socket);
     setSocketStore(io, onlineUsers);
 
     socket.on("disconnect", () => {

@@ -12,7 +12,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useTheme } from "@/hooks/useTheme";
 import { dummyUser } from "@/constants/dummyData";
@@ -22,26 +22,79 @@ import { useChat } from "@/hooks/useChat";
 import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "@/lib/toast";
 import User from "@/components/User";
+import { getSocket } from "@/socket/socket";
+import { useAuth } from "@/hooks/useAuth";
 
 const Chat = () => {
+  const socket = getSocket();
   const messageListRef = useRef<FlatList>(null);
+  const [typingUser, setTypingUser] = useState<string | null>(null);
   const { theme, isDark } = useTheme();
   const { id } = useLocalSearchParams();
+  const { user } = useAuth();
   const { chats, getMessages, messages, loading } = useChat();
   // const filterUser = dummyUser.find((user) => user.id == "1");
   const filterUser = chats.find((chat) => chat._id === id)?.chatName;
 
   const dummyMessages = [];
 
+  // fetch messages when the component mounts or when the chat id changes
   useEffect(() => {
     getMessages(id as string);
   }, [id]);
 
+  // join the chat room when the component mounts and leave when it unmounts
+  useEffect(() => {
+    socket?.emit("join-chat", id);
+
+    return () => {
+      socket?.emit("leave-chat", id);
+    };
+  }, [id]);
+
+  // listen for new messages and scroll to the bottom when a new message is received
   useEffect(() => {
     if (messageListRef.current) {
       messageListRef.current.scrollToEnd({ animated: true });
     }
   }, [messages]);
+
+  // handle typing events
+  useEffect(() => {
+    socket?.on("user-typing", (data) => {
+      setTypingUser(data.userName);
+      if (messageListRef.current) {
+        messageListRef.current.scrollToEnd({ animated: true });
+      }
+    });
+
+    socket?.on("user-stop-typing", () => {
+      setTypingUser(null);
+    });
+
+    return () => {
+      socket?.off("user-typing");
+      socket?.off("user-stop-typing");
+    };
+  }, []);
+
+  // handle typing delay and emit stop-typing event after 2 seconds of inactivity
+  let typingTimeout = 0;
+  const typingEventHandler = () => {
+    socket?.emit("typing", {
+      chatId: id,
+      userId: user?.id,
+      userName: user?.name,
+    });
+
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      socket?.emit("stop-typing", {
+        chatId: id,
+        userId: user?.id,
+      });
+    }, 2000);
+  };
 
   return (
     <>
@@ -142,10 +195,18 @@ const Chat = () => {
                     </Text>
                   </View>
                 )}
+                ListFooterComponent={() => {
+                  if (typingUser) {
+                    return <ChatBubble typingIndicatorFallback={typingUser} />;
+                  }
+                }}
               />
             </View>
             <View style={styles.input}>
-              <MessageInput chatId={id as string} />
+              <MessageInput
+                chatId={id as string}
+                typingEventHandler={typingEventHandler}
+              />
             </View>
           </View>
         </View>

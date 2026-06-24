@@ -6,10 +6,22 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useChat } from "@/hooks/useChat";
 
-const MessageInput = ({ chatId }: { chatId: string }) => {
+const MessageInput = ({
+  chatId,
+  typingEventHandler,
+}: {
+  chatId: string;
+  typingEventHandler: () => void;
+}) => {
   const { sendMessageToChat } = useChat();
   const { theme, isDark } = useTheme();
   const [message, setMessage] = useState("");
+
+  const handleChangeText = (text: string) => {
+    setMessage(text);
+    typingEventHandler();
+  };
+
   const sendMessage = () => {
     console.log(message);
     // prevent sending empty messages or just spaces
@@ -37,7 +49,7 @@ const MessageInput = ({ chatId }: { chatId: string }) => {
         multiline
         placeholder="Type a message .........."
         value={message}
-        onChangeText={setMessage}
+        onChangeText={handleChangeText}
       />
       {message && message.trim() && (
         <Pressable

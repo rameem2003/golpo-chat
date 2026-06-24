@@ -8,9 +8,38 @@ import User from "@/components/User";
 import { useAuth } from "@/hooks/useAuth";
 import moment from "moment";
 
-const ChatBubble = ({ message }: { message?: Message }) => {
+const ChatBubble = ({
+  message,
+  typingIndicatorFallback,
+}: {
+  message?: Message;
+  typingIndicatorFallback?: string | null;
+}) => {
   const { user } = useAuth();
   const { theme, isDark } = useTheme();
+
+  if (typingIndicatorFallback) {
+    return (
+      <View style={[styles.containerReceiver]}>
+        <View
+          style={[
+            styles.innerBubbleReceiver,
+            { backgroundColor: theme.chatSender },
+          ]}
+        >
+          <Text
+            style={{
+              fontSize: SIZE.md,
+              color: "#FFF",
+            }}
+          >
+            {typingIndicatorFallback} is typing...
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <>
       <View
