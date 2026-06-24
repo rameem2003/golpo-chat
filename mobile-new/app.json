@@ -4,7 +4,7 @@
     "slug": "golpo-chat",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/GolpoChatLogoMainLight.png",
     "scheme": "golpochat",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -13,9 +13,9 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "foregroundImage": "./assets/images/GolpoChatLogoMainLight.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "monochromeImage": "./assets/images/GolpoChatLogoMainLight.png"
       },
       "package": "com.rol.golpochat",
       "googleServicesFile": "./assets/google-services.json",
@@ -33,7 +33,7 @@
         {
           "backgroundColor": "#FFFFFF",
           "android": {
-            "image": "./assets/images/icon.png",
+            "image": "./assets/images/GolpoChatLogoMainLight.png",
             "imageWidth": 76
           },
           "dark": {

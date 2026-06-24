@@ -117,7 +117,12 @@ const login = () => {
               onPress={handleLogin}
               style={({ pressed }) => [
                 styles.btn,
-                { backgroundColor: theme.key, opacity: pressed ? 0.8 : 1 },
+                {
+                  backgroundColor: isDark
+                    ? Colors.light.primary
+                    : Colors.dark.primary,
+                  opacity: pressed ? 0.8 : 1,
+                },
               ]}
             >
               {loading ? (
@@ -134,7 +139,7 @@ const login = () => {
             style={[
               styles.footerText,
               {
-                color: isDark ? Colors.light.surface : Colors.dark.surface,
+                color: isDark ? Colors.light.primary : Colors.dark.primary,
                 marginTop: SIZE.sm,
               },
             ]}
