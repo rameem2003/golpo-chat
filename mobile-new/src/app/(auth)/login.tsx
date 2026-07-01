@@ -128,7 +128,11 @@ const login = () => {
               {loading ? (
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
-                <Text style={[styles.btnText]}>Login</Text>
+                <Text
+                  style={[styles.btnText, { color: isDark ? "#000" : "#fff" }]}
+                >
+                  Login
+                </Text>
               )}
             </Pressable>
           </View>
@@ -194,7 +198,6 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: SIZE.md,
-    color: "#fff",
   },
 
   footer: {

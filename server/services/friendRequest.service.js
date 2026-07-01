@@ -63,6 +63,7 @@ const getSentRequests = async (userId) => {
     return await friendRequestModel
       .find({
         sender: userId,
+        status: { $ne: "accepted" }, // Exclude accepted requests
       })
       .populate("receiver", "name email avatar")
       .sort({

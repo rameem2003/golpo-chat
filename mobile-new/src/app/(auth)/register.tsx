@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -12,58 +13,93 @@ import { SIZE } from "@/constants/Size";
 import { Link } from "expo-router";
 import { useTheme } from "@/hooks/useTheme";
 import { FONTS } from "@/constants/Fonts";
+import BrandLogo from "@/components/ui/BrandLogo";
+import { Colors } from "@/constants/Colors";
+import { useAuth } from "@/hooks/useAuth";
 
 const register = () => {
-  const { theme } = useTheme();
+  const { loading } = useAuth();
+  const { theme, isDark } = useTheme();
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={[styles.container, { backgroundColor: theme.primary }]}>
+      <View style={[styles.container, { backgroundColor: theme.surface }]}>
         <View style={styles.logo}>
-          <Text style={[styles.logoText]}>Golpo</Text>
-          <Text style={[styles.subText]}>Chat</Text>
+          <BrandLogo />
         </View>
-
         <View
-          style={[
-            styles.formContainer,
-            { backgroundColor: theme.primaryLight },
-          ]}
+          style={[styles.formContainer, { backgroundColor: theme.primary }]}
         >
-          <Text style={[styles.formText, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.formText,
+
+              { color: isDark ? Colors.light.surface : Colors.dark.surface },
+            ]}
+          >
             Register Here
           </Text>
 
           <View style={{ marginTop: SIZE.xl }}>
             <View style={{ marginBottom: SIZE.lg }}>
-              <Text style={[styles.label, { color: theme.text }]}>Name</Text>
+              <Text
+                style={[
+                  styles.label,
+
+                  {
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  },
+                ]}
+              >
+                Name
+              </Text>
 
               <TextInput
                 placeholder="Enter your name"
-                placeholderTextColor={theme.text}
+                placeholderTextColor={
+                  isDark ? Colors.light.surface : Colors.dark.surface
+                }
                 style={[
                   styles.input,
+
                   {
                     backgroundColor: theme.overlay,
-                    color: theme.text,
+
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
+
                     borderColor: theme.primary,
                   },
                 ]}
               />
             </View>
             <View style={{ marginBottom: SIZE.lg }}>
-              <Text style={[styles.label, { color: theme.text }]}>Email</Text>
+              <Text
+                style={[
+                  styles.label,
+
+                  {
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  },
+                ]}
+              >
+                Email
+              </Text>
 
               <TextInput
                 placeholder="Enter your email"
-                placeholderTextColor={theme.text}
+                placeholderTextColor={
+                  isDark ? Colors.light.surface : Colors.dark.surface
+                }
                 style={[
                   styles.input,
+
                   {
                     backgroundColor: theme.overlay,
-                    color: theme.text,
+
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
+
                     borderColor: theme.primary,
                   },
                 ]}
@@ -71,19 +107,32 @@ const register = () => {
             </View>
 
             <View style={{ marginBottom: SIZE.lg }}>
-              <Text style={[styles.label, { color: theme.text }]}>
+              <Text
+                style={[
+                  styles.label,
+
+                  {
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
+                  },
+                ]}
+              >
                 Password
               </Text>
 
               <TextInput
                 secureTextEntry
                 placeholder="Enter your password"
-                placeholderTextColor={theme.text}
+                placeholderTextColor={
+                  isDark ? Colors.light.surface : Colors.dark.surface
+                }
                 style={[
                   styles.input,
+
                   {
                     backgroundColor: theme.overlay,
-                    color: theme.text,
+
+                    color: isDark ? Colors.light.surface : Colors.dark.surface,
+
                     borderColor: theme.primary,
                   },
                 ]}
@@ -93,26 +142,44 @@ const register = () => {
 
           <View style={{ marginTop: SIZE.md }}>
             <Pressable
-              style={({ hovered, pressed }) => [
+              style={({ pressed }) => [
                 styles.btn,
-                { backgroundColor: theme.primary, opacity: pressed ? 0.8 : 1 },
+                {
+                  backgroundColor: isDark
+                    ? Colors.light.primary
+                    : Colors.dark.primary,
+
+                  opacity: pressed ? 0.8 : 1,
+                },
               ]}
             >
-              <Text style={[styles.btnText]}>Register</Text>
+              {loading ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <Text
+                  style={[styles.btnText, { color: isDark ? "#000" : "#fff" }]}
+                >
+                  Register
+                </Text>
+              )}
             </Pressable>
           </View>
         </View>
-
-        {/* <View style={[styles.footer, { backgroundColor: theme.primaryLight }]}>
+        <View style={[styles.footer, { backgroundColor: theme.primary }]}>
           <Text
             style={[
               styles.footerText,
-              { color: theme.text, marginTop: SIZE.sm },
+
+              {
+                color: isDark ? Colors.light.primary : Colors.dark.primary,
+
+                marginTop: SIZE.sm,
+              },
             ]}
           >
-            Already have an account? <Link href="/(auth)/login">Login</Link>
+            Have an account? <Link href="/(auth)/login">Sign In</Link>
           </Text>
-        </View> */}
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
