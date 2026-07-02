@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SIZE } from "@/constants/Size";
 import { Link } from "expo-router";
 import { useTheme } from "@/hooks/useTheme";
@@ -18,8 +18,15 @@ import { Colors } from "@/constants/Colors";
 import { useAuth } from "@/hooks/useAuth";
 
 const register = () => {
-  const { loading } = useAuth();
+  const { loading, register } = useAuth();
   const { theme, isDark } = useTheme();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async () => {
+    await register(name, email, password);
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -57,6 +64,7 @@ const register = () => {
               </Text>
 
               <TextInput
+                onChangeText={(text) => setName(text)}
                 placeholder="Enter your name"
                 placeholderTextColor={
                   isDark ? Colors.light.surface : Colors.dark.surface
@@ -88,6 +96,7 @@ const register = () => {
               </Text>
 
               <TextInput
+                onChangeText={(text) => setEmail(text)}
                 placeholder="Enter your email"
                 placeholderTextColor={
                   isDark ? Colors.light.surface : Colors.dark.surface
@@ -120,6 +129,7 @@ const register = () => {
               </Text>
 
               <TextInput
+                onChangeText={(text) => setPassword(text)}
                 secureTextEntry
                 placeholder="Enter your password"
                 placeholderTextColor={
@@ -142,6 +152,7 @@ const register = () => {
 
           <View style={{ marginTop: SIZE.md }}>
             <Pressable
+              onPress={handleRegister}
               style={({ pressed }) => [
                 styles.btn,
                 {

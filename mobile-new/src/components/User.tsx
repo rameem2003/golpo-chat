@@ -6,6 +6,7 @@ import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/hooks/useTheme";
 import { FONTS } from "@/constants/Fonts";
 import { chatUserType } from "@/types/type";
+import * as Device from "expo-device";
 
 interface userProps {
   _id: string;
@@ -35,10 +36,18 @@ const User = ({
       {user?.avatar ? (
         <Image
           style={styles.avatar}
+          // source={{
+          //   uri: user?.avatar.includes("http")
+          //     ? user?.avatar
+          //     : "http://10.0.2.2:5000/" + user?.avatar,
+          // }}
+          //
           source={{
-            uri: user?.avatar.includes("http")
-              ? user?.avatar
-              : "http://10.0.2.2:5000/" + user?.avatar,
+            uri: user.avatar.startsWith("http")
+              ? user.avatar
+              : Device.isDevice
+                ? `http://192.168.0.102:5000/${user?.avatar}`
+                : "http://10.0.2.2:5000/" + user?.avatar,
           }}
         />
       ) : (

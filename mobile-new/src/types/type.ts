@@ -27,6 +27,7 @@ export interface AuthContextType {
   loading: boolean;
   msg: string | null;
   login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
   updateUser: (data: any) => Promise<void | null>;
   updateProfileAvatar: (avatar: any) => Promise<void>;
   updatePassword: (

@@ -3,6 +3,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import Splash from "@/components/Splash";
+import { usePathname } from "expo-router";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { registerForPushNotificationsAsync } from "@/services/notification";
 import * as Notifications from "expo-notifications";
@@ -16,6 +17,7 @@ export default function RootLayout() {
 }
 
 function Layout() {
+const pathname = usePathname()
   const { user, loading } = useAuth();
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -90,7 +92,10 @@ function Layout() {
 
   // ✅ show custom splash
   if (loading) {
+    if(pathname != "/login" || pathname != "/register"){
     return <Splash />;
+
+    }
   }
   return (
     <Stack

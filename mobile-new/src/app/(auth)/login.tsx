@@ -20,8 +20,8 @@ import { Colors } from "@/constants/Colors";
 
 const login = () => {
   const { login, loading } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("rameem2019@gmail.com");
+  const [password, setPassword] = useState("123456789");
   const { theme, isDark } = useTheme();
 
   const handleLogin = async () => {

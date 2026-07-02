@@ -30,15 +30,15 @@ const loginValidator = z.object({
 
 const registrationValidator = loginValidator.extend({
   name: nameValidator,
-  role: z
-    .enum(["student", "admin", "super-admin", "moderator"], {
-      message: "Role is required",
-    })
-    .default("student"),
-  phone: z
-    .string()
-    .trim()
-    .min(11, { message: "Phone number must be at least 11 characters long" }),
+  // role: z
+  //   .enum(["student", "admin", "super-admin", "moderator"], {
+  //     message: "Role is required",
+  //   })
+  //   .default("student"),
+  // phone: z
+  //   .string({ message: "Phone number is required" })
+  //   .trim()
+  //   .min(11, { message: "Phone number must be at least 11 characters long" }),
 });
 
 const changePasswordValidator = z

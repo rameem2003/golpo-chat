@@ -1,7 +1,6 @@
 import { getCookies } from "../async-storage";
 import { API_URL } from "../constants";
 import { File } from "expo-file-system";
-// "use client";
 export const loginRequest = async (email: string, password: string) => {
   try {
     let res = await fetch(`${API_URL}/auth/login`, {
@@ -19,7 +18,15 @@ export const loginRequest = async (email: string, password: string) => {
   }
 };
 
-export const registerRequest = async (data: any) => {
+export const registerRequest = async (
+  name: string,
+  email: string,
+  password: string,
+) => {
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("email", email);
+  formData.append("password", password);
   try {
     let res = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
@@ -28,7 +35,7 @@ export const registerRequest = async (data: any) => {
       //   "Content-Type": "application/json",
       // },
 
-      body: data,
+      body: formData,
     });
     return res.json();
   } catch (error: any) {

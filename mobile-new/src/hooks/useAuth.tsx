@@ -1,6 +1,7 @@
 import {
   forgotPasswordRequest,
   loginRequest,
+  registerRequest,
   logoutRequest,
   resetPasswordRequest,
   resetPasswordTokenVerifyRequest,
@@ -59,11 +60,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       let res = await loginRequest(email, password);
       if (!res.success) {
-        setMsg(res.message);
+        showToast(res.message);
         setLoading(false);
         return;
       }
-      setMsg(res.message);
+      showToast(res.message);
       setUser(res.data);
       setLoading(false);
       // await saveCookies(res.accessToken, res.refreshToken);
@@ -74,6 +75,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await getUser();
     } catch (error) {
       setMsg("Failed to login");
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  // register
+  const register = async (name: string, email: string, password: string) => {
+    try {
+      setLoading(true);
+      let res = await registerRequest(name, email, password);
+      console.log(res);
+      if (!res.success) {
+        showToast(res.message);
+        setLoading(false);
+        return;
+      }
+      showToast(res.message);
+      setUser(res.data);
+      setLoading(false);
+      router.push("/(auth)/login");
+    } catch (error) {
+      setMsg("Failed to register");
       setLoading(false);
       console.log(error);
     }
@@ -311,6 +334,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider
       value={{
         login,
+        register,
         getUser,
         updateUser,
         updateProfileAvatar,
