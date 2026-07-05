@@ -35,7 +35,7 @@ const MainLayout = () => {
           paddingTop: SIZE.md,
           height: 90,
         },
-        tabBarActiveTintColor: theme.key,
+        tabBarActiveTintColor: theme.tab,
         tabBarInactiveTintColor: isDark
           ? Colors.light.surface
           : Colors.dark.surface,

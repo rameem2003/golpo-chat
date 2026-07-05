@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Text,
   TextInput,
   TextInputProps,
   TouchableOpacity,
@@ -9,6 +8,7 @@ import {
 import React, { useState } from "react";
 import { SIZE } from "@/constants/Size";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "@/hooks/useTheme";
 
 interface TextInputComponentProps extends TextInputProps {
   style?: TextInputProps["style"];
@@ -24,6 +24,7 @@ const TextInputComponent = ({
   secureTextEntry = false,
   ...props
 }: TextInputComponentProps) => {
+  const { isDark, theme } = useTheme();
   const [visible, setVisible] = useState(true);
 
   if (secureTextEntry) {
@@ -35,12 +36,19 @@ const TextInputComponent = ({
           style={[styles.input, style]}
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
+          autoCapitalize="none"
+          cursorColor={isDark ? "#fff" : "#000"}
+          selectionColor={isDark ? "#fff" : "#000"}
         />
         <TouchableOpacity
           onPress={() => setVisible(!visible)}
           style={{ position: "absolute", right: 10, top: 15 }}
         >
-          <Ionicons name={visible ? "eye-off" : "eye"} size={24} color="#Fff" />
+          <Ionicons
+            name={visible ? "eye-off" : "eye"}
+            size={24}
+            color={isDark ? "#fff" : "#000"}
+          />
         </TouchableOpacity>
       </View>
     );
@@ -53,6 +61,8 @@ const TextInputComponent = ({
       style={[styles.input, style]}
       placeholder={placeholder}
       placeholderTextColor={placeholderTextColor}
+      cursorColor={isDark ? "#fff" : "#000"}
+      selectionColor={isDark ? "#fff" : "#000"}
     />
   );
 };

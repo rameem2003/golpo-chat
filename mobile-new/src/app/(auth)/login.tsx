@@ -17,11 +17,12 @@ import { Link } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
 import BrandLogo from "@/components/ui/BrandLogo";
 import { Colors } from "@/constants/Colors";
+import TextInputComponent from "@/components/ui/TextInputComponent";
 
 const login = () => {
   const { login, loading } = useAuth();
-  const [email, setEmail] = useState("rameem2019@gmail.com");
-  const [password, setPassword] = useState("123456789");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { theme, isDark } = useTheme();
 
   const handleLogin = async () => {
@@ -63,20 +64,17 @@ const login = () => {
                 Email
               </Text>
 
-              <TextInput
+              <TextInputComponent
                 onChangeText={(text) => setEmail(text)}
+                value={email}
                 placeholder="Enter your email"
                 placeholderTextColor={
                   isDark ? Colors.light.surface : Colors.dark.surface
                 }
-                style={[
-                  styles.input,
-                  {
-                    backgroundColor: theme.overlay,
-                    color: isDark ? Colors.light.surface : Colors.dark.surface,
-                    borderColor: theme.primary,
-                  },
-                ]}
+                style={{
+                  borderColor: theme.overlay,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                }}
               />
             </View>
 
@@ -92,21 +90,18 @@ const login = () => {
                 Password
               </Text>
 
-              <TextInput
-                onChangeText={(text) => setPassword(text)}
-                secureTextEntry
+              <TextInputComponent
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
                 placeholder="Enter your password"
                 placeholderTextColor={
                   isDark ? Colors.light.surface : Colors.dark.surface
                 }
-                style={[
-                  styles.input,
-                  {
-                    backgroundColor: theme.overlay,
-                    color: isDark ? Colors.light.surface : Colors.dark.surface,
-                    borderColor: theme.primary,
-                  },
-                ]}
+                style={{
+                  borderColor: theme.overlay,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                }}
               />
             </View>
           </View>
@@ -126,7 +121,10 @@ const login = () => {
               ]}
             >
               {loading ? (
-                <ActivityIndicator size="small" color="#fff" />
+                <ActivityIndicator
+                  size="small"
+                  color={isDark ? "#000" : "#fff"}
+                />
               ) : (
                 <Text
                   style={[styles.btnText, { color: isDark ? "#000" : "#fff" }]}

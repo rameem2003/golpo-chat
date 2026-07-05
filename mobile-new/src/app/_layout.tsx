@@ -17,7 +17,7 @@ export default function RootLayout() {
 }
 
 function Layout() {
-const pathname = usePathname()
+  const pathname = usePathname();
   const { user, loading } = useAuth();
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -92,9 +92,8 @@ const pathname = usePathname()
 
   // ✅ show custom splash
   if (loading) {
-    if(pathname != "/login" || pathname != "/register"){
-    return <Splash />;
-
+    if (pathname != "/login" && pathname != "/register") {
+      return <Splash />;
     }
   }
   return (

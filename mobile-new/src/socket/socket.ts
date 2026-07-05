@@ -5,10 +5,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { io, Socket } from "socket.io-client";
 let socket: Socket | null = null;
 
-export const SOCKET_URL = Device.isDevice
-  ? `http://192.168.0.102:5000` // Physical device
-  : "http://10.0.2.2:5000";
-// const SOCKET_URL = API_URL.replace(/\/api\/v1\/?$/, "");
+// export const SOCKET_URL = Device.isDevice
+//   ? `http://192.168.0.100:5000` // Physical device
+//   : "http://10.0.2.2:5000";
+
+export const SOCKET_URL = "https://golpo-api.rameem.pro.bd";
 
 export const connectSocket = async () => {
   console.log("Connecting socket...");

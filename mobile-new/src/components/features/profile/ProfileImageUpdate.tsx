@@ -78,7 +78,7 @@ const ProfileImageUpdate = () => {
     <View style={{ position: "relative" }}>
       <User user={user} contentStyle={{ height: 120, width: 120 }} />
       <TouchableOpacity onPress={pickImage} style={styles.editIcon}>
-        <Ionicons name="camera" size={24} color={theme.overlay} />
+        <Ionicons name="camera" size={24} color={"#000"} />
       </TouchableOpacity>
     </View>
   );

@@ -16,9 +16,9 @@ import {
 } from "@/lib/apis/friend";
 import { showToast } from "@/lib/toast";
 
-const FriendRequestContext = createContext<
-  FriendRequestContextType | undefined
->(undefined);
+const FriendRequestContext = createContext<FriendRequestContextType | null>(
+  null,
+);
 
 export const useFriend = () => {
   const context = useContext(FriendRequestContext);

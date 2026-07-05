@@ -74,7 +74,7 @@ const Notification = () => {
                 padding: SIZE.md,
                 alignItems: "center",
                 backgroundColor:
-                  activeTab === "received" ? theme.chatSender : theme.primary,
+                  activeTab === "received" ? theme.tab : theme.primary,
                 borderRadius: SIZE.sm,
               }}
               onPress={() => setActiveTab("received")}
@@ -82,7 +82,14 @@ const Notification = () => {
               <Text
                 style={{
                   fontWeight: "bold",
-                  color: isDark ? Colors.light.primary : Colors.dark.primary,
+                  color:
+                    activeTab === "received"
+                      ? isDark
+                        ? Colors.dark.primary
+                        : Colors.light.primary
+                      : isDark
+                        ? Colors.light.primary
+                        : Colors.dark.primary,
                 }}
               >
                 Request Received
@@ -94,7 +101,7 @@ const Notification = () => {
                 padding: SIZE.md,
                 alignItems: "center",
                 backgroundColor:
-                  activeTab === "sent" ? theme.chatSender : theme.primary,
+                  activeTab === "sent" ? theme.tab : theme.primary,
                 borderRadius: SIZE.sm,
               }}
               onPress={() => setActiveTab("sent")}
@@ -102,7 +109,14 @@ const Notification = () => {
               <Text
                 style={{
                   fontWeight: "bold",
-                  color: isDark ? Colors.light.primary : Colors.dark.primary,
+                  color:
+                    activeTab === "sent"
+                      ? isDark
+                        ? Colors.dark.primary
+                        : Colors.light.primary
+                      : isDark
+                        ? Colors.light.primary
+                        : Colors.dark.primary,
                 }}
               >
                 Request Sent

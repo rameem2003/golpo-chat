@@ -2,6 +2,8 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useTheme } from "@/hooks/useTheme";
 import BrandLogo from "./ui/BrandLogo";
+import { Colors } from "@/constants/Colors";
+import { FONTS } from "@/constants/Fonts";
 
 const Splash = () => {
   const { theme, isDark } = useTheme();
@@ -13,6 +15,15 @@ const Splash = () => {
       <BrandLogo />
       <View style={styles.subTextContainer}>
         <Image source={imagePath} style={styles.subImage} />
+        <Text
+          style={[
+            styles.subText,
+
+            { color: isDark ? Colors.light.surface : Colors.dark.surface },
+          ]}
+        >
+          v1.0.0 Alpha
+        </Text>
       </View>
     </View>
   );
@@ -26,13 +37,19 @@ const styles = StyleSheet.create({
   },
 
   subTextContainer: {
-    flex: 2,
+    flex: 3,
     alignItems: "center",
     justifyContent: "center",
   },
   subImage: {
     width: 200,
-    height: 200,
+    height: 70,
     resizeMode: "contain",
+  },
+
+  subText: {
+    fontSize: 15,
+    marginTop: 10,
+    fontWeight: "medium",
   },
 });

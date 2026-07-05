@@ -16,6 +16,7 @@ import { FONTS } from "@/constants/Fonts";
 import BrandLogo from "@/components/ui/BrandLogo";
 import { Colors } from "@/constants/Colors";
 import { useAuth } from "@/hooks/useAuth";
+import TextInputComponent from "@/components/ui/TextInputComponent";
 
 const register = () => {
   const { loading, register } = useAuth();
@@ -63,23 +64,17 @@ const register = () => {
                 Name
               </Text>
 
-              <TextInput
+              <TextInputComponent
                 onChangeText={(text) => setName(text)}
+                value={name}
                 placeholder="Enter your name"
                 placeholderTextColor={
                   isDark ? Colors.light.surface : Colors.dark.surface
                 }
-                style={[
-                  styles.input,
-
-                  {
-                    backgroundColor: theme.overlay,
-
-                    color: isDark ? Colors.light.surface : Colors.dark.surface,
-
-                    borderColor: theme.primary,
-                  },
-                ]}
+                style={{
+                  borderColor: theme.overlay,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                }}
               />
             </View>
             <View style={{ marginBottom: SIZE.lg }}>
@@ -95,23 +90,17 @@ const register = () => {
                 Email
               </Text>
 
-              <TextInput
+              <TextInputComponent
                 onChangeText={(text) => setEmail(text)}
+                value={email}
                 placeholder="Enter your email"
                 placeholderTextColor={
                   isDark ? Colors.light.surface : Colors.dark.surface
                 }
-                style={[
-                  styles.input,
-
-                  {
-                    backgroundColor: theme.overlay,
-
-                    color: isDark ? Colors.light.surface : Colors.dark.surface,
-
-                    borderColor: theme.primary,
-                  },
-                ]}
+                style={{
+                  borderColor: theme.overlay,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                }}
               />
             </View>
 
@@ -128,24 +117,18 @@ const register = () => {
                 Password
               </Text>
 
-              <TextInput
-                onChangeText={(text) => setPassword(text)}
-                secureTextEntry
+              <TextInputComponent
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
                 placeholder="Enter your password"
                 placeholderTextColor={
                   isDark ? Colors.light.surface : Colors.dark.surface
                 }
-                style={[
-                  styles.input,
-
-                  {
-                    backgroundColor: theme.overlay,
-
-                    color: isDark ? Colors.light.surface : Colors.dark.surface,
-
-                    borderColor: theme.primary,
-                  },
-                ]}
+                style={{
+                  borderColor: theme.overlay,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                }}
               />
             </View>
           </View>
@@ -165,7 +148,10 @@ const register = () => {
               ]}
             >
               {loading ? (
-                <ActivityIndicator size="small" color="#fff" />
+                <ActivityIndicator
+                  size="small"
+                  color={isDark ? "#000" : "#fff"}
+                />
               ) : (
                 <Text
                   style={[styles.btnText, { color: isDark ? "#000" : "#fff" }]}
