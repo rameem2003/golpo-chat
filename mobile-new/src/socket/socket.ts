@@ -9,8 +9,6 @@ let socket: Socket | null = null;
 //   ? `http://192.168.0.100:5000` // Physical device
 //   : "http://10.0.2.2:5000";
 
-export const SOCKET_URL = "https://golpo-api.rameem.pro.bd";
-
 export const connectSocket = async () => {
   console.log("Connecting socket...");
   const token = await AsyncStorage.getItem("accessToken");
