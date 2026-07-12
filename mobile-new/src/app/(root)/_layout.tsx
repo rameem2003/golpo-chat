@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Stack, Tabs, usePathname } from "expo-router";
 import { useTheme } from "@/hooks/useTheme";
@@ -110,7 +110,7 @@ const MainLayout = () => {
 
 const _layout = () => {
   // const pathname = usePathname();
-  // const { theme, isDark } = useTheme();
+  const { theme, isDark } = useTheme();
 
   // console.log("path :", pathname);
   return (
@@ -202,6 +202,7 @@ const _layout = () => {
           }}
         />
       </Tabs> */}
+      <StatusBar barStyle={isDark ? "light-content" : "default"} />
 
       <MainLayout />
     </FriendRequestProvider>

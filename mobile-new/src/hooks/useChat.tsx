@@ -1,8 +1,9 @@
+import { AppState } from "react-native";
 import { getAllChats, getChatMessages, sendMessage } from "@/lib/apis/chat";
 import { showToast } from "@/lib/toast";
 import { listenChatEvents, listenFriendEvents } from "@/socket/socketEvents";
 import { ChatContextType, Chat, Message } from "@/types/type";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useAuth } from "./useAuth";
 
 const ChatContext = createContext<ChatContextType | null>(null);
@@ -14,6 +15,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState(""); // for error or success messages
+  const appState = useRef(AppState.currentState);
 
   // fetch all chats of the user
   const fetchChats = async () => {
@@ -38,6 +40,8 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
   // fetch messages of a chat
   const getMessages = async (chatId: string) => {
+    // console.log("Messages fetching", chatId);
+
     setChat(chatId);
     setLoading(true);
     try {
@@ -96,18 +100,20 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Fetch chats on component mount
   useEffect(() => {
     fetchChats();
   }, []);
 
+  // Listen to socket events for new messages and friend requests
   useEffect(() => {
     if (!chat) return;
 
     const unsubscribe = listenChatEvents({
       onNewMessage: async (data: any) => {
         console.log("New message received: ", data);
-        getMessages(chat);
-        fetchChats();
+        await getMessages(chat);
+        await fetchChats();
       },
     });
 
@@ -123,6 +129,26 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       if (unsubscribeFriendEvents) unsubscribeFriendEvents();
     };
   }, [chat]);
+
+  // Listen to app state changes to refresh chats when app comes to foreground
+  useEffect(() => {
+    const subscription = AppState.addEventListener(
+      "change",
+      async (nextState) => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextState === "active"
+        ) {
+          await fetchChats(); // Reload latest chat
+        }
+
+        appState.current = nextState;
+        await fetchChats();
+      },
+    );
+
+    return () => subscription.remove();
+  }, []);
 
   return (
     <ChatContext.Provider

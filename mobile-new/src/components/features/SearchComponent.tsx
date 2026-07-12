@@ -5,6 +5,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { Ionicons } from "@expo/vector-icons";
 import { useFriend } from "@/hooks/useFriend";
 import { Colors } from "@/constants/Colors";
+import { FONTS } from "@/constants/Fonts";
 
 const SearchComponent = () => {
   const { findFriend, search } = useFriend();
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
     marginBottom: SIZE.md,
   },
   textInput: {
+    fontFamily: FONTS.Inter18Medium,
     width: "100%",
     padding: SIZE.md,
     borderRadius: SIZE.xl,

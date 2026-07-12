@@ -81,7 +81,8 @@ const Notification = () => {
             >
               <Text
                 style={{
-                  fontWeight: "bold",
+                  // fontWeight: "bold",
+                  fontFamily: FONTS.Inter18Medium,
                   color:
                     activeTab === "received"
                       ? isDark
@@ -108,7 +109,8 @@ const Notification = () => {
             >
               <Text
                 style={{
-                  fontWeight: "bold",
+                  // fontWeight: "bold",
+                  fontFamily: FONTS.Inter18Medium,
                   color:
                     activeTab === "sent"
                       ? isDark

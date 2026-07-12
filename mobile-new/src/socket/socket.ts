@@ -5,7 +5,7 @@ import { io, Socket } from "socket.io-client";
 let socket: Socket | null = null;
 
 export const SOCKET_URL = Device.isDevice
-  ? `http://192.168.0.100:5000` // Physical device
+  ? `http://192.168.0.104:5000` // Physical device
   : "http://10.0.2.2:5000";
 
 export const connectSocket = async () => {

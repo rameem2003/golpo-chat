@@ -72,6 +72,7 @@ const login = () => {
                   isDark ? Colors.light.surface : Colors.dark.surface
                 }
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   borderColor: theme.overlay,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
                 }}
@@ -99,6 +100,7 @@ const login = () => {
                   isDark ? Colors.light.surface : Colors.dark.surface
                 }
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   borderColor: theme.overlay,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
                 }}
@@ -181,6 +183,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: SIZE.md,
+    fontFamily: FONTS.Inter18Medium,
   },
   input: {
     marginTop: SIZE.sm,
@@ -195,6 +198,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnText: {
+    fontFamily: FONTS.Inter18Medium,
     fontSize: SIZE.md,
   },
 
@@ -202,6 +206,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footerText: {
+    fontFamily: FONTS.Inter18Medium,
     fontSize: SIZE.md,
     textAlign: "center",
   },

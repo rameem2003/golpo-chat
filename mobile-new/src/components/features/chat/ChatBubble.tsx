@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Message } from "@/types/type";
 import { SIZE } from "@/constants/Size";
 import { useTheme } from "@/hooks/useTheme";
@@ -7,6 +7,7 @@ import { Colors } from "@/constants/Colors";
 import User from "@/components/User";
 import { useAuth } from "@/hooks/useAuth";
 import moment from "moment";
+import { showToast } from "@/lib/toast";
 
 const ChatBubble = ({
   message,
@@ -15,8 +16,13 @@ const ChatBubble = ({
   message?: Message;
   typingIndicatorFallback?: string | null;
 }) => {
+  const [viewTime, setViewTime] = useState(false);
   const { user } = useAuth();
   const { theme, isDark } = useTheme();
+
+  const handleViewTime = () => {
+    setViewTime((prev) => !prev);
+  };
 
   if (typingIndicatorFallback) {
     return (
@@ -50,7 +56,9 @@ const ChatBubble = ({
         ]}
       >
         {/* <View> */}
-        <View
+        <Pressable
+          onLongPress={() => showToast("Long press coming soon")}
+          onPress={handleViewTime}
           style={[
             message?.sender._id === user?.id
               ? styles.innerBubbleSender
@@ -67,15 +75,17 @@ const ChatBubble = ({
             {message?.content}
           </Text>
 
-          <Text style={[styles.timeText, { color: "#FFF" }]}>
-            {moment(message?.createdAt).calendar(null, {
-              sameDay: "[Today at] h:mm A",
-              lastDay: "[Yesterday at] h:mm A",
-              lastWeek: "dddd [at] h:mm A",
-              sameElse: "MMMM Do YYYY, h:mm A",
-            })}
-          </Text>
-        </View>
+          {viewTime && (
+            <Text style={[styles.timeText, { color: "#FFF" }]}>
+              {moment(message?.createdAt).calendar(null, {
+                sameDay: "[Today at] h:mm A",
+                lastDay: "[Yesterday at] h:mm A",
+                lastWeek: "dddd [at] h:mm A",
+                sameElse: "MMMM Do YYYY, h:mm A",
+              })}
+            </Text>
+          )}
+        </Pressable>
         {/* </View> */}
         <User
           fallbackText={

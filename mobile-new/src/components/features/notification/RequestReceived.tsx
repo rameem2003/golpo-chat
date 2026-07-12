@@ -13,6 +13,7 @@ import { SIZE } from "@/constants/Size";
 import User from "@/components/User";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
+import { FONTS } from "@/constants/Fonts";
 
 const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
   const { theme, isDark } = useTheme();
@@ -48,6 +49,7 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
         <View>
           <Text
             style={{
+              fontFamily: FONTS.Inter18Medium,
               color: isDark ? Colors.light.primary : Colors.dark.primary,
               fontSize: SIZE.md,
             }}
@@ -58,6 +60,7 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
             style={{
               color: isDark ? Colors.light.primary : Colors.dark.primary,
 
+              fontFamily: FONTS.Inter18Medium,
               fontSize: 14,
             }}
           >
@@ -126,6 +129,7 @@ const RequestReceived = () => {
       {receivedRequests.length === 0 ? (
         <Text
           style={{
+            fontFamily: FONTS.Inter18Medium,
             color: isDark ? Colors.light.primary : Colors.dark.primary,
             textAlign: "center",
             marginTop: 20,

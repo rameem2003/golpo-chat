@@ -126,6 +126,7 @@ const Search = () => {
           <SearchComponent />
           <Text
             style={{
+              fontFamily: FONTS.Inter18Medium,
               color: isDark ? Colors.light.surface : Colors.dark.surface,
               marginBottom: SIZE.lg,
             }}
@@ -140,6 +141,7 @@ const Search = () => {
               />
               <Text
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   color: isDark ? Colors.light.primary : Colors.dark.primary,
                 }}
               >
@@ -152,6 +154,7 @@ const Search = () => {
             <View style={{ alignItems: "center", marginTop: SIZE.lg }}>
               <Text
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   color: isDark ? Colors.light.primary : Colors.dark.primary,
                 }}
               >
