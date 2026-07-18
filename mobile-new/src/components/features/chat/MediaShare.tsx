@@ -1,0 +1,93 @@
+import { Colors } from "@/constants/Colors";
+import { FONTS } from "@/constants/Fonts";
+import { SIZE } from "@/constants/Size";
+import { useTheme } from "@/hooks/useTheme";
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+
+const MediaShare = () => {
+  const { theme, isDark } = useTheme();
+  return (
+    <View>
+      <View style={{ marginBottom: SIZE.lg, alignItems: "center" }}>
+        <Text
+          style={{
+            fontSize: SIZE.md,
+            fontFamily: FONTS.Inter18Medium,
+            color: isDark ? Colors.light.surface : Colors.dark.surface,
+          }}
+        >
+          Share
+        </Text>
+        <View style={styles.optionContainer}>
+          <Pressable
+            style={({ pressed }) => [
+              styles.optionBtn,
+              { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
+            ]}
+          >
+            <Entypo
+              name="image"
+              size={24}
+              color={isDark ? Colors.light.surface : Colors.dark.surface}
+            />
+            <Text style={styles.optionBtnText}>Image</Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.optionBtn,
+              { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
+            ]}
+          >
+            <AntDesign
+              name="audio"
+              size={24}
+              color={isDark ? Colors.light.surface : Colors.dark.surface}
+            />
+            <Text style={styles.optionBtnText}>Audio</Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.optionBtn,
+              { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
+            ]}
+          >
+            <AntDesign
+              name="file"
+              size={24}
+              color={isDark ? Colors.light.surface : Colors.dark.surface}
+            />
+            <Text style={styles.optionBtnText}>Files</Text>
+          </Pressable>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default MediaShare;
+
+const styles = StyleSheet.create({
+  optionContainer: {
+    marginTop: SIZE.md,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    gap: SIZE.md,
+    width: "100%",
+  },
+
+  optionBtn: {
+    padding: SIZE.md,
+    paddingHorizontal: SIZE.lg,
+    borderRadius: SIZE.md,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: SIZE.xs,
+  },
+
+  optionBtnText: {
+    fontSize: SIZE.sm,
+    fontFamily: FONTS.Inter18Medium,
+  },
+});

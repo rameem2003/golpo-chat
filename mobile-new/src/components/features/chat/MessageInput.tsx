@@ -6,6 +6,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useChat } from "@/hooks/useChat";
 import { FONTS } from "@/constants/Fonts";
+import MediaShare from "./MediaShare";
 
 const MessageInput = ({
   chatId,
@@ -13,7 +14,8 @@ const MessageInput = ({
 }: {
   chatId: string;
   typingEventHandler: () => void;
-}) => {
+  }) => {
+    const [isMediaShareOpen, setIsMediaShareOpen] = useState(false);
   const { sendMessageToChat } = useChat();
   const { theme, isDark } = useTheme();
   const [message, setMessage] = useState("");
@@ -42,28 +44,19 @@ const MessageInput = ({
       style={[
         CONTAINER_SIZE,
         styles.container,
-        { backgroundColor: theme.primary },
+        { backgroundColor: theme.primary, minHeight: isMediaShareOpen ? 200 : 70},
       ]}
     >
       {/*media attachment option section*/}
-      <View style={{ marginBottom: SIZE.lg, alignItems: "center" }}>
-        <Text
-          style={{
-            fontSize: SIZE.md,
-            fontFamily: FONTS.Inter18Medium,
-            color: isDark ? Colors.light.surface : Colors.dark.surface,
-          }}
-        >
-          Share
-        </Text>
-      </View>
+      {isMediaShareOpen && (<MediaShare/>)}
+
 
       {/*main user input section*/}
       <View style={styles.inputArea}>
         {/*media attachments action*/}
         {!message && (
           <Pressable
-            onPress={handleLoveReact}
+       onPress={() => setIsMediaShareOpen(!isMediaShareOpen)}
             style={({ pressed }) => [
               styles.btn,
               { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
@@ -133,7 +126,7 @@ export default MessageInput;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     // flexDirection: "row",
     // alignItems: "center",
     // justifyContent: "space-between",
@@ -145,7 +138,7 @@ const styles = StyleSheet.create({
   inputArea: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-end",
     justifyContent: "space-between",
     gap: 10,
   },
