@@ -6,6 +6,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { Colors } from "@/constants/Colors";
 import { Chat } from "@/types/type";
 import User from "@/components/User";
+import { FONTS } from "@/constants/Fonts";
 
 const ChatListCard = ({ chat }: { chat: Chat }) => {
   const { theme, isDark } = useTheme();
@@ -30,7 +31,7 @@ const ChatListCard = ({ chat }: { chat: Chat }) => {
               style={{
                 color: isDark ? Colors.light.primary : Colors.dark.primary,
                 fontSize: SIZE.md,
-                fontWeight: "bold",
+                fontFamily: FONTS.Inter18Medium
               }}
             >
               {chat.chatName}

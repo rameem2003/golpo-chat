@@ -46,7 +46,7 @@ const User = ({
             uri: user.avatar.startsWith("http")
               ? user.avatar
               : Device.isDevice
-                ? `http://192.168.0.104:5000/${user?.avatar}`
+                ? `http://192.168.0.102:5000/${user?.avatar}`
                 : "http://10.0.2.2:5000/" + user?.avatar,
           }}
         />

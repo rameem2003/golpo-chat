@@ -64,16 +64,18 @@ const createPrivateChat = async (user1, user2) => {
 
 // get all messages for a chat, including the sender of the message, sorted by createdAt in ascending order
 const getMessages = async (chatId, page = 1) => {
-  // const limit = 20;
+  const limit = 20;
 
-  return await messageModel
+  const messages= await messageModel
     .find({
       chat: chatId,
     })
     .populate("sender", "name email avatar")
-    .sort({ createdAt: 1 });
-  // .skip((page - 1) * limit)
-  // .limit(limit);
+    .sort({ createdAt: -1 })
+  .skip((page - 1) * limit)
+    .limit(limit);
+
+  return messages.reverse(); // Reverse the order to have the latest messages first
 };
 
 // Send Message to a chat

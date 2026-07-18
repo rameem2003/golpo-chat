@@ -226,6 +226,6 @@ const styles = StyleSheet.create({
     marginTop: SIZE.md,
   },
   input: {
-    minHeight: 80,
+    minHeight: 120,
   },
 });

@@ -1,10 +1,11 @@
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { CONTAINER_SIZE, SIZE } from "./../../../constants/Size";
 import { useTheme } from "@/hooks/useTheme";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useChat } from "@/hooks/useChat";
+import { FONTS } from "@/constants/Fonts";
 
 const MessageInput = ({
   chatId,
@@ -17,6 +18,12 @@ const MessageInput = ({
   const { theme, isDark } = useTheme();
   const [message, setMessage] = useState("");
 
+  // handle love react quick send
+  const handleLoveReact = () => {
+    sendMessageToChat(chatId, "❤️");
+  };
+
+  // handle text input change
   const handleChangeText = (text: string) => {
     setMessage(text);
     typingEventHandler();
@@ -38,28 +45,86 @@ const MessageInput = ({
         { backgroundColor: theme.primary },
       ]}
     >
-      <TextInput
-        placeholderTextColor={
-          isDark ? Colors.light.surface : Colors.dark.surface
-        }
-        style={[
-          styles.textInput,
-          { color: isDark ? "#FFF" : "#000", backgroundColor: theme.overlay },
-        ]}
-        multiline
-        placeholder="Type a message .........."
-        value={message}
-        onChangeText={handleChangeText}
-      />
-      {message && message.trim() && (
-        <Pressable
-          onPress={sendMessage}
-          disabled={!message.trim()}
-          style={({ pressed }) => [styles.btn, { opacity: pressed ? 0.8 : 1 }]}
+      {/*media attachment option section*/}
+      <View style={{ marginBottom: SIZE.lg, alignItems: "center" }}>
+        <Text
+          style={{
+            fontSize: SIZE.md,
+            fontFamily: FONTS.Inter18Medium,
+            color: isDark ? Colors.light.surface : Colors.dark.surface,
+          }}
         >
-          <Ionicons name="paper-plane" size={20} />
-        </Pressable>
-      )}
+          Share
+        </Text>
+      </View>
+
+      {/*main user input section*/}
+      <View style={styles.inputArea}>
+        {/*media attachments action*/}
+        {!message && (
+          <Pressable
+            onPress={handleLoveReact}
+            style={({ pressed }) => [
+              styles.btn,
+              { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
+            ]}
+          >
+            <AntDesign
+              style={{ color: isDark ? "#FFF" : "#000" }}
+              name="plus"
+              size={20}
+            />
+          </Pressable>
+        )}
+
+        <TextInput
+          placeholderTextColor={
+            isDark ? Colors.light.surface : Colors.dark.surface
+          }
+          style={[
+            styles.textInput,
+            { color: isDark ? "#FFF" : "#000", backgroundColor: theme.overlay },
+          ]}
+          multiline
+          placeholder="Type a message .........."
+          value={message}
+          onChangeText={handleChangeText}
+        />
+        {/*send button*/}
+        {message && message.trim() && (
+          <Pressable
+            onPress={sendMessage}
+            disabled={!message.trim()}
+            style={({ pressed }) => [
+              styles.btn,
+              { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
+            ]}
+          >
+            <Ionicons
+              style={{ color: isDark ? "#FFF" : "#000" }}
+              name="send"
+              size={20}
+            />
+          </Pressable>
+        )}
+
+        {/*quick action button*/}
+        {!message && (
+          <Pressable
+            onPress={handleLoveReact}
+            style={({ pressed }) => [
+              styles.btn,
+              { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
+            ]}
+          >
+            <AntDesign
+              style={{ color: isDark ? "#FFF" : "#000" }}
+              name="heart"
+              size={20}
+            />
+          </Pressable>
+        )}
+      </View>
     </View>
   );
 };
@@ -69,15 +134,25 @@ export default MessageInput;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
-    gap: 10,
+    // flexDirection: "row",
+    // alignItems: "center",
+    // justifyContent: "space-between",
+    // gap: 10,
     paddingVertical: 12,
     borderTopLeftRadius: SIZE.md,
     borderTopRightRadius: SIZE.md,
   },
+  inputArea: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 10,
+  },
 
   textInput: {
     flex: 1,
+    minHeight: 45,
     padding: SIZE.xs,
     borderRadius: SIZE.xl,
     paddingHorizontal: SIZE.lg,

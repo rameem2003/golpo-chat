@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
   subText: {
     fontSize: 15,
     marginTop: 10,
-    fontWeight: "medium",
+    fontFamily: FONTS.Inter18Medium
   },
 });
