@@ -126,9 +126,25 @@ export interface Message {
     email: string;
     avatar: string;
   };
+  media?: String[];
   readBy?: string[];
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface MediaType {
+  assetId: string | null;
+  base64: string | null;
+  duration: number | null;
+  exif: any | null;
+  fileName: string;
+  fileSize: number;
+  height: number;
+  mimeType: string;
+  rotation: number | null;
+  type: string;
+  uri: string;
+  width: number;
 }
 
 export interface ChatContextType {

@@ -40,8 +40,13 @@ export const getChatMessages = async (chatId: string) => {
 
 export const sendMessage = async (chatId: string, content: string) => {
   const { accessToken, refreshToken } = await getCookies();
+  const formData = new FormData();
+
+  formData.append("chatId", chatId);
+  formData.append("content", content);
+
   let headers = {
-    "Content-Type": "application/json",
+    // "Content-Type": "application/json",
     Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
   };
   try {
@@ -49,7 +54,8 @@ export const sendMessage = async (chatId: string, content: string) => {
       method: "POST",
       credentials: "include",
       headers,
-      body: JSON.stringify({ chatId, content }),
+      // body: JSON.stringify({ chatId, content }),
+      body: formData,
     });
     return res.json();
   } catch (error: any) {

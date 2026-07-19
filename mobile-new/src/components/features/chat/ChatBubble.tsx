@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Message } from "@/types/type";
 import { SIZE } from "@/constants/Size";
 import { useTheme } from "@/hooks/useTheme";
@@ -8,6 +8,7 @@ import User from "@/components/User";
 import { useAuth } from "@/hooks/useAuth";
 import moment from "moment";
 import { showToast } from "@/lib/toast";
+import * as Device from "expo-device";
 
 const ChatBubble = ({
   message,
@@ -16,6 +17,8 @@ const ChatBubble = ({
   message?: Message;
   typingIndicatorFallback?: string | null;
 }) => {
+  console.log(message);
+
   const [viewTime, setViewTime] = useState(false);
   const { user } = useAuth();
   const { theme, isDark } = useTheme();
@@ -75,6 +78,33 @@ const ChatBubble = ({
             {message?.content}
           </Text>
 
+          {message?.media && (
+            <View
+              style={{
+                marginTop: SIZE.sm,
+
+                flexDirection: "row",
+                flexWrap: "wrap",
+                gap: SIZE.sm,
+              }}
+            >
+              {message?.media.map((item, i) => (
+                <Pressable key={i} onPress={() => showToast("Coming soon")}>
+                  <Image
+                    source={{
+                      uri: item.startsWith("http")
+                        ? (item as string)
+                        : Device.isDevice
+                          ? (`http://192.168.0.102:5000/${item}` as string)
+                          : (("http://10.0.2.2:5000/" + item) as string),
+                    }}
+                    style={{ width: 60, height: 60 }}
+                  />
+                </Pressable>
+              ))}
+            </View>
+          )}
+
           {viewTime && (
             <Text style={[styles.timeText, { color: "#FFF" }]}>
               {moment(message?.createdAt).calendar(null, {
@@ -121,7 +151,7 @@ const styles = StyleSheet.create({
     marginBottom: SIZE.sm,
   },
   innerBubbleSender: {
-    maxWidth: "60%",
+    maxWidth: "70%",
     padding: 10,
     // borderRadius: 10,
     borderTopLeftRadius: SIZE.sm,
@@ -132,7 +162,7 @@ const styles = StyleSheet.create({
   },
 
   innerBubbleReceiver: {
-    maxWidth: "60%",
+    maxWidth: "70%",
     padding: 10,
     // borderRadius: 10,
     borderTopLeftRadius: SIZE.sm,

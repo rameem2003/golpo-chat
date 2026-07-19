@@ -14,8 +14,8 @@ const MessageInput = ({
 }: {
   chatId: string;
   typingEventHandler: () => void;
-  }) => {
-    const [isMediaShareOpen, setIsMediaShareOpen] = useState(false);
+}) => {
+  const [isMediaShareOpen, setIsMediaShareOpen] = useState(false);
   const { sendMessageToChat } = useChat();
   const { theme, isDark } = useTheme();
   const [message, setMessage] = useState("");
@@ -44,19 +44,21 @@ const MessageInput = ({
       style={[
         CONTAINER_SIZE,
         styles.container,
-        { backgroundColor: theme.primary, minHeight: isMediaShareOpen ? 200 : 70},
+        {
+          backgroundColor: theme.primary,
+          minHeight: isMediaShareOpen ? 200 : 70,
+        },
       ]}
     >
       {/*media attachment option section*/}
-      {isMediaShareOpen && (<MediaShare/>)}
-
+      {isMediaShareOpen && <MediaShare />}
 
       {/*main user input section*/}
       <View style={styles.inputArea}>
         {/*media attachments action*/}
         {!message && (
           <Pressable
-       onPress={() => setIsMediaShareOpen(!isMediaShareOpen)}
+            onPress={() => setIsMediaShareOpen(!isMediaShareOpen)}
             style={({ pressed }) => [
               styles.btn,
               { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
