@@ -1,5 +1,6 @@
 const chatModel = require("../models/chat.model");
 const messageModel = require("../models/message.model");
+const { mediaPathGenerator } = require("./common.service");
 
 // get all chats for a user, including the users in the chat and the admin of the chat, sorted by updatedAt in descending order
 const getUserChats = async (userId) => {
@@ -66,13 +67,13 @@ const createPrivateChat = async (user1, user2) => {
 const getMessages = async (chatId, page = 1) => {
   const limit = 20;
 
-  const messages= await messageModel
+  const messages = await messageModel
     .find({
       chat: chatId,
     })
     .populate("sender", "name email avatar")
     .sort({ createdAt: -1 })
-  .skip((page - 1) * limit)
+    .skip((page - 1) * limit)
     .limit(limit);
 
   return messages.reverse(); // Reverse the order to have the latest messages first
@@ -84,7 +85,7 @@ const createMessage = async (sender, chat, content, media) => {
     sender,
     chat,
     content,
-    media,
+    media: mediaPathGenerator(media),
     readBy: [sender],
   });
 

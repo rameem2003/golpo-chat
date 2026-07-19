@@ -5,7 +5,7 @@ const fs = require("fs");
 /**
  * Creates a dynamic multer upload middleware
  * @param {Object} options - options object
- * @param {'thumb'|'video' | 'avatar'} options.type - upload type
+ * @param {'thumb'|'video'|'avatar'|'media'} options.type - upload type
  * @returns multer middleware
  */
 const createUploadMiddleware = ({ type }) => {
@@ -22,6 +22,10 @@ const createUploadMiddleware = ({ type }) => {
     allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
     maxSize = 5 * 1024 * 1024; // 5MB
     folderName = "avatars";
+  } else if (type === "media") {
+    allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    maxSize = 50 * 1024 * 1024; // 50MB
+    folderName = "medias";
   } else if (type === "video") {
     allowedTypes = ["video/mp4", "video/mkv", "video/webm"];
     maxSize = 100 * 1024 * 1024; // 100MB
@@ -47,6 +51,7 @@ const createUploadMiddleware = ({ type }) => {
 
   // Filter
   const fileFilter = (req, file, cb) => {
+    // console.log("File type:", file);
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {

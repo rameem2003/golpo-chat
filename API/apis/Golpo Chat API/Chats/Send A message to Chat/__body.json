@@ -1,6 +1,38 @@
 {
-  "$schema": "https://assets.requestly.com/local/v1.11.0/body.json",
-  "contentType": "raw",
-  "raw": "{ chatId: '6a24e059410da9b7c11a3f62', content: 'কি কর?' }\n",
-  "rawContentType": "application/json"
+  "$schema": "https://assets.requestly.com/local/v1.12.0/body.json",
+  "contentType": "multipart/form-data",
+  "raw": "{ chatId: '6a2f6c795b834f1ae5dfecab', content: 'test' }\n",
+  "rawContentType": "application/json",
+  "formData": [
+    {
+      "id": 1784431643070012,
+      "key": "chatId",
+      "value": "6a2f6c795b834f1ae5dfecab",
+      "isEnabled": true,
+      "type": "text"
+    },
+    {
+      "id": 1784431661925013,
+      "key": "content",
+      "value": "Test without media",
+      "isEnabled": true,
+      "type": "text"
+    },
+    {
+      "id": 1784431671852014,
+      "key": "media",
+      "value": [
+        {
+          "type": "reference",
+          "id": "user.jpg-1784431954513",
+          "name": "user.jpg",
+          "path": "C:\\Users\\User\\Downloads\\user.jpg",
+          "size": 154120,
+          "source": "desktop"
+        }
+      ],
+      "isEnabled": true,
+      "type": "file"
+    }
+  ]
 }

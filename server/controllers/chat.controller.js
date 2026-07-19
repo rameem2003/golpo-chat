@@ -56,18 +56,20 @@ const sendMessage = async (req, res) => {
   const onlineUsers = getOnlineUsers();
   const sender = req.user.id;
   const { chatId, content } = req.body;
+  let media = req.files.length > 0 ? req.files.map((file) => file.filename) : [];
+  // console.log(req.files)
 
   try {
-    let message = await createMessage(sender, chatId, content);
+    let message = await createMessage(sender, chatId, content, media);
 
     let users = await findUsersByChatId(chatId);
     console.log(users);
 
-    users.forEach((user) => {
-      let userSocketId = onlineUsers.get(user._id.toString());
-      console.log("userSocketId", userSocketId);
-      io.to(userSocketId).emit("chat:message:new", { message });
-    });
+    // users.forEach((user) => {
+    //   let userSocketId = onlineUsers.get(user._id.toString());
+    //   console.log("userSocketId", userSocketId);
+    //   io.to(userSocketId).emit("chat:message:new", { message });
+    // });
 
     let receiver = users.find((user) => user._id.toString() !== sender).id;
     let receiverUser = await findUserById(receiver);

@@ -202,12 +202,10 @@ const Chat = () => {
                 }}
               />
             </View>
-              <MessageInput
-                chatId={id as string}
-                typingEventHandler={typingEventHandler}
-              />
-            {/*<View style={styles.input}>
-            </View>*/}
+            <MessageInput
+              chatId={id as string}
+              typingEventHandler={typingEventHandler}
+            />
           </View>
         </View>
       </KeyboardAvoidingView>

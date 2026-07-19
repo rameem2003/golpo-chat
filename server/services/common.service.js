@@ -26,7 +26,16 @@ const videoPathGenerator = (video) => {
   }
 };
 
+const mediaPathGenerator = (media) => {
+  if (media && Array.isArray(media)) {
+    return media.map((m) => {
+      return `medias/${m}`;
+    });
+  }
+};
+
 module.exports = {
   thumbImageGenerator,
   videoPathGenerator,
+  mediaPathGenerator,
 };

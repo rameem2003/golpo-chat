@@ -5,7 +5,7 @@ const schema = new mongoose.Schema(
     sender: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     chat: { type: mongoose.Schema.Types.ObjectId, ref: "Chat" },
     content: String,
-    media: String,
+    media: [String],
     readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true },

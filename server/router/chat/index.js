@@ -3,9 +3,11 @@ const {
   sendMessage,
   getChatMessages,
 } = require("../../controllers/chat.controller");
+const createUploadMiddleware = require("../../middlewares/fileUpload");
 const verifyAuthentication = require("../../middlewares/middleware");
 
 const router = require("express").Router();
+const upload = createUploadMiddleware({ type: "media" });
 
 /**
  * Get all chat
@@ -23,6 +25,6 @@ router.get("/chats/:chatId/messages", verifyAuthentication, getChatMessages);
  * Send a message in a chat
  * https://localhost:5000/api/v1/chats/message
  */
-router.post("/chats/message", verifyAuthentication, sendMessage);
+router.post("/chats/message", verifyAuthentication, upload.array("media"), sendMessage);
 
 module.exports = router;
