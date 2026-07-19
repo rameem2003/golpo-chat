@@ -56,8 +56,13 @@ const sendMessage = async (req, res) => {
   const onlineUsers = getOnlineUsers();
   const sender = req.user.id;
   const { chatId, content } = req.body;
+  // get the media files from the request, if any
   let media = req.files.length > 0 ? req.files.map((file) => file.filename) : [];
-  // console.log(req.files)
+
+  // formated content message with media files if the user dont write any content but upload media files, the content will be "Sent a media file" or "Sent X media files"
+  if (!content && media.length > 0) {
+    content = media.length === 1 ? "Sent an attachment" : `Sent ${media.length} attachments`;
+  }
 
   try {
     let message = await createMessage(sender, chatId, content, media);
@@ -65,11 +70,11 @@ const sendMessage = async (req, res) => {
     let users = await findUsersByChatId(chatId);
     console.log(users);
 
-    // users.forEach((user) => {
-    //   let userSocketId = onlineUsers.get(user._id.toString());
-    //   console.log("userSocketId", userSocketId);
-    //   io.to(userSocketId).emit("chat:message:new", { message });
-    // });
+    users.forEach((user) => {
+      let userSocketId = onlineUsers.get(user._id.toString());
+      console.log("userSocketId", userSocketId);
+      io.to(userSocketId).emit("chat:message:new", { message });
+    });
 
     let receiver = users.find((user) => user._id.toString() !== sender).id;
     let receiverUser = await findUserById(receiver);
