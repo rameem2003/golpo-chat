@@ -1,8 +1,12 @@
 import { AppState } from "react-native";
 import { getAllChats, getChatMessages, sendMessage } from "@/lib/apis/chat";
 import { showToast } from "@/lib/toast";
-import { listenChatEvents, listenFriendEvents } from "@/socket/socketEvents";
-import { ChatContextType, Chat, Message } from "@/types/type";
+// import { listenChatEvents, listenFriendEvents } fro@/lib/socket/socketEventsnts";
+import {
+  listenChatEvents,
+  listenFriendEvents,
+} from "@/lib/socket/socketEvents";
+import { ChatContextType, Chat, Message, MediaType } from "@/types/type";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useAuth } from "./useAuth";
 
@@ -63,10 +67,22 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // send message to a chat
-  const sendMessageToChat = async (chatId: string, content: string) => {
+  const sendMessageToChat = async (
+    chatId: string,
+    content: string,
+    media?: MediaType[],
+  ) => {
+    let formatedMedia: string[] = [];
+
+    if (media) {
+      media.forEach((item) => {
+        formatedMedia.push(item.uri);
+      });
+    }
     let newMessage: Message = {
       chat: chatId,
       content,
+      media: formatedMedia || [],
       sender: {
         _id: user?.id || "temp-id",
         name: user?.name || "temp-name",
@@ -75,6 +91,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       },
       createdAt: new Date().toISOString(),
     };
+
     try {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       let res = await sendMessage(chatId, content);

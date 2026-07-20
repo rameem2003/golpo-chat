@@ -5,7 +5,7 @@ import {
   FriendRequestReceiveType,
   FriendRequestSendType,
 } from "@/types/type";
-import { listenFriendEvents } from "@/socket/socketEvents";
+import { listenFriendEvents } from "@/lib/socket/socketEvents";
 import {
   acceptFriendRequest,
   findFriendRequest,

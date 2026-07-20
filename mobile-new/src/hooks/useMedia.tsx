@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
-import { File } from "expo-file-system";
 import { Alert } from "react-native";
 import { MediaType } from "@/types/type";
 
@@ -16,6 +15,7 @@ const MediaContext = createContext<MediaContextType | null>(null);
 export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
   const [media, setMedia] = useState<MediaType[] | null>(null);
 
+  // Function to pick an image from the media library
   const pickImage = async () => {
     try {
       const permissionResult =
@@ -67,6 +67,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Function to remove a media item
   const removeMedia = (index: number) => {
     if (media) {
       const updatedMedia = [...media];

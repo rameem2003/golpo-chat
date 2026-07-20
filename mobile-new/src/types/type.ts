@@ -154,5 +154,9 @@ export interface ChatContextType {
   msg: string;
   fetchChats: () => Promise<void>;
   getMessages: (chatId: string) => Promise<void>;
-  sendMessageToChat: (chatId: string, content: string) => Promise<void>;
+  sendMessageToChat: (
+    chatId: string,
+    content: string,
+    media?: MediaType[],
+  ) => Promise<void>;
 }

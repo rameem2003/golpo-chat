@@ -36,17 +36,11 @@ const User = ({
       {user?.avatar ? (
         <Image
           style={styles.avatar}
-          // source={{
-          //   uri: user?.avatar.includes("http")
-          //     ? user?.avatar
-          //     : "http://10.0.2.2:5000/" + user?.avatar,
-          // }}
-          //
           source={{
             uri: user.avatar.startsWith("http")
               ? user.avatar
               : Device.isDevice
-                ? `http://192.168.0.105:5000/${user?.avatar}`
+                ? `http://192.168.0.104:5000/${user?.avatar}`
                 : "http://10.0.2.2:5000/" + user?.avatar,
           }}
         />

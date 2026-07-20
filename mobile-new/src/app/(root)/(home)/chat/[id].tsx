@@ -1,6 +1,7 @@
 import CharHeaderLeft from "@/components/features/chat/CharHeaderLeft";
 import MessageInput from "@/components/features/chat/MessageInput";
 import ChatBubble from "@/components/features/chat/ChatBubble";
+import User from "@/components/User";
 import {
   ActivityIndicator,
   FlatList,
@@ -21,8 +22,7 @@ import { Colors } from "@/constants/Colors";
 import { useChat } from "@/hooks/useChat";
 import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "@/lib/toast";
-import User from "@/components/User";
-import { getSocket } from "@/socket/socket";
+import { getSocket } from "@/lib/socket/socket";
 import { useAuth } from "@/hooks/useAuth";
 
 const Chat = () => {
@@ -98,6 +98,7 @@ const Chat = () => {
 
   return (
     <>
+      {/* Stack */}
       <Stack.Screen
         options={{
           headerStyle: {
@@ -137,6 +138,7 @@ const Chat = () => {
         >
           <View style={[styles.container, { backgroundColor: theme.surface }]}>
             <View style={[styles.chats, CONTAINER_SIZE]}>
+              {/* Chat loader */}
               {messages.length === 0 && loading && (
                 <View
                   style={{
@@ -162,6 +164,7 @@ const Chat = () => {
                 </View>
               )}
 
+              {/* Chat messages */}
               <FlatList
                 ref={messageListRef}
                 showsVerticalScrollIndicator={false}
@@ -169,6 +172,7 @@ const Chat = () => {
                 renderItem={({ item }) => <ChatBubble message={item} />}
                 keyExtractor={(item) => item._id!}
                 ListEmptyComponent={() => (
+                  // Message when there are no messages in the chat
                   <View
                     style={{
                       alignItems: "center",
@@ -195,6 +199,7 @@ const Chat = () => {
                     </Text>
                   </View>
                 )}
+                // Show typing indicator when a user is typing
                 ListFooterComponent={() => {
                   if (typingUser) {
                     return <ChatBubble typingIndicatorFallback={typingUser} />;
@@ -202,6 +207,7 @@ const Chat = () => {
                 }}
               />
             </View>
+            {/* Message input */}
             <MessageInput
               chatId={id as string}
               typingEventHandler={typingEventHandler}
@@ -222,8 +228,5 @@ const styles = StyleSheet.create({
   chats: {
     flex: 1,
     marginTop: SIZE.md,
-  },
-  input: {
-    minHeight: 120,
   },
 });

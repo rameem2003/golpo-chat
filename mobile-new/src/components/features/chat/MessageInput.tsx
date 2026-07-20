@@ -7,6 +7,7 @@ import { Colors } from "@/constants/Colors";
 import { useChat } from "@/hooks/useChat";
 import { FONTS } from "@/constants/Fonts";
 import MediaShare from "./MediaShare";
+import { useMedia } from "@/hooks/useMedia";
 
 const MessageInput = ({
   chatId,
@@ -18,6 +19,7 @@ const MessageInput = ({
   const [isMediaShareOpen, setIsMediaShareOpen] = useState(false);
   const { sendMessageToChat } = useChat();
   const { theme, isDark } = useTheme();
+  const { media } = useMedia();
   const [message, setMessage] = useState("");
 
   // handle love react quick send
@@ -51,7 +53,7 @@ const MessageInput = ({
       ]}
     >
       {/*media attachment option section*/}
-      {isMediaShareOpen && <MediaShare />}
+      {isMediaShareOpen && <MediaShare chatId={chatId} />}
 
       {/*main user input section*/}
       <View style={styles.inputArea}>
@@ -72,6 +74,7 @@ const MessageInput = ({
           </Pressable>
         )}
 
+        {/*text input*/}
         <TextInput
           placeholderTextColor={
             isDark ? Colors.light.surface : Colors.dark.surface

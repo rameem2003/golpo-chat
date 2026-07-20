@@ -44,8 +44,10 @@ const index = () => {
             },
           ]}
         >
+          {/* Profile Image Update Component */}
           <ProfileImageUpdate />
 
+          {/* Name and User Details */}
           <View style={{ gap: SIZE.sm, alignItems: "center" }}>
             <Text
               style={{
@@ -126,6 +128,7 @@ const index = () => {
                 Password
               </Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={[styles.accountOption, { backgroundColor: theme.primary }]}
             >
@@ -160,6 +163,7 @@ const index = () => {
           </Text>
 
           <View style={{ marginVertical: SIZE.md }}>
+            {/* Theme */}
             <Link href={"/(root)/(home)"} style={{ marginBottom: SIZE.md }}>
               <TouchableOpacity
                 style={[styles.appOption, { backgroundColor: theme.primary }]}
@@ -181,6 +185,7 @@ const index = () => {
               </TouchableOpacity>
             </Link>
 
+            {/*  Notification Permissions */}
             <TouchableOpacity
               onPress={() => {
                 if (Platform.OS === "ios") {
@@ -216,6 +221,7 @@ const index = () => {
               marginVertical: SIZE.md,
             }}
           >
+            {/* Logout Button */}
             <TouchableOpacity style={styles.logout} onPress={logout}>
               <Ionicons name="log-out" size={30} color={"#fff"} />
               <Text

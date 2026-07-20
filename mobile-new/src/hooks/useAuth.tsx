@@ -16,7 +16,7 @@ import { router, usePathname } from "expo-router";
 import { clearCookies } from "@/lib/async-storage";
 import { showToast } from "@/lib/toast";
 import { registerForPushNotificationsAsync } from "@/services/notification";
-import { connectSocket, disconnectSocket } from "@/socket/socket";
+import { connectSocket, disconnectSocket } from "@/lib/socket/socket";
 import { AuthContextType, userType } from "@/types/type";
 
 import { createContext, useContext, useEffect, useState } from "react";

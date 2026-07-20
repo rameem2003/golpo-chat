@@ -24,6 +24,7 @@ const ImageComponent = ({ image, onDelete }: Props) => {
         },
       ]}
     >
+      {/* Delete Button */}
       {onDelete && (
         <Pressable
           onPress={onDelete}
@@ -37,6 +38,7 @@ const ImageComponent = ({ image, onDelete }: Props) => {
         </Pressable>
       )}
 
+      {/* Image */}
       <Image
         source={{ uri: image.uri }}
         style={{
@@ -70,7 +72,6 @@ const styles = StyleSheet.create({
     right: -5,
     width: 22,
     height: 22,
-    // backgroundColor: "red",
     borderRadius: 100,
   },
 });

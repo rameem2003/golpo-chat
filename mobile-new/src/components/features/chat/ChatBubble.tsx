@@ -27,6 +27,7 @@ const ChatBubble = ({
     setViewTime((prev) => !prev);
   };
 
+  // Typing indicator
   if (typingIndicatorFallback) {
     return (
       <View style={[styles.containerReceiver]}>
@@ -58,7 +59,7 @@ const ChatBubble = ({
             : styles.containerReceiver,
         ]}
       >
-        {/* <View> */}
+        {/* Chat bubble */}
         <Pressable
           onLongPress={() => showToast("Long press coming soon")}
           onPress={handleViewTime}
@@ -69,15 +70,19 @@ const ChatBubble = ({
             { backgroundColor: theme.chatSender },
           ]}
         >
-          <Text
-            style={{
-              fontSize: SIZE.md,
-              color: "#FFF",
-            }}
-          >
-            {message?.content}
-          </Text>
+          {/* Chat message */}
+          {message?.content && (
+            <Text
+              style={{
+                fontSize: SIZE.md,
+                color: "#FFF",
+              }}
+            >
+              {message?.content}
+            </Text>
+          )}
 
+          {/* Chat media if available */}
           {message?.media && (
             <View
               style={{
@@ -92,11 +97,12 @@ const ChatBubble = ({
                 <Pressable key={i} onPress={() => showToast("Coming soon")}>
                   <Image
                     source={{
-                      uri: item.startsWith("http")
-                        ? (item as string)
-                        : Device.isDevice
-                          ? (`http://192.168.0.102:5000/${item}` as string)
-                          : (("http://10.0.2.2:5000/" + item) as string),
+                      uri:
+                        item.startsWith("http") || item.startsWith("file://")
+                          ? (item as string)
+                          : Device.isDevice
+                            ? (`http://192.168.0.104:5000/${item}` as string)
+                            : (("http://10.0.2.2:5000/" + item) as string),
                     }}
                     style={{ width: 60, height: 60 }}
                   />
@@ -105,6 +111,7 @@ const ChatBubble = ({
             </View>
           )}
 
+          {/* Chat time */}
           {viewTime && (
             <Text style={[styles.timeText, { color: "#FFF" }]}>
               {moment(message?.createdAt).calendar(null, {
@@ -116,7 +123,8 @@ const ChatBubble = ({
             </Text>
           )}
         </Pressable>
-        {/* </View> */}
+
+        {/* Chat avatar */}
         <User
           fallbackText={
             message?.sender._id === user?.id

@@ -2,14 +2,16 @@ import ImageComponent from "@/components/ui/ImageComponent";
 import { Colors } from "@/constants/Colors";
 import { FONTS } from "@/constants/Fonts";
 import { SIZE } from "@/constants/Size";
+import { useChat } from "@/hooks/useChat";
 import { useMedia } from "@/hooks/useMedia";
 import { useTheme } from "@/hooks/useTheme";
 import { AntDesign, Entypo } from "@expo/vector-icons";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 
-const MediaShare = () => {
+const MediaShare = ({ chatId }: { chatId: string }) => {
   const { theme, isDark } = useTheme();
   const { pickImage, media, removeMedia } = useMedia();
+  const { sendMessageToChat } = useChat();
   return (
     <View>
       <View style={{ marginBottom: SIZE.lg, alignItems: "center" }}>
@@ -22,6 +24,7 @@ const MediaShare = () => {
         >
           Share
         </Text>
+        {/* Media Display (Images) if any */}
         {media && media.length > 0 ? (
           <View style={styles.mediaDisplayContainer}>
             {media.map((item, i) => (
@@ -31,9 +34,16 @@ const MediaShare = () => {
                 key={i}
               />
             ))}
+
+            <Button
+              title="Send"
+              onPress={() => sendMessageToChat(chatId, "", media)}
+            />
           </View>
         ) : (
+          // Media Share Options
           <View style={styles.optionContainer}>
+            {/* Image Option */}
             <Pressable
               onPress={pickImage}
               style={({ pressed }) => [
@@ -59,6 +69,8 @@ const MediaShare = () => {
                 Image
               </Text>
             </Pressable>
+
+            {/* Audio Option */}
             <Pressable
               style={({ pressed }) => [
                 styles.optionBtn,
@@ -83,6 +95,8 @@ const MediaShare = () => {
                 Audio
               </Text>
             </Pressable>
+
+            {/* File Option */}
             <Pressable
               style={({ pressed }) => [
                 styles.optionBtn,
