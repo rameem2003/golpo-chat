@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { Alert } from "react-native";
 import { MediaType } from "@/types/type";
@@ -7,6 +7,7 @@ interface MediaContextType {
   media: MediaType[] | null;
   pickImage: () => Promise<void>;
   removeMedia: (index: number) => void;
+  clearMedia: () => void;
   //   pickVideo: () => Promise<void>;
 }
 
@@ -76,8 +77,14 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // clear media after sending message
+  const clearMedia = () => {
+    setMedia(null);
+  }
+
+
   return (
-    <MediaContext.Provider value={{ media, pickImage, removeMedia }}>
+    <MediaContext.Provider value={{ media, pickImage, removeMedia, clearMedia }}>
       {children}
     </MediaContext.Provider>
   );

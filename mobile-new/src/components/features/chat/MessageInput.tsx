@@ -22,6 +22,11 @@ const MessageInput = ({
   const { media } = useMedia();
   const [message, setMessage] = useState("");
 
+  // close the media share section after sending a message
+  const closeMediaShare = () => {
+    setIsMediaShareOpen(false);
+  }
+
   // handle love react quick send
   const handleLoveReact = () => {
     sendMessageToChat(chatId, "❤️");
@@ -34,7 +39,7 @@ const MessageInput = ({
   };
 
   const sendMessage = () => {
-    console.log(message);
+    // console.log(message);
     // prevent sending empty messages or just spaces
     if (!message.trim()) return;
 
@@ -53,7 +58,7 @@ const MessageInput = ({
       ]}
     >
       {/*media attachment option section*/}
-      {isMediaShareOpen && <MediaShare chatId={chatId} />}
+      {isMediaShareOpen && <MediaShare onShareSuccess={closeMediaShare} chatId={chatId} />}
 
       {/*main user input section*/}
       <View style={styles.inputArea}>

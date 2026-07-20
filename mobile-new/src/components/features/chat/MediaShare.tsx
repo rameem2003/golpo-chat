@@ -5,27 +5,89 @@ import { SIZE } from "@/constants/Size";
 import { useChat } from "@/hooks/useChat";
 import { useMedia } from "@/hooks/useMedia";
 import { useTheme } from "@/hooks/useTheme";
-import { AntDesign, Entypo } from "@expo/vector-icons";
-import { Button, Pressable, StyleSheet, Text, View } from "react-native";
+import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
+import {
+  Button,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-const MediaShare = ({ chatId }: { chatId: string }) => {
+const MediaShare = ({
+  chatId,
+  onShareSuccess,
+}: {
+  chatId: string;
+  onShareSuccess: () => void;
+}) => {
   const { theme, isDark } = useTheme();
-  const { pickImage, media, removeMedia } = useMedia();
+  const { pickImage, media, removeMedia, clearMedia } = useMedia();
   const { sendMessageToChat } = useChat();
+
+  // media send button handler
+  const handleSendMedia = async () => {
+    onShareSuccess();
+    await sendMessageToChat(chatId, "", media!);
+    clearMedia();
+  };
+
   return (
     <View>
       <View style={{ marginBottom: SIZE.lg, alignItems: "center" }}>
-        <Text
+        <View
           style={{
-            fontSize: SIZE.md,
-            fontFamily: FONTS.Inter18Medium,
-            color: isDark ? Colors.light.surface : Colors.dark.surface,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            gap: SIZE.sm,
           }}
         >
-          Share
-        </Text>
-        {/* Media Display (Images) if any */}
+          <Text
+            style={{
+              fontSize: SIZE.md,
+              fontFamily: FONTS.Inter18Medium,
+              color: isDark ? Colors.light.surface : Colors.dark.surface,
+            }}
+          >
+            Share
+          </Text>
+          {/* Media Share Send Button */}
+          {media && media.length > 0 && (
+            <TouchableOpacity
+              onPress={handleSendMedia}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: SIZE.sm,
+                padding: SIZE.xs,
+                paddingHorizontal: SIZE.md,
+                borderRadius: SIZE.md,
+                backgroundColor: theme.overlay,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: SIZE.md,
+                  fontFamily: FONTS.Inter18Medium,
+                  color: isDark ? Colors.light.surface : Colors.dark.surface,
+                }}
+              >
+                Send
+              </Text>
+              <Ionicons
+                style={{ color: isDark ? "#FFF" : "#000" }}
+                name="send"
+                size={15}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
         {media && media.length > 0 ? (
+          // Media Display (Images) if any
           <View style={styles.mediaDisplayContainer}>
             {media.map((item, i) => (
               <ImageComponent
@@ -34,11 +96,6 @@ const MediaShare = ({ chatId }: { chatId: string }) => {
                 key={i}
               />
             ))}
-
-            <Button
-              title="Send"
-              onPress={() => sendMessageToChat(chatId, "", media)}
-            />
           </View>
         ) : (
           // Media Share Options

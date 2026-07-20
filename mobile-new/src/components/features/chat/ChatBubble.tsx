@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import moment from "moment";
 import { showToast } from "@/lib/toast";
 import * as Device from "expo-device";
+import { FONTS } from "@/constants/Fonts";
 
 const ChatBubble = ({
   message,
@@ -17,7 +18,7 @@ const ChatBubble = ({
   message?: Message;
   typingIndicatorFallback?: string | null;
 }) => {
-  console.log(message);
+  // console.log(message);
 
   const [viewTime, setViewTime] = useState(false);
   const { user } = useAuth();
@@ -39,6 +40,7 @@ const ChatBubble = ({
         >
           <Text
             style={{
+              fontFamily: FONTS.Inter18Medium,
               fontSize: SIZE.md,
               color: "#FFF",
             }}
@@ -74,6 +76,7 @@ const ChatBubble = ({
           {message?.content && (
             <Text
               style={{
+                fontFamily: FONTS.Inter18Medium,
                 fontSize: SIZE.md,
                 color: "#FFF",
               }}
@@ -101,7 +104,7 @@ const ChatBubble = ({
                         item.startsWith("http") || item.startsWith("file://")
                           ? (item as string)
                           : Device.isDevice
-                            ? (`http://192.168.0.104:5000/${item}` as string)
+                            ? (`http://192.168.0.105:5000/${item}` as string)
                             : (("http://10.0.2.2:5000/" + item) as string),
                     }}
                     style={{ width: 60, height: 60 }}

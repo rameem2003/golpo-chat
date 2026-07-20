@@ -55,7 +55,7 @@ const sendMessage = async (req, res) => {
   const io = getIO();
   const onlineUsers = getOnlineUsers();
   const sender = req.user.id;
-  const { chatId, content } = req.body;
+  let { chatId, content } = req.body;
   // get the media files from the request, if any
   let media = req.files.length > 0 ? req.files.map((file) => file.filename) : [];
 

@@ -1,5 +1,7 @@
+import { MediaType } from "@/types/type";
 import { getCookies } from "../async-storage";
 import { API_URL } from "../constants";
+import { File } from "expo-file-system";
 export const getAllChats = async () => {
   const { accessToken, refreshToken } = await getCookies();
   // console.log(accessToken + " " + refreshToken);
@@ -38,12 +40,27 @@ export const getChatMessages = async (chatId: string) => {
   }
 };
 
-export const sendMessage = async (chatId: string, content: string) => {
+export const sendMessage = async (chatId: string, content: string, media?: MediaType[]) => {
   const { accessToken, refreshToken } = await getCookies();
   const formData = new FormData();
 
   formData.append("chatId", chatId);
   formData.append("content", content);
+  // if (media && media.length > 0) {
+  //   formData.append("media", media)
+  // }
+  // media?.forEach((item) => {
+  //   formData.append("media", {
+  //     uri: item.uri,
+  //     name: item.fileName,
+  //     type: item.mimeType || "image/jpeg",
+  //   } as any);
+  // });
+  //
+  media?.forEach((item) => {
+    const file = new File(item.uri);
+    formData.append("media", file);
+  });
 
   let headers = {
     // "Content-Type": "application/json",

@@ -9,6 +9,7 @@ import {
 import { ChatContextType, Chat, Message, MediaType } from "@/types/type";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useAuth } from "./useAuth";
+import { File } from "expo-file-system";
 
 const ChatContext = createContext<ChatContextType | null>(null);
 
@@ -72,16 +73,19 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     content: string,
     media?: MediaType[],
   ) => {
+    // format media url for local preview before sending to server
     let formatedMedia: string[] = [];
-
     if (media) {
       media.forEach((item) => {
         formatedMedia.push(item.uri);
       });
     }
+    // format media for server upload
+    // let formatedMediaFilesForServer = media?.map((m) => new File(m.uri))
+    // console.log(formatedMediaFilesForServer)
     let newMessage: Message = {
       chat: chatId,
-      content,
+      content: content || "Uploading media...",
       media: formatedMedia || [],
       sender: {
         _id: user?.id || "temp-id",
@@ -94,7 +98,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
-      let res = await sendMessage(chatId, content);
+      let res = await sendMessage(chatId, content, media);
       // console.log(res);
 
       if (!res.success) {
