@@ -104,7 +104,7 @@ const ChatBubble = ({
                         item.startsWith("http") || item.startsWith("file://")
                           ? (item as string)
                           : Device.isDevice
-                            ? (`http://192.168.0.105:5000/${item}` as string)
+                            ? (`http://192.168.0.100:5000/${item}` as string)
                             : (("http://10.0.2.2:5000/" + item) as string),
                     }}
                     style={{ width: 60, height: 60 }}
