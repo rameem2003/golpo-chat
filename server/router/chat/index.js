@@ -3,7 +3,7 @@ const {
   sendMessage,
   getChatMessages,
 } = require("../../controllers/chat.controller");
-const createUploadMiddleware = require("../../middlewares/fileUpload");
+const {createUploadMiddleware} = require("../../middlewares/fileUpload");
 const verifyAuthentication = require("../../middlewares/middleware");
 
 const router = require("express").Router();

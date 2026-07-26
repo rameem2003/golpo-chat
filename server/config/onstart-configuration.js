@@ -19,6 +19,9 @@ const createLocalFolders = () => {
     fs.mkdirSync(path.join(__dirname, "../uploads/", "vidoes"), {
       recursive: true,
     });
+    fs.mkdirSync(path.join(__dirname, "../uploads/", "medias"), {
+      recursive: true,
+    });
   }
 };
 module.exports = {

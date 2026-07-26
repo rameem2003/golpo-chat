@@ -11,6 +11,7 @@ const router = require("./router");
 const { welcomeNote } = require("./constant/constant");
 const connectDb = require("./config/db");
 const { createLocalFolders } = require("./config/onstart-configuration");
+const { createRemoteUploadMiddleware } = require("./middlewares/fileUpload");
 
 const app = express();
 createLocalFolders();
@@ -49,6 +50,15 @@ app.get("/", (req, res) => {
   res.status(200).send(welcomeNote);
 });
 
+// const upload = createRemoteUploadMiddleware({type: "media"})
+// app.post("/upload", upload.array("media"),  (req, res) => {
+//   console.log(req.files)
+
+//   res.status(200).send({
+//     success: true,
+//     message: "Files uploaded successfully",
+//   });
+// })
 /**
  * For file upload error handling
  */

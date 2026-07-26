@@ -12,7 +12,7 @@ const {
   resetPassword,
   pushNotificationToken,
 } = require("../../controllers/auth.controller");
-const createUploadMiddleware = require("../../middlewares/fileUpload");
+const {createUploadMiddleware} = require("../../middlewares/fileUpload");
 const verifyAuthentication = require("../../middlewares/middleware");
 
 const router = require("express").Router();
