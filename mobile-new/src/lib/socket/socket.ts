@@ -1,12 +1,7 @@
-import * as Device from "expo-device";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { io, Socket } from "socket.io-client";
+import { SOCKET_URL } from "@/constants/Constants";
 let socket: Socket | null = null;
-
-export const SOCKET_URL = Device.isDevice
-  ? `http://192.168.0.100:5000` // Physical device
-  : "http://10.0.2.2:5000";
 
 export const connectSocket = async () => {
   console.log("Connecting socket...");

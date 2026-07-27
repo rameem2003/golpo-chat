@@ -1,5 +1,5 @@
+import { API_URL } from "../../constants/Constants";
 import { getCookies } from "../async-storage";
-import { API_URL } from "../constants";
 import { File } from "expo-file-system";
 export const loginRequest = async (email: string, password: string) => {
   try {

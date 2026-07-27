@@ -1,5 +1,5 @@
 import { getCookies } from "../async-storage";
-import { API_URL } from "../constants";
+import { API_URL } from "../../constants/Constants";
 
 export const findFriendRequest = async (name: string) => {
   const { accessToken, refreshToken } = await getCookies();

@@ -1,6 +1,6 @@
 import { MediaType } from "@/types/type";
 import { getCookies } from "../async-storage";
-import { API_URL } from "../constants";
+import { API_URL } from "../../constants/Constants";
 import { File } from "expo-file-system";
 export const getAllChats = async () => {
   const { accessToken, refreshToken } = await getCookies();
