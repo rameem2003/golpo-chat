@@ -1,4 +1,4 @@
-import ImageComponent from "@/components/ui/ImageComponent";
+import ImagePreviewComponent from "@/components/ui/ImagePreviewComponent";
 import { Colors } from "@/constants/Colors";
 import { FONTS } from "@/constants/Fonts";
 import { SIZE } from "@/constants/Size";
@@ -90,7 +90,7 @@ const MediaShare = ({
           // Media Display (Images) if any
           <View style={styles.mediaDisplayContainer}>
             {media.map((item, i) => (
-              <ImageComponent
+              <ImagePreviewComponent
                 onDelete={() => removeMedia(i)}
                 image={item}
                 key={i}
@@ -129,9 +129,10 @@ const MediaShare = ({
 
             {/* Audio Option */}
             <Pressable
+              disabled
               style={({ pressed }) => [
                 styles.optionBtn,
-
+                { display: "none" },
                 { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
               ]}
             >
@@ -157,7 +158,7 @@ const MediaShare = ({
             <Pressable
               style={({ pressed }) => [
                 styles.optionBtn,
-
+                { display: "none" },
                 { backgroundColor: theme.overlay, opacity: pressed ? 0.8 : 1 },
               ]}
             >
@@ -169,7 +170,6 @@ const MediaShare = ({
               <Text
                 style={[
                   styles.optionBtnText,
-
                   {
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                   },

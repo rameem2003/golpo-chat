@@ -24,6 +24,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "@/lib/toast";
 import { getSocket } from "@/lib/socket/socket";
 import { useAuth } from "@/hooks/useAuth";
+import { Chat as ChatType } from "@/types/type";
 
 const Chat = () => {
   const socket = getSocket();
@@ -34,7 +35,8 @@ const Chat = () => {
   const { user } = useAuth();
   const { chats, getMessages, messages, loading } = useChat();
   // const filterUser = dummyUser.find((user) => user.id == "1");
-  const filterUser = chats.find((chat) => chat._id === id)?.chatName;
+  const filterUser = chats.find((chat) => chat._id === id);
+  console.log("filterUser", filterUser);
 
   const dummyMessages = [];
 
@@ -105,7 +107,7 @@ const Chat = () => {
             backgroundColor: theme.primary,
           },
           headerTitle: () => {
-            return <CharHeaderLeft name={filterUser || "Unknown User"} />;
+            return <CharHeaderLeft chat={filterUser as ChatType} />;
           },
           headerTitleAlign: "left",
           headerBackVisible: true,
@@ -184,7 +186,9 @@ const Chat = () => {
                   >
                     <User
                       contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
-                      fallbackText={filterUser?.charAt(0) || "Unknown User"}
+                      fallbackText={
+                        filterUser?.chatName.charAt(0) || "Unknown User"
+                      }
                     />
                     <Text
                       style={{
@@ -195,7 +199,7 @@ const Chat = () => {
                         fontWeight: "bold",
                       }}
                     >
-                      Let's Golpo with {filterUser || "Unknown User"}!
+                      Let's Golpo with {filterUser?.chatName || "Unknown User"}!
                     </Text>
                   </View>
                 )}

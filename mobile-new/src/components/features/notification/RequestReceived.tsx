@@ -44,6 +44,7 @@ const SuggestedFriend = ({ user }: { user: FriendRequestReceiveType }) => {
       <View style={[styles.innerContent]}>
         <User
           user={user.sender}
+          fallbackText={user.sender.name.charAt(0)}
           contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
         />
         <View>
@@ -112,7 +113,7 @@ const RequestReceived = () => {
   const [refreshing, setRefreshing] = useState(false);
   const { theme, isDark } = useTheme();
   const { receivedRequests, fetchReceivedRequests } = useFriend();
-  console.log(receivedRequests);
+  // console.log(receivedRequests);
 
   const handleRefresh = async () => {
     setRefreshing(true);

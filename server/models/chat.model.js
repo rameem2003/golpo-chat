@@ -4,6 +4,7 @@ const chatSchema = new mongoose.Schema(
   {
     isGroupChat: Boolean,
     chatName: String,
+    avatar: String,
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     admin: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 

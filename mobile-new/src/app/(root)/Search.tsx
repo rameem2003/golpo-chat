@@ -40,6 +40,7 @@ const SuggestedFriend = ({ user }: { user: chatUserType }) => {
       <View style={[styles.innerContent]}>
         <User
           user={user}
+          fallbackText={user.name.charAt(0)}
           contentStyle={{ height: SIZE.xxl, width: SIZE.xxl }}
         />
         <View>
@@ -47,6 +48,7 @@ const SuggestedFriend = ({ user }: { user: chatUserType }) => {
             style={{
               color: isDark ? Colors.light.primary : Colors.dark.primary,
               fontSize: SIZE.md,
+              fontFamily: FONTS.Inter18Medium,
             }}
           >
             {user.name.split(" ")[0]}
@@ -54,8 +56,8 @@ const SuggestedFriend = ({ user }: { user: chatUserType }) => {
           <Text
             style={{
               color: isDark ? Colors.light.primary : Colors.dark.primary,
-
               fontSize: 14,
+              fontFamily: FONTS.Inter18Medium,
             }}
           >
             {user.email}

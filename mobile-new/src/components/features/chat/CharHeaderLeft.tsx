@@ -1,19 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { userType } from "@/constants/Types";
 import { SIZE } from "@/constants/Size";
 import User from "@/components/User";
 import { useTheme } from "@/hooks/useTheme";
 import { Colors } from "@/constants/Colors";
+import { Chat } from "@/types/type";
+import { FONTS } from "@/constants/Fonts";
 
-const CharHeaderLeft = ({ name }: { name: string }) => {
+const CharHeaderLeft = ({ chat }: { chat: Chat }) => {
+  // console.log("CharHeaderLeft chat", chat);
   const { theme, isDark } = useTheme();
-  // let nam = "Mahmood Hassan Rameem";
   return (
     <TouchableOpacity style={[styles.container]}>
       <View style={[styles.innerContent]}>
         <User
-          fallbackText={name.charAt(0)}
+          user={chat}
+          fallbackText={chat.chatName.charAt(0)}
           contentStyle={{ height: SIZE.xxl, width: SIZE.xxl }}
         />
         <View>
@@ -21,18 +23,22 @@ const CharHeaderLeft = ({ name }: { name: string }) => {
             style={{
               color: isDark ? Colors.light.primary : Colors.dark.primary,
               fontSize: 20,
+              fontFamily: FONTS.Inter18Medium,
             }}
           >
             {/* {name} */}
-            {name.length > 8 ? name.split(" ")[0] : name}
+            {chat.chatName.length > 8
+              ? chat.chatName.split(" ")[0]
+              : chat.chatName}
           </Text>
           <Text
             style={{
               color: isDark ? Colors.light.primary : Colors.dark.primary,
               fontSize: 14,
+              fontFamily: FONTS.Inter18Medium,
             }}
           >
-            Active
+            {chat.latestMessage?.content || "Start a conversation"}
           </Text>
         </View>
       </View>

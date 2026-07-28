@@ -15,6 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import ProfileImageUpdate from "@/components/features/profile/ProfileImageUpdate";
 import { Colors } from "@/constants/Colors";
+import { FONTS } from "@/constants/Fonts";
+import { showToast } from "@/lib/toast";
 
 const index = () => {
   const router = useRouter();
@@ -30,7 +32,6 @@ const index = () => {
           styles.container,
           CONTAINER_SIZE,
           { backgroundColor: theme.surface },
-          // { backgroundColor: "red" },
         ]}
       >
         {/* User Profile */}
@@ -52,7 +53,7 @@ const index = () => {
             <Text
               style={{
                 fontSize: 20,
-                fontWeight: "bold",
+                fontFamily: FONTS.Inter18Bold,
                 color: isDark ? Colors.light.surface : Colors.dark.surface,
               }}
             >
@@ -61,6 +62,7 @@ const index = () => {
             <Text
               style={{
                 fontSize: 16,
+                fontFamily: FONTS.Inter18Medium,
                 color: isDark ? Colors.light.surface : Colors.dark.surface,
               }}
             >
@@ -74,7 +76,7 @@ const index = () => {
           <Text
             style={{
               fontSize: 18,
-              fontWeight: "bold",
+              fontFamily: FONTS.Inter18Bold,
               color: isDark ? Colors.light.surface : Colors.dark.surface,
             }}
           >
@@ -102,7 +104,7 @@ const index = () => {
                 style={{
                   fontSize: SIZE.md,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
-                  fontWeight: "500",
+                  fontFamily: FONTS.Inter18Medium,
                 }}
               >
                 Edit Profile
@@ -122,7 +124,7 @@ const index = () => {
                 style={{
                   fontSize: SIZE.md,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
-                  fontWeight: "500",
+                  fontFamily: FONTS.Inter18Medium,
                 }}
               >
                 Password
@@ -130,6 +132,7 @@ const index = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={() => showToast("Coming Soon")}
               style={[styles.accountOption, { backgroundColor: theme.primary }]}
             >
               <Ionicons
@@ -141,7 +144,7 @@ const index = () => {
                 style={{
                   fontSize: SIZE.md,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
-                  fontWeight: "500",
+                  fontFamily: FONTS.Inter18Medium,
                 }}
               >
                 QR Code
@@ -155,7 +158,7 @@ const index = () => {
           <Text
             style={{
               fontSize: 18,
-              fontWeight: "bold",
+              fontFamily: FONTS.Inter18Bold,
               color: isDark ? Colors.light.surface : Colors.dark.surface,
             }}
           >
@@ -177,7 +180,7 @@ const index = () => {
                   style={{
                     fontSize: SIZE.md,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
-                    fontWeight: "500",
+                    fontFamily: FONTS.Inter18Medium,
                   }}
                 >
                   Theme
@@ -208,7 +211,7 @@ const index = () => {
                 style={{
                   fontSize: SIZE.md,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
-                  fontWeight: "500",
+                  fontFamily: FONTS.Inter18Medium,
                 }}
               >
                 Notification Permissions
@@ -229,8 +232,7 @@ const index = () => {
                   fontSize: SIZE.md,
                   color: "#fff",
                   textAlign: "center",
-                  fontWeight: "600",
-
+                  fontFamily: FONTS.Inter18Bold,
                   textTransform: "uppercase",
                 }}
               >

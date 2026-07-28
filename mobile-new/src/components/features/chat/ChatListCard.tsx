@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { SIZE } from "@/constants/Size";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useTheme } from "@/hooks/useTheme";
 import { Colors } from "@/constants/Colors";
 import { Chat } from "@/types/type";
@@ -11,42 +11,52 @@ import { FONTS } from "@/constants/Fonts";
 const ChatListCard = ({ chat }: { chat: Chat }) => {
   const { theme, isDark } = useTheme();
   const router = useRouter();
+
+  const goToChat = (id: string) => {
+    router.push({
+      pathname: "/(root)/(home)/chat/[id]",
+      params: { id },
+    });
+  };
+
   return (
     <TouchableOpacity
+      onPress={() => goToChat(chat._id)}
       style={[styles.container, { backgroundColor: theme.primary }]}
     >
-      <Link
+      {/*<Link
         href={{
           pathname: "/(root)/(home)/chat/[id]",
           params: { id: chat._id },
         }}
-      >
-        <View style={[styles.innerContent]}>
-          <User
-            fallbackText={chat.chatName.charAt(0)}
-            contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
-          />
-          <View>
-            <Text
-              style={{
-                color: isDark ? Colors.light.primary : Colors.dark.primary,
-                fontSize: SIZE.md,
-                fontFamily: FONTS.Inter18Medium
-              }}
-            >
-              {chat.chatName}
-            </Text>
-            <Text
-              style={{
-                color: isDark ? Colors.light.primary : Colors.dark.primary,
-                fontSize: 14,
-              }}
-            >
-              {chat?.latestMessage?.content || "Start a conversation"}
-            </Text>
-          </View>
+      >*/}
+      <View style={[styles.innerContent]}>
+        <User
+          user={chat}
+          fallbackText={chat.chatName.charAt(0)}
+          contentStyle={{ height: SIZE.xxxl, width: SIZE.xxxl }}
+        />
+        <View>
+          <Text
+            style={{
+              color: isDark ? Colors.light.primary : Colors.dark.primary,
+              fontSize: SIZE.md,
+              fontFamily: FONTS.Inter18Medium,
+            }}
+          >
+            {chat.chatName}
+          </Text>
+          <Text
+            style={{
+              color: isDark ? Colors.light.primary : Colors.dark.primary,
+              fontSize: 14,
+            }}
+          >
+            {chat?.latestMessage?.content || "Start a conversation"}
+          </Text>
         </View>
-      </Link>
+      </View>
+      {/*</Link>*/}
       {/* <Text>FriendCard</Text> */}
     </TouchableOpacity>
   );

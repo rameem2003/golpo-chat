@@ -17,7 +17,6 @@ import { FONTS } from "@/constants/Fonts";
 
 const SuggestedFriend = ({ user }: { user: FriendRequestSendType }) => {
   const { theme, isDark } = useTheme();
-  // console.log();
 
   return (
     <TouchableOpacity

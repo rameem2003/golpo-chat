@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SIZE } from "@/constants/Size";
 import { FriendRequestProvider, useFriend } from "@/hooks/useFriend";
 import { Colors } from "@/constants/Colors";
+import { FONTS } from "@/constants/Fonts";
 
 const MainLayout = () => {
   const { receivedRequests, sentRequests } = useFriend();
@@ -34,6 +35,9 @@ const MainLayout = () => {
           backgroundColor: theme.surface,
           paddingTop: SIZE.md,
           height: 90,
+        },
+        tabBarLabelStyle: {
+          fontFamily: FONTS.Inter18Bold,
         },
         tabBarActiveTintColor: theme.tab,
         tabBarInactiveTintColor: isDark

@@ -21,7 +21,7 @@ export default function Index() {
       ]}
     >
       {/* <Link href={"/(root)/(home)/chat/[id]"}>GO</Link> */}
-      <SearchComponent />
+      {/*<SearchComponent />*/}
       <ChatList />
     </View>
   );

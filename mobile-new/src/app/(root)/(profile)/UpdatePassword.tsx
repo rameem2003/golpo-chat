@@ -58,7 +58,7 @@ const UpdatePassword = () => {
                 <Text
                   style={{
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
-                    fontWeight: "bold",
+                    fontFamily: FONTS.Inter18Bold,
                     fontSize: SIZE.md,
                   }}
                 >
@@ -94,6 +94,7 @@ const UpdatePassword = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
+                    fontFamily: FONTS.Inter18Medium,
                     borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
@@ -104,6 +105,7 @@ const UpdatePassword = () => {
             {errors.oldPassword && (
               <Text
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
                   marginBottom: SIZE.md,
                 }}
@@ -130,6 +132,7 @@ const UpdatePassword = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
+                    fontFamily: FONTS.Inter18Medium,
                     borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
@@ -140,6 +143,7 @@ const UpdatePassword = () => {
             {errors.newPassword && (
               <Text
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
                   marginBottom: SIZE.md,
                 }}
@@ -166,6 +170,7 @@ const UpdatePassword = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
+                    fontFamily: FONTS.Inter18Medium,
                     borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
@@ -176,6 +181,7 @@ const UpdatePassword = () => {
             {errors.confirmPassword && (
               <Text
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
                   marginBottom: SIZE.md,
                 }}

@@ -100,6 +100,7 @@ export interface FriendRequestContextType {
 export interface Chat {
   _id: string;
   chatName: string;
+  avatar: string;
   isGroupChat: boolean;
   users: chatUserType[];
   latestMessage?: {

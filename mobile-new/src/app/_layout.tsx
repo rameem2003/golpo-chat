@@ -26,6 +26,7 @@ function Layout() {
   const [loaded, error] = useFonts({
     StalinistOne: require("@/assets/fonts/StalinistOne-Regular.ttf"),
     Inter18Medium: require("@/assets/fonts/Inter18pt-Medium.ttf"),
+    Inter18Bold: require("@/assets/fonts/Inter18pt-Bold.ttf"),
   });
 
   useEffect(() => {

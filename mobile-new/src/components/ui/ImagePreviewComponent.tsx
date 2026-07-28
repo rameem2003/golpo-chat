@@ -12,7 +12,7 @@ interface Props {
   onDelete?: () => void;
 }
 
-const ImageComponent = ({ image, onDelete }: Props) => {
+const ImagePreviewComponent = ({ image, onDelete }: Props) => {
   const { theme, isDark } = useTheme();
   return (
     <Pressable
@@ -52,7 +52,7 @@ const ImageComponent = ({ image, onDelete }: Props) => {
   );
 };
 
-export default ImageComponent;
+export default ImagePreviewComponent;
 
 const styles = StyleSheet.create({
   container: {

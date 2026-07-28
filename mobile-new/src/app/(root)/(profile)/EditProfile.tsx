@@ -63,7 +63,7 @@ const EditProfile = () => {
                 <Text
                   style={{
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
-                    fontWeight: "bold",
+                    fontFamily: FONTS.Inter18Bold,
                     fontSize: SIZE.md,
                   }}
                 >
@@ -98,6 +98,7 @@ const EditProfile = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
+                    fontFamily: FONTS.Inter18Medium,
                     borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
@@ -108,6 +109,7 @@ const EditProfile = () => {
             {errors.name && (
               <Text
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
                   marginBottom: SIZE.md,
                 }}
@@ -133,6 +135,7 @@ const EditProfile = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
+                    fontFamily: FONTS.Inter18Medium,
                     borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
@@ -143,6 +146,7 @@ const EditProfile = () => {
             {errors.email && (
               <Text
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
                   marginBottom: SIZE.md,
                 }}
@@ -165,6 +169,7 @@ const EditProfile = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
+                    fontFamily: FONTS.Inter18Medium,
                     borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
@@ -175,6 +180,7 @@ const EditProfile = () => {
             {errors.phone && (
               <Text
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
                   marginBottom: SIZE.md,
                 }}
@@ -197,6 +203,7 @@ const EditProfile = () => {
                     isDark ? Colors.light.surface : Colors.dark.surface
                   }
                   style={{
+                    fontFamily: FONTS.Inter18Medium,
                     borderColor: theme.overlay,
                     color: isDark ? Colors.light.surface : Colors.dark.surface,
                     marginBottom: SIZE.md,
@@ -207,6 +214,7 @@ const EditProfile = () => {
             {errors.address && (
               <Text
                 style={{
+                  fontFamily: FONTS.Inter18Medium,
                   color: isDark ? Colors.light.surface : Colors.dark.surface,
                   marginBottom: SIZE.md,
                 }}

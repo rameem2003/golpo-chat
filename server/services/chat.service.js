@@ -26,6 +26,7 @@ const getUserChats = async (userId) => {
         (user) => user._id.toString() !== userId,
       );
       chat.chatName = otherUser.name;
+      chat.avatar = otherUser.avatar;
     }
     return chat;
   });

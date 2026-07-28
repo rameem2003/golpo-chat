@@ -1,11 +1,11 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { SIZE } from "@/constants/Size";
-import { userType } from "@/constants/Types";
+// import { userType } from "@/constants/Types";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/hooks/useTheme";
 import { FONTS } from "@/constants/Fonts";
-import { chatUserType } from "@/types/type";
+import { chatUserType, userType } from "@/types/type";
 import * as Device from "expo-device";
 
 interface userProps {
@@ -24,6 +24,7 @@ const User = ({
   fallbackText?: string;
   contentStyle?: any;
 }) => {
+  // console.log(user);
   const { theme, isDark } = useTheme();
   return (
     <TouchableOpacity

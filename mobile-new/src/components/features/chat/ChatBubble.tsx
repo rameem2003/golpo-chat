@@ -10,6 +10,7 @@ import moment from "moment";
 import { showToast } from "@/lib/toast";
 import * as Device from "expo-device";
 import { FONTS } from "@/constants/Fonts";
+import ShowSharedImage from "@/components/ui/ShowSharedImage";
 
 const ChatBubble = ({
   message,
@@ -18,7 +19,7 @@ const ChatBubble = ({
   message?: Message;
   typingIndicatorFallback?: string | null;
 }) => {
-  // console.log(message);
+  console.log("message", message);
 
   const [viewTime, setViewTime] = useState(false);
   const { user } = useAuth();
@@ -97,19 +98,21 @@ const ChatBubble = ({
               }}
             >
               {message?.media.map((item, i) => (
-                <Pressable key={i} onPress={() => showToast("Coming soon")}>
-                  <Image
-                    source={{
-                      uri:
-                        item.startsWith("http") || item.startsWith("file://")
-                          ? (item as string)
-                          : Device.isDevice
-                            ? (`http://192.168.0.100:5000/${item}` as string)
-                            : (("http://10.0.2.2:5000/" + item) as string),
-                    }}
-                    style={{ width: 60, height: 60 }}
-                  />
-                </Pressable>
+                // <Pressable key={i} onPress={() => showToast("Coming soon")}>
+                //   <Image
+                //     source={{
+                //       uri:
+                //         item.startsWith("http") || item.startsWith("file://")
+                //           ? (item as string)
+                //           : Device.isDevice
+                //             ? (`http://192.168.0.100:5000/${item}` as string)
+                //             : (("http://10.0.2.2:5000/" + item) as string),
+                //     }}
+                //     style={{ width: 60, height: 60 }}
+                //   />
+                // </Pressable>
+                //
+                <ShowSharedImage key={i} image={item} />
               ))}
             </View>
           )}
@@ -129,6 +132,7 @@ const ChatBubble = ({
 
         {/* Chat avatar */}
         <User
+          user={message?.sender._id === user?.id ? user : message?.sender}
           fallbackText={
             message?.sender._id === user?.id
               ? user?.name.charAt(0)
