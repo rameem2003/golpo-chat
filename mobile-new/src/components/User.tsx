@@ -7,6 +7,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { FONTS } from "@/constants/Fonts";
 import { chatUserType, userType } from "@/types/type";
 import * as Device from "expo-device";
+import { MEDIA_URL } from "@/constants/Constants";
 
 interface userProps {
   _id: string;
@@ -41,7 +42,7 @@ const User = ({
             uri: user.avatar.startsWith("http")
               ? user.avatar
               : Device.isDevice
-                ? `http://192.168.0.100:5000/${user?.avatar}`
+                ? `${MEDIA_URL}/${user?.avatar}`
                 : "http://10.0.2.2:5000/" + user?.avatar,
           }}
         />
