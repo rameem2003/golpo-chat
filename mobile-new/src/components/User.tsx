@@ -25,7 +25,7 @@ const User = ({
   fallbackText?: string;
   contentStyle?: any;
 }) => {
-  // console.log(user);
+  // console.log("User form User", user?.avatar);
   const { theme, isDark } = useTheme();
   return (
     <TouchableOpacity
@@ -41,9 +41,7 @@ const User = ({
           source={{
             uri: user.avatar.startsWith("http")
               ? user.avatar
-              : Device.isDevice
-                ? `${MEDIA_URL}/${user?.avatar}`
-                : "http://10.0.2.2:5000/" + user?.avatar,
+              : `${MEDIA_URL}/${user?.avatar}`,
           }}
         />
       ) : (
