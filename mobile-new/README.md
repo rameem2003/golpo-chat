@@ -16,6 +16,18 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npx expo start
    ```
 
+3. For OTA updates in preview environments, you can run:
+
+   ```bash
+   eas update --branch preview --environment preview --message "Any message you want"
+   ```
+
+4. For Internal distribution build for Android (APK) and iOS (IPA), you can run:
+
+   ```bash
+   eas build --profile preview
+   ```
+
 In the output, you'll find options to open the app in a
 
 - [development build](https://docs.expo.dev/develop/development-builds/introduction/)

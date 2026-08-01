@@ -17,6 +17,11 @@ export default function RootLayout() {
 }
 
 function Layout() {
+  console.log({
+    API: process.env.EXPO_PUBLIC_API_URL,
+    SOCKET: process.env.EXPO_PUBLIC_SOCKET_URL,
+    MEDIA: process.env.EXPO_PUBLIC_MEDIA_URL,
+  });
   const pathname = usePathname();
   const { user, loading } = useAuth();
   const [isReady, setIsReady] = useState(false);

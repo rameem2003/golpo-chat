@@ -22,7 +22,7 @@ const Splash = () => {
             { color: isDark ? Colors.light.surface : Colors.dark.surface },
           ]}
         >
-          v1.0.0 Alpha
+          v1.0.0 Beta Preview
         </Text>
       </View>
     </View>
@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
   subText: {
     fontSize: 15,
     marginTop: 10,
-    fontFamily: FONTS.Inter18Medium
+    fontFamily: FONTS.Inter18Medium,
   },
 });

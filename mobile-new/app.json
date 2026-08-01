@@ -69,6 +69,12 @@
         "projectId": "06695c2d-4865-485e-bf23-c5cba1de173c"
       }
     },
-    "owner": "rameem2003"
+    "owner": "rameem2003",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/06695c2d-4865-485e-bf23-c5cba1de173c"
+    }
   }
 }
