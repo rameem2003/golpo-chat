@@ -3,12 +3,20 @@ import { showToast } from "@/lib/toast";
 import { Image, Pressable } from "react-native";
 import * as Device from "expo-device";
 import { MEDIA_URL } from "@/constants/Constants";
+import { router } from "expo-router";
 
-const ShowSharedImage = ({ image }: { image: String }) => {
+const ShowSharedImage = ({ image }: { image: string }) => {
   console.log("Image", image);
+
+  const viewImage = (image: string) => {
+    router.push({
+      pathname: "/(root)/(home)/display-media/images/[url]",
+      params: { url: image },
+    });
+  };
   return (
     <>
-      <Pressable onPress={() => showToast("Coming soon")}>
+      <Pressable onPress={() => viewImage(image)}>
         <Image
           source={{
             uri:

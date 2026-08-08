@@ -33,6 +33,7 @@ const _layout = () => {
             }}
           />
           <Stack.Screen name="chat/[id]" />
+          <Stack.Screen name="display-media/images/[id]" />
         </Stack>
       </MediaProvider>
     </ChatProvider>

@@ -29,7 +29,8 @@ const MainLayout = () => {
           display:
             pathname.startsWith("/chat") ||
             pathname.startsWith("/EditProfile") ||
-            pathname.startsWith("/UpdatePassword")
+            pathname.startsWith("/UpdatePassword") ||
+            pathname.startsWith("/display-media")
               ? "none"
               : "flex",
           backgroundColor: theme.surface,
